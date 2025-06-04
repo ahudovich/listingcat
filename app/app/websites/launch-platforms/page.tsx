@@ -11,6 +11,11 @@ export default async function LaunchPlatformsPage() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_WEBSITE_BASE_URL}/api/websites/launch-platforms`
   )
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch: ${response.status}`)
+  }
+
   const data = await response.json()
 
   return (
