@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSessionCookie } from 'better-auth/cookies'
-import { COOKIE_PREFIX } from '@/enums/constants'
+import { COOKIE_PREFIX } from './enums/constants'
 
-export const config = {
-  matcher: '/app/:path*',
-}
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const sessionCookie = getSessionCookie(request, {
     cookiePrefix: COOKIE_PREFIX,
   })
@@ -16,4 +12,8 @@ export function middleware(request: NextRequest) {
   }
 
   return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/app/:path*'],
 }

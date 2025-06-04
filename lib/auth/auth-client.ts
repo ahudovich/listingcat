@@ -1,8 +1,7 @@
 import { emailOTPClient } from 'better-auth/client/plugins'
 import { createAuthClient } from 'better-auth/react'
-import { BASE_URL } from '@/enums/constants'
 
 export const authClient = createAuthClient({
   plugins: [emailOTPClient()],
-  baseURL: BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_WEBSITE_BASE_URL,
 })
