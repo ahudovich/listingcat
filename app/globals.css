@@ -1,26 +1,83 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import 'tw-animate-css';
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Accent */
+  --color-accent: var(--color-zinc-950);
+
+  /* Text */
+  --text-color-primary: var(--color-zinc-950);
+  --text-color-secondary: var(--color-zinc-700);
+  --text-color-tertiary: var(--color-zinc-600);
+  --text-color-muted: var(--color-zinc-500);
+  --text-color-faded: var(--color-zinc-400);
+  --text-color-contrast: var(--color-white);
+  --text-color-destructive: var(--color-red-500);
+
+  /* Control */
+  --radius-control: 0.5rem;
+
+  --text-color-control-label: var(--text-color-secondary);
+  --text-color-control-placeholder: var(--color-zinc-400);
+  --text-color-control-icon: var(--text-color-secondary);
+
+  --text-color-control-default: var(--text-color-primary);
+  --text-color-control-active: var(--text-color-primary);
+  --text-color-control-error: var(--text-color-destructive);
+
+  --background-color-control-default: var(--color-white);
+  --background-color-control-active: var(--color-white);
+  --background-color-control-error: var(--color-white);
+
+  --border-color-control-default: var(--color-zinc-300);
+  --border-color-control-active: var(--color-zinc-500);
+  --border-color-control-error: var(--color-red-500);
+
+  --spacing-control-xs: 2rem;
+  --spacing-control-sm: 2.25rem;
+  --spacing-control-md: 2.5rem;
+  --spacing-control-lg: 2.75rem;
+
+  --ring-color-control-default: var(--color-zinc-300);
+  --ring-color-control-error: var(--color-red-200);
+
+  /* Layout */
+  --color-layout-separator: var(--color-zinc-200);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@theme {
+  --font-*: initial;
+  --font-display: 'Inter', sans-serif;
+  --font-text: 'Inter', sans-serif;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  --text-*: initial;
+  --text-xs: 0.875rem;
+  --text-xs--line-height: calc(1.25 / 0.875);
+  --text-xs-relaxed: 0.875rem;
+  --text-xs-relaxed--line-height: calc(1.5 / 0.875);
+  --text-sm: 1rem;
+  --text-sm--line-height: calc(1.5 / 1);
+  --text-sm-relaxed: 1rem;
+  --text-sm-relaxed--line-height: calc(1.75 / 1);
+  --text-md: 1.125rem;
+  --text-md--line-height: calc(1.625 / 1.125);
+  --text-md-relaxed: 1.125rem;
+  --text-md-relaxed--line-height: calc(1.875 / 1.125);
+  --text-lg: 1.25rem;
+  --text-lg--line-height: calc(1.75 / 1.25);
+  --text-lg-relaxed: 1.25rem;
+  --text-lg-relaxed--line-height: calc(2 / 1.25);
+  --text-xl: 1.375rem;
+  --text-xl--line-height: calc(1.875 / 1.375);
+  --text-2xl: 1.625rem;
+  --text-2xl--line-height: calc(2.125 / 1.625);
+  --text-3xl: 2rem;
+  --text-3xl--line-height: calc(2.5 / 2);
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: calc(2.75 / 2.25);
+  --text-5xl: 2.75rem;
+  --text-5xl--line-height: calc(3.5 / 2.75);
+
+  --animate-spin-slow: spin 1.5s linear infinite;
 }

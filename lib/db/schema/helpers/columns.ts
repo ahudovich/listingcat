@@ -1,0 +1,20 @@
+import { smallint, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { linkAttributeEnum } from './enums'
+
+export const id = {
+  id: uuid().primaryKey().defaultRandom(),
+}
+
+export const timestamps = {
+  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+}
+
+export const domainRatings = {
+  dr: smallint().notNull(),
+}
+
+export const linkAttributes = {
+  linkAttribute: linkAttributeEnum().notNull(),
+  linkAttributeNotes: text(),
+}
