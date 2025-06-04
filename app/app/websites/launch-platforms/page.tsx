@@ -2,21 +2,14 @@ import { Metadata } from 'next'
 import DataTableLaunchPlatforms from '@/components/app/DataTable/tables/DataTableLaunchPlatforms'
 import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
+import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
   title: 'Launch Platforms | Listing Cat',
 }
 
 export default async function LaunchPlatformsPage() {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_WEBSITE_BASE_URL}/api/websites/launch-platforms`
-  )
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch: ${response.status}`)
-  }
-
-  const data = await response.json()
+  const data = await getDB().select().from(tables.launchPlatforms)
 
   return (
     <>
