@@ -8,6 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { env } from '@/env'
 import CategoryBadge from '@/components/app/CategoryBadge'
 import DataTableCellAccount from '@/components/app/DataTable/DataTableCellAccount'
 import DataTableCellDomainRating from '@/components/app/DataTable/DataTableCellDomainRating'
@@ -15,7 +16,7 @@ import DataTableCellLink from '@/components/app/DataTable/DataTableCellLink'
 import DataTableCellLinkAttribute from '@/components/app/DataTable/DataTableCellLinkAttribute'
 import DataTableCellName from '@/components/app/DataTable/DataTableCellName'
 import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricing'
-import DataTableHeaderCell from '../DataTableHeaderCell'
+import DataTableHeaderCell from '@/components/app/DataTable/DataTableHeaderCell'
 import type { SortingState } from '@tanstack/react-table'
 import type { LaunchPlatform } from '@/lib/db/schema/tables/launch-platforms'
 
@@ -92,7 +93,7 @@ export default function DataTableLaunchPlatforms({ data }: { data: Array<LaunchP
   ]
 
   const table = useReactTable({
-    debugTable: process.env.NEXT_PUBLIC_ENV === 'development',
+    debugTable: env.NEXT_PUBLIC_ENV === 'development',
 
     data,
     columns,
