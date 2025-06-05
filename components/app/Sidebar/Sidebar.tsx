@@ -7,8 +7,9 @@ import {
   Wallet03Icon,
 } from '@hugeicons/core-free-icons'
 import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
+import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
+import SidebarUpgrade from '@/components/app/Sidebar/SidebarUpgrade'
 import BaseLogo from '@/components/ui/BaseLogo'
-import SidebarProfile from './SidebarProfile/SidebarProfile'
 
 const navLinks = [
   {
@@ -59,7 +60,8 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <SidebarProfile className="mt-auto" />
+      <SidebarUpgrade className="mt-auto mb-4" />
+      <SidebarProfile />
     </aside>
   )
 }
