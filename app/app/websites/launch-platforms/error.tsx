@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import * as Sentry from '@sentry/nextjs'
 import BaseButton from '@/components/ui/BaseButton'
 
 export default function Error({
@@ -13,8 +14,7 @@ export default function Error({
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error)
+    Sentry.captureException(error)
   }, [error])
 
   return (

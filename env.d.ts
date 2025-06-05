@@ -6,6 +6,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_ENV: string
     NEXT_PUBLIC_POSTHOG_HOST: string
     NEXT_PUBLIC_POSTHOG_KEY: string
+    NEXT_PUBLIC_SENTRY_DSN: string
     NEXT_PUBLIC_WEBSITE_BASE_URL: string
 
     // Secrets
@@ -17,6 +18,7 @@ declare namespace NodeJS {
     MICROSOFT_CLIENT_ID: string
     MICROSOFT_CLIENT_SECRET: string
     RESEND_API_KEY: string
+    SENTRY_AUTH_TOKEN: string
   }
 }
 
