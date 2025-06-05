@@ -21,7 +21,7 @@ declare namespace NodeJS {
 }
 
 declare module '@tanstack/react-table' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line
   interface ColumnMeta<TData extends RowData, TValue> {
     tooltip?: string
   }

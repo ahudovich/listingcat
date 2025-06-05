@@ -4,13 +4,14 @@ import { nextCookies } from 'better-auth/next-js'
 import { emailOTP } from 'better-auth/plugins'
 import { EMAILS } from '../../data/emails'
 import { COOKIE_PREFIX } from '../../enums/constants'
+import { env } from '../../env'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend } from '../email'
 
 export const auth = betterAuth({
-  baseURL: process.env.NEXT_PUBLIC_WEBSITE_BASE_URL,
-  secret: process.env.BETTER_AUTH_SECRET,
+  baseURL: env.NEXT_PUBLIC_WEBSITE_BASE_URL,
+  secret: env.BETTER_AUTH_SECRET,
 
   database: drizzleAdapter(getDB(), {
     provider: 'pg',
@@ -23,12 +24,12 @@ export const auth = betterAuth({
 
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     },
     microsoft: {
-      clientId: process.env.MICROSOFT_CLIENT_ID,
-      clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
+      clientId: env.MICROSOFT_CLIENT_ID,
+      clientSecret: env.MICROSOFT_CLIENT_SECRET,
     },
   },
 
