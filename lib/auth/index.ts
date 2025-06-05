@@ -4,13 +4,12 @@ import { nextCookies } from 'better-auth/next-js'
 import { emailOTP } from 'better-auth/plugins'
 import { EMAILS } from '../../data/emails'
 import { COOKIE_PREFIX } from '../../enums/constants'
-import { BASE_URL } from '../constants'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend } from '../email'
 
 export const auth = betterAuth({
-  baseURL: BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_WEBSITE_BASE_URL,
   secret: process.env.BETTER_AUTH_SECRET,
 
   database: drizzleAdapter(getDB(), {
