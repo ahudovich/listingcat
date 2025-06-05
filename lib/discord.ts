@@ -1,5 +1,7 @@
+import { env } from '@/env'
+
 export async function sendDiscordNotification(message: string) {
-  const webhookUrl = process.env.DISCORD_GENERAL_WEBHOOK_URL
+  const webhookUrl = env.DISCORD_GENERAL_WEBHOOK_URL
 
   if (!webhookUrl) {
     console.warn('DISCORD_GENERAL_WEBHOOK_URL is not set. Skipping Discord notification.')
