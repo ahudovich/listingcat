@@ -16,7 +16,7 @@ export async function GET() {
       mode: 'payment',
       line_items: [
         {
-          price: 'price_1RX3fzECkJwFQRH9xtnL8smU',
+          price: env.STRIPE_PRICE_ID,
           quantity: 1,
         },
       ],
