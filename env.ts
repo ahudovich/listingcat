@@ -12,6 +12,8 @@ export const env = createEnv({
     MICROSOFT_CLIENT_SECRET: z.string().min(1),
     RESEND_API_KEY: z.string().min(1),
     SENTRY_AUTH_TOKEN: z.string().min(1),
+    STRIPE_SECRET_KEY: z.string().min(1),
+    STRIPE_WEBHOOK_SECRET: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_ENV: z.enum(['development', 'preview', 'production']),

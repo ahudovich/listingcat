@@ -1,3 +1,4 @@
+import { stripe } from '@better-auth/stripe'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
@@ -8,6 +9,7 @@ import { env } from '../../env'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend } from '../email'
+import { stripeClient } from '../stripe'
 
 export const auth = betterAuth({
   baseURL: env.NEXT_PUBLIC_WEBSITE_BASE_URL,
@@ -93,7 +95,10 @@ export const auth = betterAuth({
         }
       },
     }),
-    // Must be the last plugin
-    nextCookies(),
+    stripe({
+      stripeClient,
+      stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
+    }),
+    nextCookies(), // Must be the last plugin
   ],
 })
