@@ -3,13 +3,17 @@ import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
 import { emailOTP } from 'better-auth/plugins'
+import { eq } from 'drizzle-orm'
+import { Benefits } from '@/enums/Benefits.enum'
 import { EMAILS } from '../../data/emails'
 import { COOKIE_PREFIX } from '../../enums/constants'
 import { env } from '../../env'
+import { users } from '../db/schema/tables/auth'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend } from '../email'
 import { stripeClient } from '../stripe'
+import type Stripe from 'stripe'
 
 export const auth = betterAuth({
   baseURL: env.NEXT_PUBLIC_WEBSITE_BASE_URL,
@@ -68,7 +72,6 @@ export const auth = betterAuth({
         after: async (user) => {
           const message =
             '👤 ** New user registered **\n\n' +
-            '**Summary:**\n\n' +
             `• Email: ${user.email}\n` +
             `• Name: ${user.name || 'N/A'}`
 
@@ -98,6 +101,42 @@ export const auth = betterAuth({
     stripe({
       stripeClient,
       stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
+      async onEvent(event) {
+        switch (event.type) {
+          case 'checkout.session.completed': {
+            const checkoutSession = event.data.object as Stripe.Checkout.Session
+            const externalId = checkoutSession.metadata?.externalId
+
+            if (externalId) {
+              try {
+                const updatedUser = await getDB()
+                  .update(users)
+                  .set({ benefits: [Benefits.DatabaseAccess] })
+                  .where(eq(users.id, externalId))
+                  .returning({
+                    email: users.email,
+                    name: users.name,
+                  })
+
+                const message =
+                  '💰 ** User upgraded to database access **\n\n' +
+                  `• Email: ${updatedUser[0].email}\n` +
+                  `• Name: ${updatedUser[0].name || 'N/A'}`
+
+                await sendDiscordNotification(message)
+              } catch {
+                const message =
+                  '❌ ** Error upgrading user to database access **\n\n' +
+                  `• UserId: ${externalId}\n`
+
+                await sendDiscordNotification(message)
+              }
+            }
+
+            break
+          }
+        }
+      },
     }),
     nextCookies(), // Must be the last plugin
   ],
