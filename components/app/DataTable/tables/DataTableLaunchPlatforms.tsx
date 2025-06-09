@@ -47,7 +47,11 @@ export default function DataTableLaunchPlatforms({ data }: { data: Array<LaunchP
     columnHelper.accessor('pricingModel', {
       header: 'Pricing',
       cell: (info) => (
-        <DataTableCellPricing value={info.getValue()} pricingInfo={info.row.original.pricingInfo} />
+        <DataTableCellPricing
+          value={info.getValue()}
+          pricingInfo={info.row.original.pricingInfo}
+          pricingUrl={info.row.original.pricingUrl}
+        />
       ),
       sortingFn: 'alphanumeric',
     }),
