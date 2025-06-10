@@ -1,19 +1,24 @@
 import Link from 'next/link'
+import { Globe02Icon } from '@hugeicons/core-free-icons'
+import BaseIcon from '@/components/ui/BaseIcon'
 
 export default function DataTableCellName({
   name,
+  faviconUrl,
   websiteUrl,
 }: {
   name: string
+  faviconUrl: string | null
   websiteUrl: string
 }) {
   return (
-    <Link
-      className="border-b border-b-transparent text-secondary hover:border-b-current"
-      href={websiteUrl}
-      target="_blank"
-    >
-      {name}
+    <Link className="flex items-center gap-2 text-secondary" href={websiteUrl} target="_blank">
+      {faviconUrl ? (
+        <img className="shrink-0 size-4" src={faviconUrl} alt={`${name} favicon`} />
+      ) : (
+        <BaseIcon className="shrink-0 size-4 text-faded" icon={Globe02Icon} strokeWidth={2} />
+      )}
+      <span className="border-b border-b-transparent hover:border-b-current">{name}</span>
     </Link>
   )
 }
