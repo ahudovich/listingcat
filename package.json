@@ -45,6 +45,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@trigger.dev/sdk": "^3.3.17",
     "better-auth": "^1.2.8",
+    "cheerio": "^1.1.0",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.44.1",
     "icojs": "^0.19.5",

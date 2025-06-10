@@ -1,6 +1,7 @@
 import crypto from 'node:crypto'
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { logger, schedules } from '@trigger.dev/sdk/v3'
+import * as cheerio from 'cheerio'
 import { eq } from 'drizzle-orm'
 import { parseICO } from 'icojs'
 import sharp from 'sharp'
@@ -45,57 +46,130 @@ async function fetchFavicon(
   currentFaviconUrl: string | null
 ): Promise<FaviconResult> {
   const baseUrl = new URL(websiteUrl).origin
-  const faviconPaths = ['/favicon.ico', '/icon.png', '/icon.svg', '/apple-touch-icon.png']
+  const rels = ['icon', 'shortcut icon', 'apple-touch-icon', 'mask-icon', 'alternate icon']
 
-  for (const path of faviconPaths) {
-    try {
-      const faviconUrl = `${baseUrl}${path}`
+  // First, try to fetch the HTML and parse favicon links
+  try {
+    const htmlResponse = await fetch(websiteUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      },
+    })
 
-      const response = await fetch(faviconUrl, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        },
-      })
+    if (htmlResponse.ok) {
+      const html = await htmlResponse.text()
+      const $ = cheerio.load(html)
 
-      if (response.ok) {
-        const buffer = Buffer.from(await response.arrayBuffer())
+      // Look for favicon links in the HTML
+      for (const rel of rels) {
+        // Use Cheerio to find all link tags with the specific rel attribute
+        const linkElements = $(`link[rel="${rel}"]`)
 
-        // Process the favicon based on type
-        const processedBuffer = await processFavicon(buffer, path)
+        for (let i = 0; i < linkElements.length; i++) {
+          const linkElement = linkElements.eq(i)
+          const sizes = linkElement.attr('sizes')
 
-        if (processedBuffer) {
-          // Generate filename with content hash
-          const filename = generateFilename(websiteUrl, processedBuffer)
-          const newR2Url = `${env.NEXT_PUBLIC_ASSETS_BASE_URL}/launch-platforms/${filename}`
-
-          // Check if the new favicon is the same as the existing one
-          if (currentFaviconUrl === newR2Url) {
-            logger.log(`Favicon unchanged for ${websiteUrl}, skipping upload`)
-
-            return {
-              success: true,
-              faviconUrl: currentFaviconUrl,
-            }
+          // Skip low quality 16x16 images
+          if (sizes === '16x16') {
+            continue
           }
 
-          // Upload to R2 only if it's different
-          const r2Url = await uploadToR2(processedBuffer, filename)
+          let faviconUrl = linkElement.attr('href')
 
-          return {
-            success: true,
-            faviconUrl: r2Url,
+          if (faviconUrl) {
+            // Make the URL absolute if it's relative
+            if (faviconUrl.startsWith('/')) {
+              faviconUrl = `${baseUrl}${faviconUrl}`
+            } else if (!faviconUrl.startsWith('http')) {
+              faviconUrl = `${baseUrl}/${faviconUrl}`
+            }
+
+            // Try to fetch this favicon
+            const result = await tryFetchFavicon(faviconUrl, websiteUrl, currentFaviconUrl)
+
+            if (result.success) {
+              return result
+            }
           }
         }
       }
-    } catch (error) {
-      logger.warn(`Failed to fetch ${baseUrl}${path}`, { error })
-      continue
     }
+  } catch (error) {
+    logger.warn(`Failed to fetch HTML for ${websiteUrl}`, { error })
+  }
+
+  // Fallback to /favicon.ico
+  try {
+    const faviconUrl = `${baseUrl}/favicon.ico`
+    const result = await tryFetchFavicon(faviconUrl, websiteUrl, currentFaviconUrl)
+
+    if (result.success) {
+      return result
+    }
+  } catch (error) {
+    logger.warn(`Failed to fetch ${baseUrl}/favicon.ico`, { error })
   }
 
   return {
     success: false,
     error: 'No valid favicon found',
+  }
+}
+
+async function tryFetchFavicon(
+  faviconUrl: string,
+  websiteUrl: string,
+  currentFaviconUrl: string | null
+): Promise<FaviconResult> {
+  try {
+    const response = await fetch(faviconUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      },
+    })
+
+    if (response.ok) {
+      const buffer = Buffer.from(await response.arrayBuffer())
+
+      // Process the favicon based on URL extension
+      const url = new URL(faviconUrl)
+      const path = url.pathname
+      const processedBuffer = await processFavicon(buffer, path)
+
+      if (processedBuffer) {
+        // Generate filename with content hash
+        const filename = generateFilename(websiteUrl, processedBuffer)
+        const newR2Url = `${env.NEXT_PUBLIC_ASSETS_BASE_URL}/launch-platforms/${filename}`
+
+        // Check if the new favicon is the same as the existing one
+        if (currentFaviconUrl === newR2Url) {
+          logger.log(`Favicon unchanged for ${websiteUrl}, skipping upload`)
+
+          return {
+            success: true,
+            faviconUrl: currentFaviconUrl,
+          }
+        }
+
+        // Upload to R2 only if it's different
+        const r2Url = await uploadToR2(processedBuffer, filename)
+
+        return {
+          success: true,
+          faviconUrl: r2Url,
+        }
+      }
+    }
+
+    return {
+      success: false,
+      error: `Failed to fetch favicon from ${faviconUrl}`,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: `Error fetching favicon from ${faviconUrl}: ${error}`,
+    }
   }
 }
 
