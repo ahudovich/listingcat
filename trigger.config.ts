@@ -15,6 +15,7 @@ export default defineConfig({
     },
   },
   build: {
+    external: ['sharp'],
     extensions: [
       syncVercelEnvVars({
         vercelAccessToken: env.VERCEL_ACCESS_TOKEN,

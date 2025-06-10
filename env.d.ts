@@ -3,6 +3,7 @@ import '@tanstack/react-table'
 declare namespace NodeJS {
   interface ProcessEnv {
     // Public
+    NEXT_PUBLIC_ASSETS_BASE_URL: string
     NEXT_PUBLIC_ENV: string
     NEXT_PUBLIC_POSTHOG_HOST: string
     NEXT_PUBLIC_POSTHOG_KEY: string
@@ -18,6 +19,10 @@ declare namespace NodeJS {
     GOOGLE_CLIENT_SECRET: string
     MICROSOFT_CLIENT_ID: string
     MICROSOFT_CLIENT_SECRET: string
+    R2_ACCESS_KEY_ID: string
+    R2_BUCKET: string
+    R2_ENDPOINT: string
+    R2_SECRET_ACCESS_KEY: string
     RAPIDAPI_HOST: string
     RAPIDAPI_KEY: string
     RESEND_API_KEY: string
