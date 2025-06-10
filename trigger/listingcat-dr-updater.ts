@@ -51,7 +51,7 @@ export const drUpdater = schedules.task({
   id: 'listingcat-dr-updater',
   cron: '0 12 * * 1', // Every week on Monday at 12:00 UTC
   machine: { preset: 'micro' },
-  maxDuration: 900, // 15 mins
+  maxDuration: 300, // 5 mins
 
   onSuccess: async (payload, output: Output, { ctx }) => {
     // Send Discord notification with the results

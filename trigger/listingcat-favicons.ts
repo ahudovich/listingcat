@@ -281,8 +281,8 @@ async function saveFaviconToDb(websiteUrl: string, faviconUrl: string): Promise<
 export const faviconsUpdater = schedules.task({
   id: 'listingcat-favicons',
   cron: '0 12 * * 1', // Every week on Monday at 12:00 UTC
-  machine: { preset: 'micro' },
-  maxDuration: 900, // 15 mins
+  machine: { preset: 'small-1x' },
+  maxDuration: 300, // 5 mins
 
   onSuccess: async (payload, output: Output, { ctx }) => {
     // Send Discord notification with the results
