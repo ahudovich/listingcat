@@ -12,13 +12,19 @@ declare namespace NodeJS {
     // Secrets
     BETTER_AUTH_SECRET: string
     DATABASE_URL: string
+    DISCORD_CRON_WEBHOOK_URL: string
     DISCORD_GENERAL_WEBHOOK_URL: string
     GOOGLE_CLIENT_ID: string
     GOOGLE_CLIENT_SECRET: string
     MICROSOFT_CLIENT_ID: string
     MICROSOFT_CLIENT_SECRET: string
+    RAPIDAPI_HOST: string
+    RAPIDAPI_KEY: string
     RESEND_API_KEY: string
     SENTRY_AUTH_TOKEN: string
+    TRIGGER_SECRET_KEY: string
+    VERCEL_ACCESS_TOKEN: string
+    VERCEL_PROJECT_ID: string
   }
 }
 

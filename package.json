@@ -26,12 +26,14 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
+    "auth:generate": "doppler run -p lc-main -c dev -- pnpm dlx @better-auth/cli@latest generate --config ./auth.config.ts --output ./lib/db/schema/tables/auth.ts",
     "db:check": "doppler run -p lc-main -c dev -- drizzle-kit check",
     "db:generate": "doppler run -p lc-main -c dev -- drizzle-kit generate",
     "db:migrate": "doppler run -p lc-main -c dev -- drizzle-kit migrate",
     "db:migrate:prod": "doppler run -p lc-main -c prd -- drizzle-kit migrate",
     "db:drop": "doppler run -p lc-main -c dev -- drizzle-kit drop",
-    "auth:generate": "doppler run -p lc-main -c dev -- pnpm dlx @better-auth/cli@latest generate --config ./auth.config.ts --output ./lib/db/schema/tables/auth.ts"
+    "trigger:dev": "doppler run -p lc-main -c dev -- pnpm dlx trigger.dev@latest dev",
+    "trigger:deploy": "doppler run -p lc-main -c dev -- pnpm dlx trigger.dev@latest deploy"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^1.0.14",
@@ -40,6 +42,7 @@
     "@sentry/nextjs": "^9.27.0",
     "@t3-oss/env-nextjs": "^0.13.6",
     "@tanstack/react-table": "^8.21.3",
+    "@trigger.dev/sdk": "^3.3.17",
     "better-auth": "^1.2.8",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.44.1",
@@ -59,6 +62,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
     "@tailwindcss/postcss": "^4.1.8",
+    "@trigger.dev/build": "^3.3.17",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.15.29",
     "@types/react": "^19.1.6",
