@@ -14,11 +14,7 @@ export default function DataTableCellName({
   return (
     <Link className="flex items-center gap-2 text-secondary" href={websiteUrl} target="_blank">
       {faviconUrl ? (
-        <img
-          className="shrink-0 size-4"
-          src={`${websiteUrl}/favicon.ico`}
-          alt={`${name} favicon`}
-        />
+        <img className="shrink-0 size-4" src={faviconUrl} alt={`${name} favicon`} />
       ) : (
         <BaseIcon className="shrink-0 size-4 text-faded" icon={Globe02Icon} strokeWidth={2} />
       )}
