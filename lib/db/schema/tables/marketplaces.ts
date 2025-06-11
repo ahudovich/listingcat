@@ -6,7 +6,6 @@ export const marketplaces = pgTable(TABLE_NAMES.MARKETPLACES, {
   ...id,
   ...timestamps,
   name: text().unique().notNull(),
-  faviconUrl: text(),
   websiteUrl: text().unique().notNull(),
   category: productCategoryEnum().notNull(),
   ...domainRatings,
