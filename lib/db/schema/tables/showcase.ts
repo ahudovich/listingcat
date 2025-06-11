@@ -6,7 +6,6 @@ export const showcases = pgTable(TABLE_NAMES.SHOWCASE, {
   ...id,
   ...timestamps,
   name: text().unique().notNull(),
-  faviconUrl: text(),
   websiteUrl: text().unique().notNull(),
   category: productCategoryEnum().notNull(),
   categoryNotes: text(),

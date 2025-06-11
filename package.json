@@ -36,7 +36,6 @@
     "trigger:deploy": "doppler run -p lc-main -c dev -- pnpm dlx trigger.dev@latest deploy"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.826.0",
     "@hugeicons/core-free-icons": "^1.0.14",
     "@hugeicons/react": "^1.0.5",
     "@radix-ui/react-slot": "^1.2.3",
@@ -45,10 +44,8 @@
     "@tanstack/react-table": "^8.21.3",
     "@trigger.dev/sdk": "^3.3.17",
     "better-auth": "^1.2.8",
-    "cheerio": "^1.1.0",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.44.1",
-    "icojs": "^0.19.5",
     "lodash-es": "^4.17.21",
     "next": "^15.3.3",
     "postgres": "^3.4.7",
@@ -57,7 +54,6 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "resend": "^4.5.1",
-    "sharp": "^0.34.2",
     "tailwind-merge": "^3.3.0",
     "tailwind-variants": "^1.0.0",
     "zod": "^3.25.51"

@@ -6,7 +6,6 @@ export const launchPlatforms = pgTable(TABLE_NAMES.LAUNCH_PLATFORMS, {
   ...id,
   ...timestamps,
   name: text().unique().notNull(),
-  faviconUrl: text(),
   websiteUrl: text().unique().notNull(),
   category: productCategoryEnum().notNull(),
   ...domainRatings,
