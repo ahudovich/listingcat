@@ -29,11 +29,7 @@ export default function DataTableLaunchPlatforms({ data }: { data: Array<LaunchP
     columnHelper.accessor('name', {
       header: 'Name',
       cell: (info) => (
-        <DataTableCellName
-          name={info.getValue()}
-          faviconUrl={info.row.original.faviconUrl}
-          websiteUrl={info.row.original.websiteUrl}
-        />
+        <DataTableCellName name={info.getValue()} websiteUrl={info.row.original.websiteUrl} />
       ),
       sortingFn: 'alphanumeric',
     }),

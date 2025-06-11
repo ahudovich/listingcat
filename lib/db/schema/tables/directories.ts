@@ -6,7 +6,6 @@ export const directories = pgTable(TABLE_NAMES.DIRECTORIES, {
   ...id,
   ...timestamps,
   name: text().unique().notNull(),
-  faviconUrl: text(),
   websiteUrl: text().unique().notNull(),
   category: productCategoryEnum().notNull(),
   categoryNotes: text(),
