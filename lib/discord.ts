@@ -1,14 +1,22 @@
 import { env } from '@/env'
 
 export async function sendDiscordNotification({
-  type = 'general',
+  type,
   message,
 }: {
   type?: 'general' | 'cron'
   message: string
 }) {
-  const webhookUrl =
-    type === 'general' ? env.DISCORD_GENERAL_WEBHOOK_URL : env.DISCORD_CRON_WEBHOOK_URL
+  let webhookUrl
+
+  switch (type) {
+    case 'general':
+      webhookUrl = env.DISCORD_GENERAL_WEBHOOK_URL
+      break
+    case 'cron':
+      webhookUrl = env.DISCORD_CRON_WEBHOOK_URL
+      break
+  }
 
   if (!webhookUrl) {
     console.warn(
