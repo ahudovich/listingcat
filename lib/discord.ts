@@ -4,7 +4,7 @@ export async function sendDiscordNotification({
   type,
   message,
 }: {
-  type?: 'general' | 'cron'
+  type: 'general' | 'cron'
   message: string
 }) {
   let webhookUrl
