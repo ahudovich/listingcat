@@ -70,7 +70,10 @@ export const auth = betterAuth({
             `• Email: ${user.email}\n` +
             `• Name: ${user.name || 'N/A'}`
 
-          await sendDiscordNotification(message)
+          await sendDiscordNotification({
+            type: 'general',
+            message,
+          })
         },
       },
     },
