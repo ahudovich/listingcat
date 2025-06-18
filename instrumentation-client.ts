@@ -5,7 +5,7 @@ import { env } from './env'
 if (env.NEXT_PUBLIC_ENV === 'production') {
   // PostHog
   posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
-    api_host: `${env.NEXT_PUBLIC_WEBSITE_BASE_URL}/ingest`,
+    api_host: `${env.NEXT_PUBLIC_WEBSITE_BASE_URL}/api2`,
     ui_host: env.NEXT_PUBLIC_POSTHOG_HOST,
     capture_pageview: 'history_change',
     defaults: '2025-05-24',
