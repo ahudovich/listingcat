@@ -4,10 +4,12 @@ import { nextCookies } from 'better-auth/next-js'
 import { emailOTP } from 'better-auth/plugins'
 import { EMAILS } from '../../data/emails'
 import { COOKIE_PREFIX } from '../../enums/constants'
+import { PostHogEvents } from '../../enums/PostHogEvents.enum'
 import { env } from '../../env'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend } from '../email'
+import { getPosthogServerClient } from '../posthog'
 
 export const auth = betterAuth({
   baseURL: env.NEXT_PUBLIC_WEBSITE_BASE_URL,
@@ -64,6 +66,20 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
+          // Send event to PostHog
+          const posthog = getPosthogServerClient()
+
+          posthog.capture({
+            distinctId: user.id,
+            event: PostHogEvents.UserSignedUp,
+            properties: {
+              $process_person_profile: false,
+            },
+          })
+
+          await posthog.shutdown()
+
+          // Send event to Discord
           const message =
             '👤 ** New user registered **\n\n' +
             '**Summary:**\n\n' +
