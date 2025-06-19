@@ -57,11 +57,11 @@ export default async function Home() {
           <p className="mt-4 font-medium text-xs text-tertiary">No credit card required.</p>
         </section>
 
-        <figure className="mx-auto max-w-[60rem]">
+        <figure className="mx-auto max-w-[69.75rem]">
           <Image
             src="/old-home/preview.png"
-            width={2260}
-            height={1356}
+            width={2232}
+            height={1202}
             sizes="100vw lg:960px"
             alt="Database preview"
           />
