@@ -26,7 +26,10 @@ export async function GET() {
     }
 
     if (authSession.user.benefits?.includes(Benefits.DatabaseAccess)) {
-      return NextResponse.json({ error: 'User already has database access' }, { status: 400 })
+      return NextResponse.json(
+        { error: `User already has "${Benefits.DatabaseAccess}" benefit` },
+        { status: 400 }
+      )
     }
 
     stripeSession = await stripeClient.checkout.sessions.create({

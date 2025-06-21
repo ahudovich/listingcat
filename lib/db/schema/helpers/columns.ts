@@ -1,5 +1,5 @@
 import { smallint, text, timestamp, uuid } from 'drizzle-orm/pg-core'
-import { linkAttributeEnum } from './enums'
+import { linkAttributeEnum, pricingModelEnum } from './enums'
 
 export const id = {
   id: uuid().primaryKey().defaultRandom(),
@@ -17,4 +17,10 @@ export const domainRatings = {
 export const linkAttributes = {
   linkAttribute: linkAttributeEnum().notNull(),
   linkAttributeNotes: text(),
+}
+
+export const pricing = {
+  pricingModel: pricingModelEnum().notNull(),
+  pricingInfo: text(),
+  pricingUrl: text(),
 }

@@ -8,12 +8,13 @@ export default function DataTableCellName({
   websiteUrl: string
 }) {
   return (
-    <Link
-      className="border-b border-b-transparent text-secondary hover:border-b-current"
-      href={websiteUrl}
-      target="_blank"
-    >
-      {name}
+    <Link className="flex items-center gap-2 text-secondary" href={websiteUrl} target="_blank">
+      <img
+        className="shrink-0 size-4"
+        src={`https://www.google.com/s2/favicons?domain=${websiteUrl}&sz=32`}
+        alt={`${name} favicon`}
+      />
+      <span className="border-b border-b-transparent hover:border-b-current">{name}</span>
     </Link>
   )
 }

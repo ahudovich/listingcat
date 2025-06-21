@@ -1,10 +1,27 @@
 import { env } from '@/env'
 
-export async function sendDiscordNotification(message: string) {
-  const webhookUrl = env.DISCORD_GENERAL_WEBHOOK_URL
+export async function sendDiscordNotification({
+  type,
+  message,
+}: {
+  type: 'general' | 'cron'
+  message: string
+}) {
+  let webhookUrl
+
+  switch (type) {
+    case 'general':
+      webhookUrl = env.DISCORD_GENERAL_WEBHOOK_URL
+      break
+    case 'cron':
+      webhookUrl = env.DISCORD_CRON_WEBHOOK_URL
+      break
+  }
 
   if (!webhookUrl) {
-    console.warn('DISCORD_GENERAL_WEBHOOK_URL is not set. Skipping Discord notification.')
+    console.warn(
+      `Environment variable for ${type} discord type is not set. Skipping Discord notification.`
+    )
     return
   }
 

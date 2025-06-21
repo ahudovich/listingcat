@@ -7,11 +7,13 @@ import { eq } from 'drizzle-orm'
 import { Benefits } from '@/enums/Benefits.enum'
 import { EMAILS } from '../../data/emails'
 import { COOKIE_PREFIX } from '../../enums/constants'
+import { PostHogEvents } from '../../enums/PostHogEvents.enum'
 import { env } from '../../env'
 import { users } from '../db/schema/tables/auth'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend } from '../email'
+import { getPosthogServerClient } from '../posthog'
 import { stripeClient } from '../stripe'
 import type Stripe from 'stripe'
 
@@ -70,12 +72,32 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
+          // Send event to PostHog
+          const posthog = getPosthogServerClient()
+
+          posthog.capture({
+            distinctId: user.id,
+            event: PostHogEvents.UserSignedUp,
+            properties: {
+              $set: {
+                name: user.name,
+                email: user.email,
+              },
+            },
+          })
+
+          await posthog.shutdown()
+
+          // Send event to Discord
           const message =
             '👤 ** New user registered **\n\n' +
             `• Email: ${user.email}\n` +
             `• Name: ${user.name || 'N/A'}`
 
-          await sendDiscordNotification(message)
+          await sendDiscordNotification({
+            type: 'general',
+            message,
+          })
         },
       },
     },
@@ -98,6 +120,7 @@ export const auth = betterAuth({
         }
       },
     }),
+
     stripe({
       stripeClient,
       stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
@@ -123,13 +146,19 @@ export const auth = betterAuth({
                   `• Email: ${updatedUser[0].email}\n` +
                   `• Name: ${updatedUser[0].name || 'N/A'}`
 
-                await sendDiscordNotification(message)
+                await sendDiscordNotification({
+                  type: 'general',
+                  message,
+                })
               } catch {
                 const message =
                   '❌ ** Error upgrading user to database access **\n\n' +
                   `• UserId: ${externalId}\n`
 
-                await sendDiscordNotification(message)
+                await sendDiscordNotification({
+                  type: 'general',
+                  message,
+                })
               }
             }
 
@@ -138,6 +167,8 @@ export const auth = betterAuth({
         }
       },
     }),
-    nextCookies(), // Must be the last plugin
+
+    // Must be the last plugin
+    nextCookies(),
   ],
 })
