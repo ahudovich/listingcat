@@ -1,3 +1,4 @@
+import { headers } from 'next/headers'
 import Link from 'next/link'
 import {
   CanvasIcon,
@@ -9,7 +10,10 @@ import {
 import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
 import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
 import SidebarUpgrade from '@/components/app/Sidebar/SidebarUpgrade'
+import BaseBadge from '@/components/ui/BaseBadge'
 import BaseLogo from '@/components/ui/BaseLogo'
+import { Benefits } from '@/enums/Benefits.enum'
+import { auth } from '@/lib/auth'
 
 const navLinks = [
   {
@@ -44,14 +48,25 @@ const navLinks = [
   },
 ]
 
-export default function Sidebar() {
+export default async function Sidebar() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
   return (
     <aside className="flex flex-col w-72 px-5 py-6">
       <div className="flex items-center gap-3 mb-8">
         <Link className="self-start" href="/">
           <BaseLogo className="w-32.5 h-5" />
         </Link>
-        <span className="font-bold text-[10px] text-zinc-400 uppercase">Early Access</span>
+
+        {!session?.user.benefits?.includes(Benefits.DatabaseAccess) ? (
+          <BaseBadge>Free</BaseBadge>
+        ) : (
+          <BaseBadge className="uppercase" variant="accent">
+            Pro
+          </BaseBadge>
+        )}
       </div>
 
       <nav>
@@ -60,8 +75,13 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <SidebarUpgrade className="mt-auto mb-4" />
-      <SidebarProfile />
+      <div className="mt-auto">
+        {!session?.user.benefits?.includes(Benefits.DatabaseAccess) && (
+          <SidebarUpgrade className="mb-4" />
+        )}
+
+        <SidebarProfile />
+      </div>
     </aside>
   )
 }

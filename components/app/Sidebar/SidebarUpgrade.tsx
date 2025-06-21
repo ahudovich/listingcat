@@ -1,6 +1,7 @@
 'use client'
 
 import { AlertDiamondIcon, ZapIcon } from '@hugeicons/core-free-icons'
+import * as Sentry from '@sentry/nextjs'
 import { ofetch } from 'ofetch'
 import { toast } from 'sonner'
 import BaseButton from '@/components/ui/BaseButton'
@@ -14,6 +15,7 @@ export default function SidebarUpgrade({ className }: { className?: string }) {
 
       window.location.href = sessionUrl
     } catch (error: unknown) {
+      Sentry.captureException(error)
       toast.error('Failed to create checkout session', {
         position: 'top-center',
       })

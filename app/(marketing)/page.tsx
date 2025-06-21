@@ -47,8 +47,9 @@ export default async function Home() {
               <Link href={isLoggedIn ? APP_REDIRECT_URL : '/create-account'}>
                 Join for free
                 <BaseIcon
-                  className="group-hover:translate-x-1 transition-transform"
+                  className="shrink-0 transition-transform group-hover:translate-x-1"
                   icon={ArrowRight02Icon}
+                  strokeWidth={2.5}
                 />
               </Link>
             </BaseButton>

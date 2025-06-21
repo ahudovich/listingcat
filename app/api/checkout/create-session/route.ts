@@ -43,7 +43,7 @@ export async function GET() {
       metadata: {
         externalId: authSession.user.id,
       },
-      success_url: `${env.NEXT_PUBLIC_WEBSITE_BASE_URL}/success`,
+      success_url: `${env.NEXT_PUBLIC_WEBSITE_BASE_URL}/payment/verification`,
       cancel_url: cancelUrl,
     })
 

@@ -1,4 +1,5 @@
 import { stripe } from '@better-auth/stripe'
+import * as Sentry from '@sentry/nextjs'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
@@ -107,16 +108,20 @@ export const auth = betterAuth({
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
         if (type === 'email-verification') {
-          await resend.emails.send({
-            from: `Listing Cat <${EMAILS.NO_REPLY}>`,
-            to: email,
-            subject: 'Verify your email address',
-            text: generatePlainTextOtpVerificationEmail({
-              heading: 'Confirm your signup',
-              text: 'Here is your OTP code to verify your email address:',
-              otpCode: otp,
-            }),
-          })
+          try {
+            await resend.emails.send({
+              from: `Listing Cat <${EMAILS.NO_REPLY}>`,
+              to: email,
+              subject: 'Verify your email address',
+              text: generatePlainTextOtpVerificationEmail({
+                heading: 'Confirm your signup',
+                text: 'Here is your OTP code to verify your email address:',
+                otpCode: otp,
+              }),
+            })
+          } catch (error: unknown) {
+            Sentry.captureException(error)
+          }
         }
       },
     }),
@@ -150,7 +155,7 @@ export const auth = betterAuth({
                   type: 'general',
                   message,
                 })
-              } catch {
+              } catch (error: unknown) {
                 const message =
                   '❌ ** Error upgrading user to database access **\n\n' +
                   `• UserId: ${externalId}\n`
@@ -159,6 +164,8 @@ export const auth = betterAuth({
                   type: 'general',
                   message,
                 })
+
+                Sentry.captureException(error)
               }
             }
 

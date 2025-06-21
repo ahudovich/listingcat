@@ -10,8 +10,8 @@ const buttonVariants = tv({
   variants: {
     size: {
       sm: 'px-5 h-control-sm text-xs [&_svg]:!size-4',
-      md: 'px-6 h-control-md text-xs [&_svg]:!size-4',
-      lg: 'px-7 h-control-lg text-sm [&_svg]:!size-4.5',
+      md: 'px-6 h-control-md text-xs [&_svg]:!size-4.5',
+      lg: 'px-7 h-control-lg text-sm [&_svg]:!size-5',
     },
     variant: {
       primary: 'bg-accent text-contrast',

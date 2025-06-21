@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs'
 import { env } from '@/env'
 
 export async function sendDiscordNotification({
@@ -36,6 +37,6 @@ export async function sendDiscordNotification({
       }),
     })
   } catch (error) {
-    console.error('Failed to send Discord notification:', error)
+    Sentry.captureException(error)
   }
 }
