@@ -73,7 +73,10 @@ export const auth = betterAuth({
             distinctId: user.id,
             event: PostHogEvents.UserSignedUp,
             properties: {
-              $process_person_profile: false,
+              $set: {
+                name: user.name,
+                email: user.email,
+              },
             },
           })
 
