@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { Logout03Icon, Mail01Icon } from '@hugeicons/core-free-icons'
+import posthog from 'posthog-js'
 import { DropdownMenu } from 'radix-ui'
 import BaseIcon from '@/components/ui/BaseIcon'
 import { EMAILS } from '@/data/emails'
@@ -15,6 +16,9 @@ export default function SidebarProfileDropdown({ children }: { children: React.R
       fetchOptions: {
         async onSuccess() {
           router.replace('/') // TODO: Add full page reload like in Nuxt?
+
+          // Unlink previously identified PostHog user
+          posthog.reset()
         },
       },
     })
