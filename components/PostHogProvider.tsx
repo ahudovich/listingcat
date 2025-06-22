@@ -18,7 +18,7 @@ export default function PostHogProvider() {
         })
       }
     }
-  }, [session?.user.id])
+  }, [session?.user.id, session?.user.name, session?.user.email])
 
   return null
 }
