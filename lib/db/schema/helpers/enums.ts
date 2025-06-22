@@ -10,6 +10,7 @@ export const TABLE_NAMES = {
   LAUNCH_PLATFORMS: 'launch_platforms',
   MARKETPLACES: 'marketplaces',
   SHOWCASE: 'showcases',
+  SPECIALS: 'specials',
 } as const
 
 export const benefitEnum = pgEnum(DB_ENUM_NAME_BENEFIT, [Benefits.DatabaseAccess])
