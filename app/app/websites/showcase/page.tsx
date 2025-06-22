@@ -1,15 +1,26 @@
+import { Metadata } from 'next'
+import DataTableMarketplaces from '@/components/app/DataTable/tables/DataTableMarketplaces'
 import PageHeader from '@/components/app/PageHeader'
-import type { Metadata } from 'next'
+import BaseScrollArea from '@/components/ui/BaseScrollArea'
+import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
   title: 'Showcase | Listing Cat',
 }
 
-export default function ShowcasePage() {
+export default async function ShowcasePage() {
+  const data = await getDB().select().from(tables.showcases)
+
   return (
     <>
-      <PageHeader title="Showcase" />
-      <p className="p-4">This section is coming really soon :)</p>
+      <PageHeader
+        title="Showcase"
+        description="Websites where you can showcase your product in some way."
+      />
+
+      <BaseScrollArea className="h-full rounded-b-xl">
+        <DataTableMarketplaces data={data} />
+      </BaseScrollArea>
     </>
   )
 }

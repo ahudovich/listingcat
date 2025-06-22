@@ -1,0 +1,13 @@
+---
+description: 
+globs: *.tsx,*.ts
+alwaysApply: false
+---
+---
+description: Typescript rules
+---
+
+These rules enforces standards for Typescript files.
+
+- Always prefer Array<T> syntax over []. E.g. Array<string>
+
