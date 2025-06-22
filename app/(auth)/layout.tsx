@@ -5,7 +5,7 @@ import type { ReactNode } from 'react'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="grid min-h-dvh px-6 py-8 bg-zinc-50">
+    <main className="grid min-h-dvh px-6 py-16 bg-zinc-50">
       <div className="grid gap-6 m-auto w-full max-w-[27.5rem] sm:gap-7">
         <div className="flex justify-center">
           <Link href="/">
