@@ -1,0 +1,9 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+These rules enforce standards for Next.js code
+
+- Always use app router
+- Always use Next.js 15.3+ APIs
