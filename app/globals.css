@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
+@plugin '@tailwindcss/typography';
 
 @theme inline {
   /* Accent */
@@ -80,4 +81,12 @@
   --text-5xl--line-height: calc(3.5 / 2.75);
 
   --animate-spin-slow: spin 1.5s linear infinite;
+}
+
+@utility container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 72rem;
 }
