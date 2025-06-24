@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function DirectoriesPage() {
-  const data = await getDB().select().from(tables.directories)
+  const data = await getDB().select().from(tables.directories).limit(10)
 
   return (
     <>

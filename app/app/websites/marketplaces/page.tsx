@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function MarketplacesPage() {
-  const data = await getDB().select().from(tables.marketplaces)
+  const data = await getDB().select().from(tables.marketplaces).limit(10)
 
   return (
     <>

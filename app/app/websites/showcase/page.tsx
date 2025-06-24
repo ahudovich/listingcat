@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ShowcasePage() {
-  const data = await getDB().select().from(tables.showcases)
+  const data = await getDB().select().from(tables.showcases).limit(10)
 
   return (
     <>

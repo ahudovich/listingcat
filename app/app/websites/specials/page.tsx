@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function SpecialsPage() {
-  const data = await getDB().select().from(tables.specials)
+  const data = await getDB().select().from(tables.specials).limit(10)
 
   return (
     <>
