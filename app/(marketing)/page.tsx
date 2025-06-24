@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight02Icon } from '@hugeicons/core-free-icons'
+import { ArrowRight02Icon, Rocket01Icon } from '@hugeicons/core-free-icons'
 import BaseButton from '@/components/ui/BaseButton'
 import BaseIcon from '@/components/ui/BaseIcon'
 import { APP_REDIRECT_URL } from '@/enums/constants'
@@ -19,7 +19,16 @@ export default async function HomePage() {
   return (
     <section className="mx-auto px-4 pt-12 max-w-[73.5rem] w-full md:px-6 md:pt-16 2xl:pt-24">
       <div className="mb-8 text-center md:mb-12">
-        <h1 className="mb-2 mx-auto max-w-[30rem] font-black text-[1.4375rem] text-primary text-balance xs:text-2xl md:mb-3 md:max-w-[44rem] md:text-5xl">
+        <p className="inline-flex items-center gap-1 mb-5 px-4 py-1.5 bg-violet-600 rounded-full font-medium text-xs text-white">
+          <BaseIcon
+            className="hidden shrink-0 mr-1 size-3.5 min-[25.875rem]:block"
+            icon={Rocket01Icon}
+            strokeWidth={2.25}
+          />
+          Huge update is coming next week. Stay tuned!
+        </p>
+
+        <h1 className="mb-2 mx-auto max-w-[30rem] font-black  text-primary text-balance text-2xl md:mb-3 md:max-w-[44rem] md:text-5xl">
           Marketing Database for&nbsp;Startups and Indie Hackers
         </h1>
 

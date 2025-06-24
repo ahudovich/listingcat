@@ -6,7 +6,7 @@ export default function BaseIcon({
   className,
   icon,
   label,
-  strokeWidth = 1.9,
+  strokeWidth = 2,
   ...props
 }: {
   className?: string
