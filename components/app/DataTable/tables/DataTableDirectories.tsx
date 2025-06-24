@@ -9,6 +9,7 @@ import DataTableCellLinkAttribute from '@/components/app/DataTable/DataTableCell
 import DataTableCellName from '@/components/app/DataTable/DataTableCellName'
 import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricing'
 import DataTableWebsites from '@/components/app/DataTable/tables/DataTableWebsites'
+import DataTableCellSubmission from '../DataTableCellSubmission'
 import type { Directory } from '@/lib/db/schema/tables/directories'
 
 const columnHelper = createColumnHelper<Directory>()
@@ -78,8 +79,12 @@ const columns = [
 
   columnHelper.accessor('submitUrl', {
     header: 'Submission',
-    cell: (info) =>
-      info.getValue() ? <DataTableCellLink value={info.getValue() as string} /> : '-',
+    cell: (info) => (
+      <DataTableCellSubmission
+        submitUrl={info.getValue()}
+        notes={info.row.original.submissionNotes}
+      />
+    ),
     enableSorting: false,
   }),
 ]

@@ -1,0 +1,1 @@
+ALTER TABLE "directories" ADD COLUMN "submission_notes" text;

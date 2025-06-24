@@ -16,6 +16,7 @@ export const directories = pgTable(TABLE_NAMES.DIRECTORIES, {
   ...linkAttributes,
   isAccountRequired: boolean().notNull(),
   submitUrl: text().unique(),
+  submissionNotes: text(),
 })
 
 export type Directory = typeof directories.$inferSelect

@@ -57,6 +57,13 @@
       "when": 1750605510471,
       "tag": "0007_lonely_doctor_spectrum",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1750787471799,
+      "tag": "0008_cooing_mockingbird",
+      "breakpoints": true
     }
   ]
 }
