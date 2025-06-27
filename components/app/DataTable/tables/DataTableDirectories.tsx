@@ -24,7 +24,7 @@ const columns = [
 
   columnHelper.accessor('dr', {
     header: 'DR',
-    cell: (info) => <DataTableCellDomainRating value={info.getValue()} withIcon={true} />,
+    cell: (info) => <DataTableCellDomainRating value={info.getValue()} />,
     sortingFn: 'basic',
     size: 84,
     meta: {
