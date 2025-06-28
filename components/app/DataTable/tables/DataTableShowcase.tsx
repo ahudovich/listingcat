@@ -9,9 +9,9 @@ import DataTableCellLinkAttribute from '@/components/app/DataTable/DataTableCell
 import DataTableCellName from '@/components/app/DataTable/DataTableCellName'
 import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricing'
 import DataTableWebsites from '@/components/app/DataTable/tables/DataTableWebsites'
-import type { LaunchPlatform } from '@/lib/db/schema/tables/launch-platforms'
+import type { Showcase } from '@/lib/db/schema/tables/showcase'
 
-const columnHelper = createColumnHelper<LaunchPlatform>()
+const columnHelper = createColumnHelper<Showcase>()
 
 const columns = [
   columnHelper.accessor('name', {
@@ -84,6 +84,6 @@ const columns = [
   }),
 ]
 
-export default function DataTableLaunchPlatforms({ data }: { data: Array<LaunchPlatform> }) {
+export default function DataTableShowcase({ data }: { data: Array<Showcase> }) {
   return <DataTableWebsites data={data} columns={columns} />
 }

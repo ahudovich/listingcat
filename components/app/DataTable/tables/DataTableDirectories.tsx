@@ -4,14 +4,14 @@ import { createColumnHelper } from '@tanstack/react-table'
 import CategoryBadge from '@/components/app/CategoryBadge'
 import DataTableCellAccount from '@/components/app/DataTable/DataTableCellAccount'
 import DataTableCellDomainRating from '@/components/app/DataTable/DataTableCellDomainRating'
-import DataTableCellLink from '@/components/app/DataTable/DataTableCellLink'
 import DataTableCellLinkAttribute from '@/components/app/DataTable/DataTableCellLinkAttribute'
 import DataTableCellName from '@/components/app/DataTable/DataTableCellName'
 import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricing'
+import DataTableCellSubmission from '@/components/app/DataTable/DataTableCellSubmission'
 import DataTableWebsites from '@/components/app/DataTable/tables/DataTableWebsites'
-import type { LaunchPlatform } from '@/lib/db/schema/tables/launch-platforms'
+import type { Directory } from '@/lib/db/schema/tables/directories'
 
-const columnHelper = createColumnHelper<LaunchPlatform>()
+const columnHelper = createColumnHelper<Directory>()
 
 const columns = [
   columnHelper.accessor('name', {
@@ -78,12 +78,16 @@ const columns = [
 
   columnHelper.accessor('submitUrl', {
     header: 'Submission',
-    cell: (info) =>
-      info.getValue() ? <DataTableCellLink value={info.getValue() as string} /> : '-',
+    cell: (info) => (
+      <DataTableCellSubmission
+        submitUrl={info.getValue()}
+        notes={info.row.original.submissionNotes}
+      />
+    ),
     enableSorting: false,
   }),
 ]
 
-export default function DataTableLaunchPlatforms({ data }: { data: Array<LaunchPlatform> }) {
+export default function DataTableDirectories({ data }: { data: Array<Directory> }) {
   return <DataTableWebsites data={data} columns={columns} />
 }

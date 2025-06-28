@@ -1,19 +1,10 @@
-import { FireIcon } from '@hugeicons/core-free-icons'
-import BaseIcon from '@/components/ui/BaseIcon'
+import BaseDonutProgress from '@/components/ui/BaseDonutProgress'
 
-export default function DataTableCellDomainRating({
-  value,
-  withIcon = false,
-}: {
-  value: number
-  withIcon?: boolean
-}) {
+export default function DataTableCellDomainRating({ value }: { value: number }) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-x-1.5">
+      <BaseDonutProgress value={value} />
       {value}
-      {withIcon && value >= 50 && (
-        <BaseIcon className="shrink-0 size-3.5 text-orange-600" icon={FireIcon} />
-      )}
     </div>
   )
 }

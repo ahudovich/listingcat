@@ -1,0 +1,22 @@
+CREATE TABLE "specials" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone,
+	"name" text NOT NULL,
+	"website_url" text NOT NULL,
+	"category" "product_category" NOT NULL,
+	"dr" smallint NOT NULL,
+	"traffic" integer NOT NULL,
+	"web_analytics_url" text,
+	"pricing_model" "pricing_model" NOT NULL,
+	"pricing_info" text,
+	"pricing_url" text,
+	"link_attribute" "link_attribute" NOT NULL,
+	"link_attribute_notes" text,
+	"is_account_required" boolean NOT NULL,
+	"submit_url" text,
+	CONSTRAINT "specials_name_unique" UNIQUE("name"),
+	CONSTRAINT "specials_websiteUrl_unique" UNIQUE("website_url"),
+	CONSTRAINT "specials_webAnalyticsUrl_unique" UNIQUE("web_analytics_url"),
+	CONSTRAINT "specials_submitUrl_unique" UNIQUE("submit_url")
+);

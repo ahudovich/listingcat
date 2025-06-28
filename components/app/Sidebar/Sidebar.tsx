@@ -5,7 +5,8 @@ import {
   FolderLibraryIcon,
   Rocket01Icon,
   Store03Icon,
-  Wallet03Icon,
+  TestTube01Icon,
+  // Wallet03Icon,
 } from '@hugeicons/core-free-icons'
 import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
 import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
@@ -39,10 +40,15 @@ const navLinks = [
         path: '/app/websites/showcase',
         icon: CanvasIcon,
       },
+      // {
+      //   label: 'Sponsorship',
+      //   path: '/app/websites/sponsorship',
+      //   icon: Wallet03Icon,
+      // },
       {
-        label: 'Sponsorship',
-        path: '/app/websites/sponsorship',
-        icon: Wallet03Icon,
+        label: 'Specials',
+        path: '/app/websites/specials',
+        icon: TestTube01Icon,
       },
     ],
   },
