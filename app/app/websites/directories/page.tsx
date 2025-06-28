@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import DataTableDirectories from '@/components/app/DataTable/tables/DataTableDirectories'
 import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
+import { FREEMIUM_LIMIT } from '@/enums/constants'
+import { getSessionState } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
@@ -9,7 +11,15 @@ export const metadata: Metadata = {
 }
 
 export default async function DirectoriesPage() {
-  const data = await getDB().select().from(tables.directories).limit(10)
+  const { hasDatabaseAccess } = await getSessionState()
+
+  let data
+
+  if (hasDatabaseAccess) {
+    data = await getDB().select().from(tables.directories)
+  } else {
+    data = await getDB().select().from(tables.directories).limit(FREEMIUM_LIMIT)
+  }
 
   return (
     <>
