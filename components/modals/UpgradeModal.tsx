@@ -10,28 +10,28 @@ import { EMAILS } from '@/data/emails'
 import { useCheckout } from '@/hooks/useCheckout'
 
 const features = [
-  <span>
+  <>
     <strong className="font-bold">Unlimited lifetime</strong> access and updates
-  </span>,
-  <span>
+  </>,
+  <>
     <strong className="font-bold">500+</strong> directories
-  </span>,
-  <span>
+  </>,
+  <>
     <strong className="font-bold">15+</strong> launch platforms
-  </span>,
-  <span>
+  </>,
+  <>
     <strong className="font-bold">Sponsor placements</strong>{' '}
     <span className="text-muted">(coming soon)</span>
-  </span>,
-  <span>
+  </>,
+  <>
     <strong className="font-bold">Subreddits</strong>{' '}
     <span className="text-muted">(coming soon)</span>
-  </span>,
-  <span>
+  </>,
+  <>
     <strong className="font-bold">Newsletters</strong>{' '}
     <span className="text-muted">(coming soon)</span>
-  </span>,
-  <span>And a lot more in the works!</span>,
+  </>,
+  'And a lot more in the works!',
 ]
 
 export function UpgradeModal({ children }: { children?: React.ReactNode }) {
@@ -105,7 +105,7 @@ export function UpgradeModal({ children }: { children?: React.ReactNode }) {
                         icon={CheckmarkCircle03Icon}
                         strokeWidth={2.5}
                       />
-                      {feature}
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
