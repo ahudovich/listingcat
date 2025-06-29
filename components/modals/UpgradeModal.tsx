@@ -8,6 +8,7 @@ import BaseButton from '@/components/ui/BaseButton'
 import BaseIcon from '@/components/ui/BaseIcon'
 import { EMAILS } from '@/data/emails'
 import { useCheckout } from '@/hooks/useCheckout'
+import { zIndexes } from '@/utils/z-indexes'
 
 const features = [
   <>
@@ -51,7 +52,10 @@ export function UpgradeModal({ children }: { children?: React.ReactNode }) {
       {children && <Dialog.Trigger asChild>{children}</Dialog.Trigger>}
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 grid place-items-center overflow-y-auto px-4 py-12 bg-zinc-800/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+        <Dialog.Overlay
+          className="fixed inset-0 grid place-items-center overflow-y-auto px-4 py-12 bg-zinc-800/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+          style={{ zIndex: zIndexes.modal }}
+        >
           <Dialog.Content
             className="relative max-w-110 w-full bg-white rounded-lg shadow-md outline-0"
             onOpenAutoFocus={(event) => event.preventDefault()}

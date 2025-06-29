@@ -16,7 +16,7 @@ export function DataTableUpgradeOverlay() {
       <p className="mb-4 text-sm text-tertiary">Get unlimited lifetime access to our database.</p>
 
       <UpgradeModal>
-        <BaseButton className="group mb-3 w-full max-w-72" size="lg">
+        <BaseButton className="group w-full max-w-72" size="lg">
           Upgrade
         </BaseButton>
       </UpgradeModal>
