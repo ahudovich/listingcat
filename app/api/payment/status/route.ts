@@ -19,7 +19,7 @@ export async function GET() {
       return NextResponse.json({ error: 'User is not authenticated' }, { status: 401 })
     }
 
-    return authSession.user.benefits?.includes(Benefits.DatabaseAccess)
+    return authSession.user.benefits?.includes(Benefits.ProAccess)
       ? NextResponse.json({ paymentStatus: 'paid' })
       : NextResponse.json({ paymentStatus: 'pending' })
   } catch (error: unknown) {

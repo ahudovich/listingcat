@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 }
 
 export default async function SpecialsPage() {
-  const { hasDatabaseAccess } = await getSessionState()
+  const { hasProAccess } = await getSessionState()
 
   let data
 
-  if (hasDatabaseAccess) {
+  if (hasProAccess) {
     data = await getDB().select().from(tables.specials)
   } else {
     data = await getDB().select().from(tables.specials).limit(FREEMIUM_LIMIT)

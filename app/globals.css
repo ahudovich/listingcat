@@ -48,6 +48,8 @@
 }
 
 @theme {
+  --breakpoint-xs: 30rem; /* 480px */
+
   --font-*: initial;
   --font-display: 'Inter', sans-serif;
   --font-text: 'Inter', sans-serif;

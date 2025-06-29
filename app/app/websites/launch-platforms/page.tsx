@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 }
 
 export default async function LaunchPlatformsPage() {
-  const { hasDatabaseAccess } = await getSessionState()
+  const { hasProAccess } = await getSessionState()
 
   let data
 
-  if (hasDatabaseAccess) {
+  if (hasProAccess) {
     data = await getDB().select().from(tables.launchPlatforms)
   } else {
     data = await getDB().select().from(tables.launchPlatforms).limit(FREEMIUM_LIMIT)

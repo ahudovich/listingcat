@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 }
 
 export default async function MarketplacesPage() {
-  const { hasDatabaseAccess } = await getSessionState()
+  const { hasProAccess } = await getSessionState()
 
   let data
 
-  if (hasDatabaseAccess) {
+  if (hasProAccess) {
     data = await getDB().select().from(tables.marketplaces)
   } else {
     data = await getDB().select().from(tables.marketplaces).limit(FREEMIUM_LIMIT)

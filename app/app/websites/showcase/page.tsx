@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 }
 
 export default async function ShowcasePage() {
-  const { hasDatabaseAccess } = await getSessionState()
+  const { hasProAccess } = await getSessionState()
 
   let data
 
-  if (hasDatabaseAccess) {
+  if (hasProAccess) {
     data = await getDB().select().from(tables.showcases)
   } else {
     data = await getDB().select().from(tables.showcases).limit(FREEMIUM_LIMIT)

@@ -139,7 +139,7 @@ export const auth = betterAuth({
               try {
                 const updatedUser = await getDB()
                   .update(users)
-                  .set({ benefits: [Benefits.DatabaseAccess] })
+                  .set({ benefits: [Benefits.ProAccess] })
                   .where(eq(users.id, externalId))
                   .returning({
                     email: users.email,

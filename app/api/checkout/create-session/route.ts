@@ -25,9 +25,9 @@ export async function GET() {
       return NextResponse.json({ error: 'User is not authenticated' }, { status: 401 })
     }
 
-    if (authSession.user.benefits?.includes(Benefits.DatabaseAccess)) {
+    if (authSession.user.benefits?.includes(Benefits.ProAccess)) {
       return NextResponse.json(
-        { error: `User already has "${Benefits.DatabaseAccess}" benefit` },
+        { error: `User already has "${Benefits.ProAccess}" benefit` },
         { status: 400 }
       )
     }

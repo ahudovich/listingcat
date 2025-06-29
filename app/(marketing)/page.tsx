@@ -49,6 +49,7 @@ export default async function HomePage() {
               <BaseIcon
                 className="group-hover:translate-x-1 transition-transform"
                 icon={ArrowRight02Icon}
+                strokeWidth={2.5}
               />
             </Link>
           </BaseButton>

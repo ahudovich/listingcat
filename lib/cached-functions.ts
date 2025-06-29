@@ -8,10 +8,10 @@ export const getSessionState = cache(async () => {
     headers: await headers(),
   })
 
-  const hasDatabaseAccess = session && session?.user.benefits?.includes(Benefits.DatabaseAccess)
+  const hasProAccess = session && session?.user.benefits?.includes(Benefits.ProAccess)
 
   return {
     isLoggedIn: !!session,
-    hasDatabaseAccess,
+    hasProAccess,
   }
 })
