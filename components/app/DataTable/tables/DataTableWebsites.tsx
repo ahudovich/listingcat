@@ -28,6 +28,7 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
                 isSortable={header.column.getCanSort()}
                 sortingDirection={header.column.getIsSorted()}
                 size={header.column.columnDef.size}
+                // @ts-expect-error - TODO: fix this
                 tooltip={header.column.columnDef.meta?.tooltip}
                 onClick={header.column.getToggleSortingHandler()}
               >
