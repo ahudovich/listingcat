@@ -10,9 +10,11 @@ export default function DataTableCellSubmission({
   submitUrl: string | null
   notes: string | null
 }) {
+  const type = submitUrl?.includes('mailto') ? 'email' : 'link'
+
   return (
     <div className="flex items-center gap-1">
-      {submitUrl ? <DataTableCellLink value={submitUrl} /> : '-'}
+      {submitUrl ? <DataTableCellLink value={submitUrl} type={type} /> : '-'}
       {notes && (
         <BaseTooltip className="max-w-56" text={notes}>
           <BaseIcon
