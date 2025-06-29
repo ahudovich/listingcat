@@ -13,7 +13,7 @@ export const TABLE_NAMES = {
   SPECIALS: 'specials',
 } as const
 
-export const benefitEnum = pgEnum(DB_ENUM_NAME_BENEFIT, [Benefits.DatabaseAccess])
+export const benefitEnum = pgEnum(DB_ENUM_NAME_BENEFIT, [Benefits.ProAccess])
 
 export const productCategoryEnum = pgEnum('product_category', [
   ProductCategories.AITools,

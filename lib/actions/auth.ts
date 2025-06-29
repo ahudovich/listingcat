@@ -1,6 +1,7 @@
 'use server'
 
 import { headers } from 'next/headers'
+import * as Sentry from '@sentry/nextjs'
 import { APIError } from 'better-auth/api'
 import { auth } from '@/lib/auth'
 
@@ -35,6 +36,7 @@ export async function handleSignUp(email: string, password: string): Promise<Sta
 
     return { error: null }
   } catch (error: unknown) {
+    Sentry.captureException(error)
     return { error: error instanceof APIError ? error.message : 'Failed to create user.' }
   }
 }
@@ -56,6 +58,7 @@ export async function handleOtpVerification(email: string, otp: string): Promise
 
     return { error: null }
   } catch (error: unknown) {
+    Sentry.captureException(error)
     return { error: error instanceof APIError ? error.message : 'Failed to verify OTP.' }
   }
 }
@@ -76,6 +79,7 @@ export async function handleSignIn(email: string, password: string): Promise<Sta
 
     return { error: null }
   } catch (error: unknown) {
+    Sentry.captureException(error)
     return { error: error instanceof APIError ? error.message : 'Failed to sign in.' }
   }
 }

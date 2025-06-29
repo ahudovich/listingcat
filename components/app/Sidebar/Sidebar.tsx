@@ -5,11 +5,13 @@ import {
   Rocket01Icon,
   Store03Icon,
   TestTube01Icon,
-  // Wallet03Icon,
 } from '@hugeicons/core-free-icons'
 import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
+import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
+import SidebarUpgrade from '@/components/app/Sidebar/SidebarUpgrade'
+import BaseBadge from '@/components/ui/BaseBadge'
 import BaseLogo from '@/components/ui/BaseLogo'
-import SidebarProfile from './SidebarProfile/SidebarProfile'
+import { getSessionState } from '@/lib/cached-functions'
 
 const navLinks = [
   {
@@ -35,11 +37,6 @@ const navLinks = [
         path: '/app/websites/showcase',
         icon: CanvasIcon,
       },
-      // {
-      //   label: 'Sponsorship',
-      //   path: '/app/websites/sponsorship',
-      //   icon: Wallet03Icon,
-      // },
       {
         label: 'Specials',
         path: '/app/websites/specials',
@@ -49,14 +46,23 @@ const navLinks = [
   },
 ]
 
-export default function Sidebar() {
+export default async function Sidebar() {
+  const { hasProAccess } = await getSessionState()
+
   return (
     <aside className="flex flex-col w-72 px-5 py-6">
       <div className="flex items-center gap-3 mb-8">
         <Link className="self-start" href="/">
           <BaseLogo className="w-32.5 h-5" />
         </Link>
-        <span className="font-bold text-[10px] text-zinc-400 uppercase">Early Access</span>
+
+        {!hasProAccess ? (
+          <BaseBadge>Free</BaseBadge>
+        ) : (
+          <BaseBadge className="uppercase" variant="accent">
+            Pro
+          </BaseBadge>
+        )}
       </div>
 
       <nav>
@@ -65,7 +71,11 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <SidebarProfile className="mt-auto" />
+      <div className="mt-auto">
+        {!hasProAccess && <SidebarUpgrade className="mb-4" />}
+
+        <SidebarProfile />
+      </div>
     </aside>
   )
 }

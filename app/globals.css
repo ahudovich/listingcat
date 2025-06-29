@@ -48,11 +48,15 @@
 }
 
 @theme {
+  --breakpoint-xs: 30rem; /* 480px */
+
   --font-*: initial;
   --font-display: 'Inter', sans-serif;
   --font-text: 'Inter', sans-serif;
 
   --text-*: initial;
+  --text-xxs: 0.75rem;
+  --text-xxs--line-height: calc(1 / 0.75);
   --text-xs: 0.875rem;
   --text-xs--line-height: calc(1.25 / 0.875);
   --text-xs-relaxed: 0.875rem;
