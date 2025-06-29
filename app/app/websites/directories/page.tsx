@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { DataTableUpgradeOverlay } from '@/components/app/DataTable/DataTableUpgradeOverlay'
 import DataTableDirectories from '@/components/app/DataTable/tables/DataTableDirectories'
 import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
@@ -30,6 +31,7 @@ export default async function DirectoriesPage() {
 
       <BaseScrollArea className="h-full rounded-b-xl">
         <DataTableDirectories data={data} />
+        {!hasProAccess && <DataTableUpgradeOverlay />}
       </BaseScrollArea>
     </>
   )

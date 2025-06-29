@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { DataTableUpgradeOverlay } from '@/components/app/DataTable/DataTableUpgradeOverlay'
 import DataTableLaunchPlatforms from '@/components/app/DataTable/tables/DataTableLaunchPlatforms'
 import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
@@ -30,6 +31,7 @@ export default async function LaunchPlatformsPage() {
 
       <BaseScrollArea className="h-full rounded-b-xl">
         <DataTableLaunchPlatforms data={data} />
+        {!hasProAccess && <DataTableUpgradeOverlay />}
       </BaseScrollArea>
     </>
   )

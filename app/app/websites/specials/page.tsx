@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { DataTableUpgradeOverlay } from '@/components/app/DataTable/DataTableUpgradeOverlay'
 import DataTableSpecials from '@/components/app/DataTable/tables/DataTableSpecials'
 import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
@@ -30,6 +31,7 @@ export default async function SpecialsPage() {
 
       <BaseScrollArea className="h-full rounded-b-xl">
         <DataTableSpecials data={data} />
+        {!hasProAccess && <DataTableUpgradeOverlay />}
       </BaseScrollArea>
     </>
   )

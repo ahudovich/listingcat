@@ -3,12 +3,11 @@
 import { useEffect, useState } from 'react'
 import { useLockBodyScroll } from 'react-use'
 import { ArrowRight02Icon, Cancel01Icon, CheckmarkCircle03Icon } from '@hugeicons/core-free-icons'
-import * as Sentry from '@sentry/nextjs'
-import { ofetch } from 'ofetch'
 import { Dialog } from 'radix-ui'
 import BaseButton from '@/components/ui/BaseButton'
 import BaseIcon from '@/components/ui/BaseIcon'
 import { EMAILS } from '@/data/emails'
+import { useCheckout } from '@/hooks/useCheckout'
 
 const features = [
   <span>
@@ -38,24 +37,14 @@ const features = [
 export function UpgradeModal({ children }: { children?: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
   const [isLocked, toggleLocked] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
+
+  const { checkoutError, handleCheckout } = useCheckout()
 
   useLockBodyScroll(isLocked)
 
   useEffect(() => {
     toggleLocked(isOpen)
   }, [isOpen])
-
-  async function handleCheckout() {
-    try {
-      const { sessionUrl } = await ofetch<{ sessionUrl: string }>('/api/checkout/create-session')
-
-      window.location.href = sessionUrl
-    } catch (error: unknown) {
-      Sentry.captureException(error)
-      setError(error as Error)
-    }
-  }
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
@@ -76,7 +65,7 @@ export function UpgradeModal({ children }: { children?: React.ReactNode }) {
                 Unlock full access to our extensive database.
               </Dialog.Description>
 
-              {error && (
+              {checkoutError && (
                 <p className="mt-4 px-3 py-2.5 bg-red-50/75 border border-red-300 rounded-md text-xs text-red-700">
                   Something went wrong. Please try again or contact support at{' '}
                   <a className="underline" href={`mailto:${EMAILS.SUPPORT}`}>
