@@ -3,7 +3,6 @@ import { sql } from 'drizzle-orm'
 import { env } from '../env'
 import { sendDiscordNotification } from '../lib/discord'
 import { getDB, tables } from '../lib/drizzle'
-import type { LaunchPlatform } from '../lib/db/schema/tables/launch-platforms'
 
 interface DrApiResponse {
   url: string
@@ -18,12 +17,15 @@ interface DRAPIResponse {
   }
 }
 
-interface Output {
-  updatedCount: number
-  skippedCount: number
-  erroredCount: number
-  totalCount: number
-}
+const TABLES_WITH_WEBSITE_URL = [
+  { table: tables.directories, name: 'Directories', sqlTableName: 'directories' },
+  { table: tables.launchPlatforms, name: 'Launch Platforms', sqlTableName: 'launch_platforms' },
+  { table: tables.marketplaces, name: 'Marketplaces', sqlTableName: 'marketplaces' },
+  { table: tables.showcases, name: 'Showcases', sqlTableName: 'showcases' },
+  { table: tables.specials, name: 'Specials', sqlTableName: 'specials' },
+] as const
+
+type TableWithWebsiteUrl = (typeof TABLES_WITH_WEBSITE_URL)[number]
 
 async function fetchDomainRating(url: string): Promise<number | null> {
   const options = {
@@ -47,114 +49,136 @@ async function fetchDomainRating(url: string): Promise<number | null> {
   }
 }
 
+async function processTableDRUpdates(tableDef: TableWithWebsiteUrl): Promise<void> {
+  const db = getDB()
+
+  logger.log(`Starting DR update for table: ${tableDef.sqlTableName}`)
+
+  // Get all URLs with current DR values for this table
+  const result = await db
+    .select({
+      dr: tableDef.table.dr,
+      websiteUrl: tableDef.table.websiteUrl,
+    })
+    .from(tableDef.table)
+
+  // Extract URLs into an array
+  const urls = result.map((row) => row.websiteUrl)
+
+  logger.log(`Found ${urls.length} URLs in table ${tableDef.sqlTableName}`)
+
+  // Fetch DR for each URL with a delay
+  const drResults: Array<DrApiResponse> = []
+
+  for (const url of urls) {
+    const dr = await fetchDomainRating(url)
+
+    drResults.push({ url, dr })
+
+    // Add delay between requests to respect API rate limit (500ms)
+    await wait.for({ seconds: 0.5 })
+  }
+
+  // Update database with DR values (skip null values and unchanged values)
+  const updatesToMake = []
+
+  let skippedCount = 0
+  let erroredCount = 0
+
+  for (const drResult of drResults) {
+    if (drResult.dr !== null) {
+      // Find the current DR value for this URL
+      const currentRecord = result.find((row) => row.websiteUrl === drResult.url)
+      const currentDR = currentRecord?.dr
+
+      // Only update if DR has changed (round to integer since DB expects smallint)
+      const roundedDR = Math.round(drResult.dr)
+      if (roundedDR !== currentDR) {
+        updatesToMake.push({
+          url: drResult.url,
+          newDR: roundedDR,
+        })
+      } else {
+        skippedCount++
+        logger.log(`Skipping update for ${drResult.url}: DR unchanged (${drResult.dr})`)
+      }
+    } else {
+      erroredCount++
+      logger.log(`Skipping update for ${drResult.url}: DR is null (error)`)
+    }
+  }
+
+  // Perform bulk update if there are updates to make
+  let updatedCount = 0
+
+  if (updatesToMake.length > 0) {
+    try {
+      const updateValues = updatesToMake.map((update) => [update.url, update.newDR])
+
+      await db.execute(sql`
+        UPDATE ${sql.identifier(tableDef.sqlTableName)}
+        SET dr = updates.new_dr::smallint, updated_at = NOW()
+        FROM (VALUES ${sql.join(updateValues, sql`, `)}) AS updates(website_url, new_dr)
+        WHERE ${sql.identifier(tableDef.sqlTableName)}.website_url = updates.website_url
+      `)
+
+      updatedCount = updatesToMake.length
+      logger.log(`Successfully updated ${updatedCount} records in table ${tableDef.sqlTableName}`)
+    } catch (updateError: unknown) {
+      logger.error(`Failed to perform bulk update for table ${tableDef.sqlTableName}:`, {
+        updateError,
+      })
+
+      // Send Discord error notification
+      const errorMessage =
+        `❌ **${tableDef.name} DR Update FAILED**\n\n` +
+        `Error occurred during bulk database update\n\n` +
+        `Please check logs for detailed error information.`
+
+      await sendDiscordNotification({
+        type: 'cron',
+        message: errorMessage,
+      })
+
+      return
+    }
+  }
+
+  // Send Discord notification for this table
+  const reportMessage =
+    `🔄 **${tableDef.name} DR Update Report**\n\n` +
+    `• Updated: ${updatedCount} records\n` +
+    `• Skipped: ${skippedCount} records (unchanged)\n` +
+    `• Errored: ${erroredCount} records (API errors)\n` +
+    `• Total processed: ${drResults.length} records`
+
+  await sendDiscordNotification({
+    type: 'cron',
+    message: reportMessage,
+  })
+
+  logger.log(
+    `Completed table ${tableDef.sqlTableName}: Updated ${updatedCount}, skipped ${skippedCount}, errored ${erroredCount} out of ${drResults.length} total`
+  )
+}
+
 export const drUpdater = schedules.task({
   id: 'listingcat-dr-updater',
   cron: '0 12 * * 1', // Every week on Monday at 12:00 UTC
   machine: { preset: 'micro' },
-  maxDuration: 300, // 5 mins
+  maxDuration: 3600, // 1 hour
 
-  onSuccess: async (payload, output: Output, { ctx }) => {
-    // Send Discord notification with the results
-    const reportMessage =
-      `🔄 ** DR Update Report **\n\n` +
-      `• Updated: ${output.updatedCount} records\n` +
-      `• Skipped: ${output.skippedCount} records\n` +
-      `• Errored: ${output.erroredCount} records\n` +
-      `• Total processed: ${output.totalCount} records`
-
-    await sendDiscordNotification({
-      type: 'cron',
-      message: reportMessage,
-    })
-  },
-
-  run: async (payload, { ctx }) => {
-    const db = getDB()
-
-    // Get all launch platform URLs with current DR values
-    const result = await db
-      .select({
-        dr: tables.launchPlatforms.dr,
-        websiteUrl: tables.launchPlatforms.websiteUrl,
-      })
-      .from(tables.launchPlatforms)
-
-    // Extract URLs into an array
-    const urls = result.map((row) => row.websiteUrl)
-
-    // Fetch DR for each URL with a delay
-    const drResults: Array<DrApiResponse> = []
-
-    for (const url of urls) {
-      const dr = await fetchDomainRating(url)
-
-      drResults.push({ url, dr })
-
-      // Add delay between requests to respect API rate limit (500ms)
-      await wait.for({ seconds: 0.5 })
-    }
-
-    // Update database with DR values (skip null values and unchanged values)
-    const updatesToMake = []
-
-    let skippedCount = 0
-    let erroredCount = 0
-
-    for (const drResult of drResults) {
-      if (drResult.dr !== null) {
-        // Find the current DR value for this URL
-        const currentRecord = result.find((row) => row.websiteUrl === drResult.url) as Pick<
-          LaunchPlatform,
-          'dr' | 'websiteUrl'
-        >
-        const currentDR = currentRecord.dr
-
-        // Only update if DR has changed
-        if (drResult.dr !== currentDR) {
-          updatesToMake.push({
-            url: drResult.url,
-            newDR: drResult.dr,
-          })
-        } else {
-          skippedCount++
-          logger.log(`Skipping update for ${drResult.url}: DR unchanged (${drResult.dr})`)
-        }
-      } else {
-        erroredCount++
-        logger.log(`Skipping update for ${drResult.url}: DR is null`)
-      }
-    }
-
-    // Perform bulk update if there are updates to make
-    let updatedCount = 0
-
-    if (updatesToMake.length > 0) {
+  run: async () => {
+    // Process each table one after another
+    for (const tableDef of TABLES_WITH_WEBSITE_URL) {
       try {
-        const updateValues = updatesToMake.map((update) => [update.url, update.newDR])
+        await processTableDRUpdates(tableDef)
 
-        await db.execute(sql`
-          UPDATE launch_platforms
-          SET dr = updates.new_dr::smallint, updated_at = NOW()
-          FROM (VALUES ${sql.join(updateValues, sql`, `)}) AS updates(website_url, new_dr)
-          WHERE launch_platforms.website_url = updates.website_url
-        `)
-
-        updatedCount = updatesToMake.length
-      } catch (updateError: unknown) {
-        logger.error('Failed to perform bulk update:', { updateError })
+        // Add a small delay between tables to be respectful
+        await wait.for({ seconds: 2 })
+      } catch (error: unknown) {
+        logger.error(`Error processing table ${tableDef.sqlTableName}:`, { error })
       }
-    }
-
-    // Log the results
-    logger.log(
-      `Updated ${updatedCount} records, skipped ${skippedCount} records (unchanged), errored ${erroredCount} records (errors) out of ${drResults.length} total`
-    )
-
-    return {
-      updatedCount,
-      skippedCount,
-      erroredCount,
-      totalCount: drResults.length,
     }
   },
 })
