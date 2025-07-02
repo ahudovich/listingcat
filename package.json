@@ -48,6 +48,7 @@
     "better-auth": "^1.2.8",
     "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "drizzle-orm": "^0.44.1",
     "lodash-es": "^4.17.21",
     "next": "^15.3.3",

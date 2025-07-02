@@ -7,6 +7,7 @@ import { launchPlatforms } from '@/lib/db/schema/tables/launch-platforms'
 import { marketplaces } from '@/lib/db/schema/tables/marketplaces'
 import { showcases } from '@/lib/db/schema/tables/showcase'
 import { specials } from '@/lib/db/schema/tables/specials'
+import { tableUpdates } from '@/lib/db/schema/tables/table-updates'
 
 export const tables = {
   directories,
@@ -14,6 +15,7 @@ export const tables = {
   marketplaces,
   showcases,
   specials,
+  tableUpdates,
   users,
   sessions,
   accounts,

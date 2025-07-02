@@ -11,6 +11,7 @@ export const TABLE_NAMES = {
   MARKETPLACES: 'marketplaces',
   SHOWCASE: 'showcases',
   SPECIALS: 'specials',
+  TABLE_UPDATES: 'table_updates',
 } as const
 
 export const benefitEnum = pgEnum(DB_ENUM_NAME_BENEFIT, [Benefits.ProAccess])
