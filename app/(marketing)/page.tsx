@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight02Icon, ReloadIcon } from '@hugeicons/core-free-icons'
+import { ArrowRight02Icon, CheckmarkCircle03Icon, ReloadIcon } from '@hugeicons/core-free-icons'
 import { format } from 'date-fns'
 import BaseButton from '@/components/ui/BaseButton'
 import BaseIcon from '@/components/ui/BaseIcon'
+import BaseTooltip from '@/components/ui/BaseTooltip'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { getSessionState } from '@/lib/cached-functions'
 import { getLastDatabaseUpdate } from '@/lib/db/operations'
@@ -15,6 +16,8 @@ export const metadata: Metadata = {
     'Get access to the largest database of directories, launch platforms, marketplaces, showcase websites, newsletters, communities, and much more!',
 }
 
+const heroFeatures = ['Always up-to-date', 'Curated by humans', 'One-time payment']
+
 export default async function HomePage() {
   const { isLoggedIn } = await getSessionState()
 
@@ -25,13 +28,18 @@ export default async function HomePage() {
     <section className="mx-auto px-4 pt-12 max-w-[73.5rem] w-full md:px-6 md:pt-16 2xl:pt-24">
       <div className="mb-8 text-center md:mb-12">
         {lastUpdateDate && (
-          <p className="inline-flex items-center gap-1 mb-5 px-3 py-1.25 bg-emerald-600 rounded-full font-medium text-xs text-white">
+          <p className="inline-flex items-center gap-1.5 mb-4 font-medium text-xs">
             <BaseIcon
-              className="hidden shrink-0 mr-1 size-3.5 min-[25.875rem]:block"
+              className="shrink-0 size-3.5 text-emerald-600"
               icon={ReloadIcon}
-              strokeWidth={2.25}
+              strokeWidth={2.5}
             />
-            Updated: {format(lastUpdateDate, 'dd MMMM yyyy')}
+            Last updated:{' '}
+            <BaseTooltip className="max-w-64" text="The last time the database was updated">
+              <span className="underline underline-offset-4 decoration-dotted cursor-help">
+                {format(lastUpdateDate, 'MMMM d, yyyy')}
+              </span>
+            </BaseTooltip>
           </p>
         )}
 
@@ -43,6 +51,19 @@ export default async function HomePage() {
           We are curating launch platforms, directories, marketplaces, communities, newsletters, and
           more, all in one place.
         </p>
+
+        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8">
+          {heroFeatures.map((feature, index) => (
+            <li className="flex items-center gap-2" key={index}>
+              <BaseIcon
+                className="shrink-0 size-5 text-emerald-600"
+                icon={CheckmarkCircle03Icon}
+                strokeWidth={2.5}
+              />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
 
         <div className="flex justify-center">
           <BaseButton className="group min-w-50" size="lg" asChild>
