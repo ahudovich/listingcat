@@ -6,6 +6,8 @@ export function useCheckout() {
   const [checkoutError, setCheckoutError] = useState<Error | null>(null)
 
   async function handleCheckout() {
+    setCheckoutError(null)
+
     try {
       const { sessionUrl } = await ofetch<{ sessionUrl: string }>('/api/checkout/create-session')
 

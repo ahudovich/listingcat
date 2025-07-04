@@ -45,7 +45,7 @@ export async function GET() {
       },
       discounts: [
         {
-          coupon: 'promo_1RhDzDE1p4g30DibM6bOtcBK',
+          promotion_code: env.STRIPE_COUPON_ID,
         },
       ],
       metadata: {
