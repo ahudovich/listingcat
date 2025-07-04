@@ -40,6 +40,9 @@ export async function GET() {
           quantity: 1,
         },
       ],
+      automatic_tax: {
+        enabled: true,
+      },
       metadata: {
         externalId: authSession.user.id,
       },
