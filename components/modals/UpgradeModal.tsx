@@ -15,13 +15,18 @@ const features = [
     <strong className="font-bold">Unlimited lifetime</strong> access and updates
   </>,
   <>
-    <strong className="font-bold">500+</strong> directories
+    <strong className="font-bold">New resources</strong> added every week
   </>,
   <>
-    <strong className="font-bold">15+</strong> launch platforms
+    <strong className="font-bold">Discount</strong> for our submission service{' '}
+    <span className="text-muted">(soon)</span>
   </>,
   <>
-    <strong className="font-bold">Sponsor placements</strong>{' '}
+    <strong className="font-bold">Discounts</strong> for paid directories{' '}
+    <span className="text-muted">(soon)</span>
+  </>,
+  <>
+    <strong className="font-bold">Places to sponsor</strong>{' '}
     <span className="text-muted">(coming soon)</span>
   </>,
   <>
@@ -66,7 +71,7 @@ export function UpgradeModal({ children }: { children?: React.ReactNode }) {
               </Dialog.Title>
 
               <Dialog.Description className="text-sm text-secondary text-balance">
-                Unlock full access to our extensive database.
+                Unlock full access to our database.
               </Dialog.Description>
 
               {checkoutError && (
