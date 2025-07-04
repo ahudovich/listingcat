@@ -34,23 +34,34 @@ export async function GET() {
 
     stripeSession = await stripeClient.checkout.sessions.create({
       mode: 'payment',
+
+      customer_creation: 'always',
+
       line_items: [
         {
           price: env.STRIPE_PRICE_ID,
           quantity: 1,
         },
       ],
+
       automatic_tax: {
         enabled: true,
       },
+
+      tax_id_collection: {
+        enabled: true,
+      },
+
       discounts: [
         {
           promotion_code: env.STRIPE_COUPON_ID,
         },
       ],
+
       metadata: {
         externalId: authSession.user.id,
       },
+
       success_url: `${env.NEXT_PUBLIC_WEBSITE_BASE_URL}/payment/verification`,
       cancel_url: cancelUrl,
     })
