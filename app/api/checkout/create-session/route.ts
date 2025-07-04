@@ -43,6 +43,11 @@ export async function GET() {
       automatic_tax: {
         enabled: true,
       },
+      discounts: [
+        {
+          coupon: 'promo_1RhDzDE1p4g30DibM6bOtcBK',
+        },
+      ],
       metadata: {
         externalId: authSession.user.id,
       },
