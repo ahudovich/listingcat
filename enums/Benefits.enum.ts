@@ -1,3 +1,3 @@
 export enum Benefits {
-  DatabaseAccess = 'database-access',
+  ProAccess = 'pro-access',
 }

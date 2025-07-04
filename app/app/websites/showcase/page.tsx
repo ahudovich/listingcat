@@ -1,7 +1,10 @@
 import { Metadata } from 'next'
+import { DataTableUpgradeOverlay } from '@/components/app/DataTable/DataTableUpgradeOverlay'
 import DataTableMarketplaces from '@/components/app/DataTable/tables/DataTableMarketplaces'
 import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
+import { FREEMIUM_LIMIT } from '@/enums/constants'
+import { getSessionState } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
@@ -9,7 +12,15 @@ export const metadata: Metadata = {
 }
 
 export default async function ShowcasePage() {
-  const data = await getDB().select().from(tables.showcases).limit(10)
+  const { hasProAccess } = await getSessionState()
+
+  let data
+
+  if (hasProAccess) {
+    data = await getDB().select().from(tables.showcases)
+  } else {
+    data = await getDB().select().from(tables.showcases).limit(FREEMIUM_LIMIT)
+  }
 
   return (
     <>
@@ -20,6 +31,7 @@ export default async function ShowcasePage() {
 
       <BaseScrollArea className="h-full rounded-b-xl">
         <DataTableMarketplaces data={data} />
+        {!hasProAccess && <DataTableUpgradeOverlay />}
       </BaseScrollArea>
     </>
   )

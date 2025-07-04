@@ -1,15 +1,22 @@
+import { stripe } from '@better-auth/stripe'
+import * as Sentry from '@sentry/nextjs'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
 import { emailOTP } from 'better-auth/plugins'
+import { eq } from 'drizzle-orm'
+import { Benefits } from '@/enums/Benefits.enum'
 import { EMAILS } from '../../data/emails'
 import { COOKIE_PREFIX } from '../../enums/constants'
 import { PostHogEvents } from '../../enums/PostHogEvents.enum'
 import { env } from '../../env'
+import { users } from '../db/schema/tables/auth'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend } from '../email'
 import { getPosthogServerClient } from '../posthog'
+import { stripeClient } from '../stripe'
+import type Stripe from 'stripe'
 
 export const auth = betterAuth({
   baseURL: env.NEXT_PUBLIC_WEBSITE_BASE_URL,
@@ -85,7 +92,6 @@ export const auth = betterAuth({
           // Send event to Discord
           const message =
             '👤 ** New user registered **\n\n' +
-            '**Summary:**\n\n' +
             `• Email: ${user.email}\n` +
             `• Name: ${user.name || 'N/A'}`
 
@@ -102,19 +108,73 @@ export const auth = betterAuth({
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
         if (type === 'email-verification') {
-          await resend.emails.send({
-            from: `Listing Cat <${EMAILS.NO_REPLY}>`,
-            to: email,
-            subject: 'Verify your email address',
-            text: generatePlainTextOtpVerificationEmail({
-              heading: 'Confirm your signup',
-              text: 'Here is your OTP code to verify your email address:',
-              otpCode: otp,
-            }),
-          })
+          try {
+            await resend.emails.send({
+              from: `Listing Cat <${EMAILS.NO_REPLY}>`,
+              to: email,
+              subject: 'Verify your email address',
+              text: generatePlainTextOtpVerificationEmail({
+                heading: 'Confirm your signup',
+                text: 'Here is your OTP code to verify your email address:',
+                otpCode: otp,
+              }),
+            })
+          } catch (error: unknown) {
+            Sentry.captureException(error)
+          }
         }
       },
     }),
+
+    stripe({
+      stripeClient,
+      stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
+      async onEvent(event) {
+        switch (event.type) {
+          case 'checkout.session.completed': {
+            const checkoutSession = event.data.object as Stripe.Checkout.Session
+            const externalId = checkoutSession.metadata?.externalId
+
+            if (externalId) {
+              try {
+                const updatedUser = await getDB()
+                  .update(users)
+                  .set({ benefits: [Benefits.ProAccess] })
+                  .where(eq(users.id, externalId))
+                  .returning({
+                    email: users.email,
+                    name: users.name,
+                  })
+
+                const message =
+                  '💰 ** User upgraded to database access **\n\n' +
+                  `• Email: ${updatedUser[0].email}\n` +
+                  `• Name: ${updatedUser[0].name || 'N/A'}`
+
+                await sendDiscordNotification({
+                  type: 'general',
+                  message,
+                })
+              } catch (error: unknown) {
+                const message =
+                  '❌ ** Error upgrading user to database access **\n\n' +
+                  `• UserId: ${externalId}\n`
+
+                await sendDiscordNotification({
+                  type: 'general',
+                  message,
+                })
+
+                Sentry.captureException(error)
+              }
+            }
+
+            break
+          }
+        }
+      },
+    }),
+
     // Must be the last plugin
     nextCookies(),
   ],

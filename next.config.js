@@ -8,11 +8,7 @@ const jiti = createJiti(fileURLToPath(import.meta.url))
 await jiti.import('./env')
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-}
+const nextConfig = {}
 
 export default withSentryConfig(nextConfig, {
   org: 'listingcat',

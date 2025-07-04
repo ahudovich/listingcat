@@ -1,6 +1,7 @@
 import '@/app/globals.css'
 import { Inter } from 'next/font/google'
 import PostHogProvider from '@/components/PostHogProvider'
+import { BaseToaster } from '@/components/ui/BaseToaster'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="h-full font-text text-secondary antialiased">
         <PostHogProvider />
         {children}
+        <BaseToaster />
       </body>
     </html>
   )

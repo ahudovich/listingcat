@@ -19,7 +19,7 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
 
   return (
     <table className="w-full">
-      <thead>
+      <thead className="sticky top-0 z-[1] bg-white">
         {table.getHeaderGroups().map(({ id, headers }) => (
           <tr key={id}>
             {headers.map((header) => (
@@ -28,6 +28,7 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
                 isSortable={header.column.getCanSort()}
                 sortingDirection={header.column.getIsSorted()}
                 size={header.column.columnDef.size}
+                // @ts-expect-error - TODO: fix this
                 tooltip={header.column.columnDef.meta?.tooltip}
                 onClick={header.column.getToggleSortingHandler()}
               >
