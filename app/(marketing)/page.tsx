@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     'Get access to the largest database of directories, launch platforms, marketplaces, showcase websites, newsletters, communities, and much more!',
 }
 
-const heroFeatures = ['Always up-to-date', 'Curated by humans', 'One-time payment']
+const heroFeatures = ['Always up-to-date', 'Curated by humans', 'Actively maintained']
 
 export default async function HomePage() {
   const { isLoggedIn } = await getSessionState()
@@ -25,7 +25,7 @@ export default async function HomePage() {
   const lastUpdateDate = await getLastDatabaseUpdate()
 
   return (
-    <section className="mx-auto px-4 pt-12 max-w-[73.5rem] w-full md:px-6 md:pt-16 2xl:pt-24">
+    <section className="mx-auto px-4 pt-10 max-w-[73.5rem] w-full sm:pt-12 md:px-6 md:pt-16 2xl:pt-24">
       <div className="mb-8 text-center md:mb-12">
         {lastUpdateDate && (
           <p className="inline-flex items-center gap-1.5 mb-4 font-medium text-xs">
@@ -43,16 +43,16 @@ export default async function HomePage() {
           </p>
         )}
 
-        <h1 className="mb-2 mx-auto max-w-[30rem] font-black  text-primary text-balance text-2xl md:mb-3 md:max-w-[44rem] md:text-5xl">
+        <h1 className="mb-2.5 mx-auto max-w-[38rem] font-black text-primary text-balance text-3xl md:mb-3 md:max-w-[44rem] md:text-5xl">
           Marketing Database for&nbsp;Startups and Indie Hackers
         </h1>
 
-        <p className="mb-8 mx-auto max-w-[38rem] text-sm-relaxed text-balance xs:text-md-relaxed md:mb-6 md:text-lg-relaxed">
+        <p className="mb-5 mx-auto max-w-[38rem] text-sm-relaxed text-balance xs:text-md-relaxed md:mb-6 md:text-lg-relaxed">
           We are curating launch platforms, directories, marketplaces, communities, newsletters, and
           more, all in one place.
         </p>
 
-        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8">
+        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-3.5 mb-8 text-sm">
           {heroFeatures.map((feature, index) => (
             <li className="flex items-center gap-2" key={index}>
               <BaseIcon
