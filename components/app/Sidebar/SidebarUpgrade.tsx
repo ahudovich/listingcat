@@ -20,7 +20,7 @@ export default function SidebarUpgrade({ className }: { className?: string }) {
         Upgrade to Pro version to get the most out of Listing Cat!
       </p>
 
-      <UpgradeModal>
+      <UpgradeModal initiator="sidebar">
         <BaseButton className="w-full">
           <BaseIcon icon={ZapIcon} strokeWidth={2.5} />
           Upgrade

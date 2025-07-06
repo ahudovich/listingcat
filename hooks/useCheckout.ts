@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import * as Sentry from '@sentry/nextjs'
 import { ofetch } from 'ofetch'
+import posthog from 'posthog-js'
+import { PostHogEvents } from '@/enums/PostHogEvents.enum'
 
 export function useCheckout() {
   const [checkoutError, setCheckoutError] = useState<Error | null>(null)
@@ -15,6 +17,8 @@ export function useCheckout() {
     } catch (error: unknown) {
       Sentry.captureException(error)
       setCheckoutError(error as Error)
+    } finally {
+      posthog.capture(PostHogEvents.UpgradeButtonClicked)
     }
   }
 

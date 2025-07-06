@@ -2,8 +2,9 @@ import { SquareUnlock02Icon } from '@hugeicons/core-free-icons'
 import { UpgradeModal } from '@/components/modals/UpgradeModal'
 import BaseButton from '@/components/ui/BaseButton'
 import BaseIcon from '@/components/ui/BaseIcon'
+import type { TableName } from '@/lib/db/schema/helpers/enums'
 
-export function DataTableUpgradeOverlay() {
+export function DataTableUpgradeOverlay({ tableName }: { tableName: TableName }) {
   return (
     <div className="px-8 py-8 bg-white text-center">
       <BaseIcon
@@ -15,7 +16,7 @@ export function DataTableUpgradeOverlay() {
       <h2 className="mb-2 font-extrabold text-xl text-primary">Unlock Full Access</h2>
       <p className="mb-4 text-sm text-tertiary">Get unlimited lifetime access to our database.</p>
 
-      <UpgradeModal>
+      <UpgradeModal initiator="table-overlay" tableName={tableName}>
         <BaseButton className="group w-full max-w-72" size="lg">
           Upgrade
         </BaseButton>
