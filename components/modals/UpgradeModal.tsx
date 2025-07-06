@@ -45,7 +45,7 @@ const features = [
 ]
 
 interface UpgradeModalProps {
-  initiator: 'sidebar' | 'table-overlay'
+  initiator: 'sidebar' | 'table_overlay'
   tableName?: TableName
   children?: React.ReactNode
 }
