@@ -16,7 +16,7 @@ export function DataTableUpgradeOverlay({ tableName }: { tableName: TableName })
       <h2 className="mb-2 font-extrabold text-xl text-primary">Unlock Full Access</h2>
       <p className="mb-4 text-sm text-tertiary">Get unlimited lifetime access to our database.</p>
 
-      <UpgradeModal initiator="table-overlay" tableName={tableName}>
+      <UpgradeModal initiator="table_overlay" tableName={tableName}>
         <BaseButton className="group w-full max-w-72" size="lg">
           Upgrade
         </BaseButton>
