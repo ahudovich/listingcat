@@ -2,7 +2,7 @@ import { boolean, integer, pgTable, text } from 'drizzle-orm/pg-core'
 import { domainRatings, id, linkAttributes, pricing, timestamps } from '../helpers/columns'
 import { productCategoryEnum, TABLE_NAMES } from '../helpers/enums'
 
-export const showcases = pgTable(TABLE_NAMES.SHOWCASE, {
+export const showcases = pgTable(TABLE_NAMES.SHOWCASES, {
   ...id,
   ...timestamps,
   name: text().unique().notNull(),

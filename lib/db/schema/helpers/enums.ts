@@ -9,10 +9,12 @@ export const TABLE_NAMES = {
   DIRECTORIES: 'directories',
   LAUNCH_PLATFORMS: 'launch_platforms',
   MARKETPLACES: 'marketplaces',
-  SHOWCASE: 'showcases',
+  SHOWCASES: 'showcases',
   SPECIALS: 'specials',
   TABLE_UPDATES: 'table_updates',
 } as const
+
+export type TableName = (typeof TABLE_NAMES)[keyof typeof TABLE_NAMES]
 
 export const benefitEnum = pgEnum(DB_ENUM_NAME_BENEFIT, [Benefits.ProAccess])
 

@@ -5,6 +5,7 @@ import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
 import { FREEMIUM_LIMIT } from '@/enums/constants'
 import { getSessionState } from '@/lib/cached-functions'
+import { TABLE_NAMES } from '@/lib/db/schema/helpers/enums'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
@@ -31,7 +32,7 @@ export default async function MarketplacesPage() {
 
       <BaseScrollArea className="h-full rounded-b-xl">
         <DataTableMarketplaces data={data} />
-        {!hasProAccess && <DataTableUpgradeOverlay />}
+        {!hasProAccess && <DataTableUpgradeOverlay tableName={TABLE_NAMES.MARKETPLACES} />}
       </BaseScrollArea>
     </>
   )
