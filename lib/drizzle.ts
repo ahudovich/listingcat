@@ -5,6 +5,7 @@ import { accounts, sessions, users, verifications } from '@/lib/db/schema/tables
 import { directories } from '@/lib/db/schema/tables/directories'
 import { launchPlatforms } from '@/lib/db/schema/tables/launch-platforms'
 import { marketplaces } from '@/lib/db/schema/tables/marketplaces'
+import { services } from '@/lib/db/schema/tables/services'
 import { showcases } from '@/lib/db/schema/tables/showcase'
 import { specials } from '@/lib/db/schema/tables/specials'
 import { tableUpdates } from '@/lib/db/schema/tables/table-updates'
@@ -16,6 +17,7 @@ export const tables = {
   showcases,
   specials,
   tableUpdates,
+  services,
   users,
   sessions,
   accounts,
