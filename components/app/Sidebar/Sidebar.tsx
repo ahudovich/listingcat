@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {
   CanvasIcon,
   FolderLibraryIcon,
+  MarketingIcon,
   Rocket01Icon,
   Store03Icon,
   TestTube01Icon,
@@ -44,6 +45,16 @@ const navLinks = [
       },
     ],
   },
+  {
+    label: 'Services',
+    links: [
+      {
+        label: 'Social marketing',
+        path: '/app/services/social-marketing',
+        icon: MarketingIcon,
+      },
+    ],
+  },
 ]
 
 export default async function Sidebar() {
@@ -65,7 +76,7 @@ export default async function Sidebar() {
         )}
       </div>
 
-      <nav>
+      <nav className="grid gap-6">
         {navLinks.map((link, index) => (
           <SidebarNavSection key={index} label={link.label} links={link.links} />
         ))}
