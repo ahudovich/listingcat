@@ -1,16 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight02Icon, CheckmarkCircle03Icon, ReloadIcon } from '@hugeicons/core-free-icons'
-import { format } from 'date-fns'
+import { ArrowRight02Icon, CheckmarkCircle03Icon } from '@hugeicons/core-free-icons'
+import LastDatabaseUpdate from '@/components/LastDatabaseUpdate'
 import BaseButton from '@/components/ui/BaseButton'
 import BaseIcon from '@/components/ui/BaseIcon'
-import BaseTooltip from '@/components/ui/BaseTooltip'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { getSessionState } from '@/lib/cached-functions'
-import { getLastDatabaseUpdate } from '@/lib/db/operations'
 import type { Metadata } from 'next'
-
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Listing Cat',
@@ -23,27 +19,10 @@ const heroFeatures = ['Always up-to-date', 'Curated by humans', 'Actively mainta
 export default async function HomePage() {
   const { isLoggedIn } = await getSessionState()
 
-  // Cached, revalidated every 12 hours
-  const lastUpdateDate = await getLastDatabaseUpdate()
-
   return (
     <section className="mx-auto px-4 pt-10 max-w-[73.5rem] w-full sm:pt-12 md:px-6 md:pt-16 2xl:pt-24">
       <div className="mb-8 text-center md:mb-12">
-        {lastUpdateDate && (
-          <p className="inline-flex items-center gap-1.5 mb-4 font-medium text-xs">
-            <BaseIcon
-              className="shrink-0 size-3.5 text-emerald-600"
-              icon={ReloadIcon}
-              strokeWidth={2.5}
-            />
-            Last updated:{' '}
-            <BaseTooltip className="max-w-64" text="The last time the database was updated">
-              <span className="underline underline-offset-4 decoration-dotted cursor-help">
-                {format(lastUpdateDate, 'MMMM d, yyyy')}
-              </span>
-            </BaseTooltip>
-          </p>
-        )}
+        <LastDatabaseUpdate />
 
         <h1 className="mb-2.5 mx-auto max-w-[38rem] font-black text-primary text-balance text-3xl md:mb-3 md:max-w-[44rem] md:text-5xl">
           Marketing Database for&nbsp;Startups and Indie Hackers
