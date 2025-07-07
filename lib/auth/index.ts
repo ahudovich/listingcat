@@ -14,7 +14,7 @@ import { users } from '../db/schema/tables/auth'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend } from '../email'
-import { getPosthogServerClient } from '../posthog'
+import { capturePosthogEvent } from '../posthog'
 import { stripeClient } from '../stripe'
 import type Stripe from 'stripe'
 
@@ -73,10 +73,7 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
-          // Send event to PostHog
-          const posthog = getPosthogServerClient()
-
-          posthog.capture({
+          await capturePosthogEvent({
             distinctId: user.id,
             event: PostHogEvents.UserSignedUp,
             properties: {
@@ -86,8 +83,6 @@ export const auth = betterAuth({
               },
             },
           })
-
-          await posthog.shutdown()
 
           // Send event to Discord
           const message =
@@ -146,6 +141,12 @@ export const auth = betterAuth({
                     name: users.name,
                   })
 
+                await capturePosthogEvent({
+                  distinctId: externalId,
+                  event: PostHogEvents.UserUpgradedToPro,
+                })
+
+                // Send event to Discord
                 const message =
                   '💰 ** User upgraded to database access **\n\n' +
                   `• Email: ${updatedUser[0].email}\n` +
