@@ -10,6 +10,8 @@ import { getSessionState } from '@/lib/cached-functions'
 import { getLastDatabaseUpdate } from '@/lib/db/operations'
 import type { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Listing Cat',
   description:
