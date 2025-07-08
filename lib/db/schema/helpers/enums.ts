@@ -13,6 +13,7 @@ export const TABLE_NAMES = {
   SPECIALS: 'specials',
   TABLE_UPDATES: 'table_updates',
   SERVICES: 'services',
+  SUBMISSIONS: 'submissions',
 } as const
 
 export type TableName = (typeof TABLE_NAMES)[keyof typeof TABLE_NAMES]
