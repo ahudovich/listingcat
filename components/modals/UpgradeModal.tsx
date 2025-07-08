@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useLockBodyScroll } from 'react-use'
 import { ArrowRight02Icon, Cancel01Icon, CheckmarkCircle03Icon } from '@hugeicons/core-free-icons'
 import { isUndefined, omitBy } from 'lodash-es'
 import posthog from 'posthog-js'
@@ -10,6 +9,7 @@ import BaseButton from '@/components/ui/BaseButton'
 import BaseIcon from '@/components/ui/BaseIcon'
 import { EMAILS } from '@/data/emails'
 import { PostHogEvents } from '@/enums/PostHogEvents.enum'
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock'
 import { useCheckout } from '@/hooks/useCheckout'
 import { zIndexes } from '@/utils/z-indexes'
 import type { TableName } from '@/lib/db/schema/helpers/enums'
@@ -52,15 +52,10 @@ interface UpgradeModalProps {
 
 export function UpgradeModal({ children, initiator, tableName }: UpgradeModalProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [isLocked, toggleLocked] = useState(false)
+
+  useBodyScrollLock({ isOpen })
 
   const { checkoutError, handleCheckout } = useCheckout()
-
-  useLockBodyScroll(isLocked)
-
-  useEffect(() => {
-    toggleLocked(isOpen)
-  }, [isOpen])
 
   // Track upgrade modal events
   useEffect(() => {

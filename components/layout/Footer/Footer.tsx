@@ -1,4 +1,7 @@
 import Link from 'next/link'
+import { BlueskyIcon, NewTwitterIcon, ThreadsIcon } from '@hugeicons/core-free-icons'
+import { FooterSubmitButton } from '@/components/layout/Footer/FooterSubmitButton'
+import BaseIcon from '@/components/ui/BaseIcon'
 import BaseLogo from '@/components/ui/BaseLogo'
 import { EMAILS } from '@/data/emails'
 
@@ -48,13 +51,37 @@ const links: Array<{
   },
 ]
 
+const socialLinks = [
+  {
+    icon: NewTwitterIcon,
+    url: 'https://x.com/ListingCat',
+  },
+  {
+    icon: BlueskyIcon,
+    url: 'https://bsky.app/profile/listingcat.com',
+  },
+  {
+    icon: ThreadsIcon,
+    url: 'https://www.threads.com/@listingcat',
+  },
+]
+
 export default function Footer() {
   return (
     <footer className="sticky top-[100vh] bg-gray-100 border-t border-zinc-200">
       <div className="container py-10 lg:flex">
         <div className="mb-8">
           <BaseLogo className="mb-3 w-35.5 h-5.5" />
-          <p className="text-xs-relaxed">Marketing database for startups and indie hackers</p>
+          <p className="mb-3 text-xs-relaxed">Marketing database for startups and indie hackers.</p>
+          <ul className="flex items-center gap-3.5 mb-4">
+            {socialLinks.map((link) => (
+              <li key={link.url}>
+                <Link href={link.url} target="_blank">
+                  <BaseIcon className="size-4.5" icon={link.icon} strokeWidth={2} />
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="grid gap-6 sm:flex sm:gap-x-20 lg:ml-auto">
@@ -73,6 +100,12 @@ export default function Footer() {
                     </Link>
                   </li>
                 ))}
+
+                {section.label === 'Links' && (
+                  <li className="mb-2 last:mb-0">
+                    <FooterSubmitButton />
+                  </li>
+                )}
               </ul>
             </div>
           ))}
@@ -81,7 +114,7 @@ export default function Footer() {
 
       <div className="container">
         <div className="py-6 border-t border-zinc-200">
-          <p className="text-[13px] text-secondary">
+          <p className="text-[0.8125rem] text-secondary">
             &copy; {new Date().getFullYear()} Listing Cat. All rights reserved.
           </p>
         </div>
