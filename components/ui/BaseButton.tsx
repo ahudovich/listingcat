@@ -9,6 +9,7 @@ const buttonVariants = tv({
   base: 'inline-flex justify-center items-center gap-1.5 rounded-full outline-none font-semibold whitespace-nowrap transition-colors cursor-pointer focus:ring-2 focus:ring-control-default disabled:opacity-75 disabled:cursor-not-allowed [&>svg]:shrink-0 [&>svg]:fill-current',
   variants: {
     size: {
+      xs: 'px-4 h-control-xs text-xs [&_svg]:!size-3.5',
       sm: 'px-5 h-control-sm text-xs [&_svg]:!size-4',
       md: 'px-6 h-control-md text-xs [&_svg]:!size-4.5',
       lg: 'px-7 h-control-lg text-sm [&_svg]:!size-5',

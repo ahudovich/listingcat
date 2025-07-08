@@ -44,6 +44,7 @@ interface BaseInputProps {
   rootClasses?: string
   label?: string
   size?: InputVariants['size']
+  required?: boolean
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -54,6 +55,7 @@ export default function BaseInput({
   rootClasses,
   size,
   value,
+  required,
   onChange,
   ...props
 }: BaseInputProps & ComponentProps<'input'>) {
@@ -63,7 +65,7 @@ export default function BaseInput({
     <div className={twMerge(base(), rootClasses)}>
       {label && (
         <label className={labelVariants()} htmlFor={id}>
-          {label}
+          {label} {required && <span className="text-red-500">*</span>}
         </label>
       )}
 
@@ -71,6 +73,7 @@ export default function BaseInput({
         id={id}
         className={input({ className })}
         value={value}
+        required={required}
         onChange={onChange}
         {...props}
       />

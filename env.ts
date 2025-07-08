@@ -7,6 +7,7 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     DISCORD_CRON_WEBHOOK_URL: z.string().url(),
     DISCORD_GENERAL_WEBHOOK_URL: z.string().url(),
+    DISCORD_SUBMISSIONS_WEBHOOK_URL: z.string().url(),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     MICROSOFT_CLIENT_ID: z.string().min(1),
