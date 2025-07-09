@@ -9,10 +9,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
 import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
-import SidebarUpgrade from '@/components/app/Sidebar/SidebarUpgrade'
-import BaseBadge from '@/components/ui/BaseBadge'
 import BaseLogo from '@/components/ui/BaseLogo'
-import { getSessionState } from '@/lib/cached-functions'
 
 const navLinks = [
   {
@@ -58,22 +55,12 @@ const navLinks = [
 ]
 
 export default async function Sidebar() {
-  const { hasProAccess } = await getSessionState()
-
   return (
     <aside className="flex flex-col w-72 px-5 py-6">
       <div className="flex items-center gap-3 mb-8">
         <Link className="self-start" href="/">
           <BaseLogo className="w-32.5 h-5" />
         </Link>
-
-        {!hasProAccess ? (
-          <BaseBadge>Free</BaseBadge>
-        ) : (
-          <BaseBadge className="uppercase" variant="accent">
-            Pro
-          </BaseBadge>
-        )}
       </div>
 
       <nav className="grid gap-6">
@@ -83,8 +70,6 @@ export default async function Sidebar() {
       </nav>
 
       <div className="mt-auto">
-        {!hasProAccess && <SidebarUpgrade className="mb-4" />}
-
         <SidebarProfile />
       </div>
     </aside>

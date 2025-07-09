@@ -33,7 +33,7 @@ export default function AuthSignUp() {
   return (
     <>
       {currentStep === 'sign-up' && (
-        <AuthCard title="Create an account" description={signUpDescription}>
+        <AuthCard title="Create a free account" description={signUpDescription}>
           <SignUpForm email={email} setEmail={setEmail} setCurrentStep={setCurrentStep} />
         </AuthCard>
       )}

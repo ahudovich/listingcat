@@ -1,11 +1,7 @@
 import { Metadata } from 'next'
-import { DataTableUpgradeOverlay } from '@/components/app/DataTable/DataTableUpgradeOverlay'
 import DataTableDirectories from '@/components/app/DataTable/tables/DataTableDirectories'
 import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
-import { FREEMIUM_LIMIT } from '@/enums/constants'
-import { getSessionState } from '@/lib/cached-functions'
-import { TABLE_NAMES } from '@/lib/db/schema/helpers/enums'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
@@ -13,15 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function DirectoriesPage() {
-  const { hasProAccess } = await getSessionState()
-
-  let data
-
-  if (hasProAccess) {
-    data = await getDB().select().from(tables.directories)
-  } else {
-    data = await getDB().select().from(tables.directories).limit(FREEMIUM_LIMIT)
-  }
+  const data = await getDB().select().from(tables.directories)
 
   return (
     <>
@@ -32,7 +20,6 @@ export default async function DirectoriesPage() {
 
       <BaseScrollArea className="h-full rounded-b-xl">
         <DataTableDirectories data={data} />
-        {!hasProAccess && <DataTableUpgradeOverlay tableName={TABLE_NAMES.DIRECTORIES} />}
       </BaseScrollArea>
     </>
   )

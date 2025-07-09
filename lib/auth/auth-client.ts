@@ -1,9 +1,8 @@
-import { stripeClient } from '@better-auth/stripe/client'
 import { emailOTPClient } from 'better-auth/client/plugins'
 import { createAuthClient } from 'better-auth/react'
 import { env } from '@/env'
 
 export const authClient = createAuthClient({
   baseURL: env.NEXT_PUBLIC_WEBSITE_BASE_URL,
-  plugins: [emailOTPClient(), stripeClient()],
+  plugins: [emailOTPClient()],
 })

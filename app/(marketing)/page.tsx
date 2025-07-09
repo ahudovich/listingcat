@@ -49,7 +49,7 @@ export default async function HomePage() {
         <div className="flex justify-center">
           <BaseButton className="group min-w-50" size="lg" asChild>
             <Link href={isLoggedIn ? APP_REDIRECT_URL : '/create-account'}>
-              Join for free
+              Get free access
               <BaseIcon
                 className="group-hover:translate-x-1 transition-transform"
                 icon={ArrowRight02Icon}
@@ -59,7 +59,9 @@ export default async function HomePage() {
           </BaseButton>
         </div>
 
-        <p className="mt-4 font-medium text-xs text-tertiary">No credit card required.</p>
+        <p className="mt-4 font-medium text-xs text-tertiary">
+          It&apos;s free, there&apos;s no catch. Give it a try!
+        </p>
       </div>
 
       <figure className="mx-auto max-w-[69.75rem]">

@@ -76,6 +76,7 @@ export default function AuthLogin() {
             label="Email"
             type="email"
             value={email}
+            required={true}
             onChange={(event) => setEmail(event.target.value)}
             autoComplete="email"
           />
@@ -87,6 +88,7 @@ export default function AuthLogin() {
             label="Password"
             type="password"
             value={password}
+            required={true}
             onChange={(event) => setPassword(event.target.value)}
             autoComplete="current-password"
           />
