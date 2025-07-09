@@ -44,7 +44,7 @@ export function SubmitResourceForm() {
             />
           </div>
 
-          <div className="mb-6">
+          <div className="mb-8">
             <BaseInput
               id={`${id}-website-url`}
               name="websiteUrl"
