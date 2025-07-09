@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { BlueskyIcon, NewTwitterIcon, ThreadsIcon } from '@hugeicons/core-free-icons'
 import { FooterSubmitButton } from '@/components/layout/Footer/FooterSubmitButton'
@@ -72,7 +73,7 @@ export default function Footer() {
       <div className="container py-10 lg:flex">
         <div className="mb-8">
           <BaseLogo className="mb-3 w-35.5 h-5.5" />
-          <p className="mb-3 text-xs-relaxed">Marketing database for startups and indie hackers.</p>
+          <p className="mb-4 text-xs-relaxed">Marketing database for startups and indie hackers.</p>
           <ul className="flex items-center gap-3.5 mb-4">
             {socialLinks.map((link) => (
               <li key={link.url}>
@@ -117,9 +118,28 @@ export default function Footer() {
       </div>
 
       <div className="container">
-        <div className="py-6 border-t border-zinc-200">
-          <p className="text-[0.8125rem] text-secondary">
+        <div className="flex flex-col items-center py-6 border-t border-zinc-200 sm:flex-row sm:justify-between">
+          <p className="mb-2.5 text-[0.8125rem] text-secondary">
             &copy; {new Date().getFullYear()} Listing Cat. All rights reserved.
+          </p>
+
+          <p className="flex items-center gap-x-1.5 text-[0.8125rem] text-secondary">
+            Made by
+            <a
+              className="inline-flex items-center gap-x-1.5 text-secondary transition-colors hover:text-primary"
+              href="https://x.com/AndreiHudovich"
+              target="_blank"
+              rel="nofollow"
+            >
+              <Image
+                className="size-4 rounded-full"
+                src="/layout/footer/andrei-hudovich.png"
+                width={16}
+                height={16}
+                alt="Andrei Hudovich"
+              />
+              Andrei Hudovich
+            </a>
           </p>
         </div>
       </div>
