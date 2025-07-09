@@ -76,8 +76,12 @@ export default function Footer() {
           <ul className="flex items-center gap-3.5 mb-4">
             {socialLinks.map((link) => (
               <li key={link.url}>
-                <Link href={link.url} target="_blank">
-                  <BaseIcon className="size-4.5" icon={link.icon} strokeWidth={2} />
+                <Link className="group" href={link.url} target="_blank">
+                  <BaseIcon
+                    className="size-4.5 text-tertiary transition-colors group-hover:text-primary"
+                    icon={link.icon}
+                    strokeWidth={2}
+                  />
                 </Link>
               </li>
             ))}
@@ -92,7 +96,7 @@ export default function Footer() {
                 {section.items.map((link) => (
                   <li className="mb-2 last:mb-0" key={link.name}>
                     <Link
-                      className="inline-block py-0.5"
+                      className="inline-block py-0.5 transition-colors hover:text-primary"
                       href={link.url}
                       target={link.isExternal ? '_blank' : undefined}
                     >

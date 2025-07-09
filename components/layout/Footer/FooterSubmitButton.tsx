@@ -8,7 +8,10 @@ export function FooterSubmitButton() {
 
   return (
     <>
-      <button className="cursor-pointer" onClick={() => setIsSubmitModalOpen(true)}>
+      <button
+        className="cursor-pointer transition-colors hover:text-primary"
+        onClick={() => setIsSubmitModalOpen(true)}
+      >
         Submit resource
       </button>
 
