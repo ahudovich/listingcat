@@ -64,11 +64,11 @@ export default async function HomePage() {
         </p>
       </div>
 
-      <figure className="mx-auto max-w-[69.75rem]">
+      <figure className="mx-auto max-w-[68.0625rem]">
         <Image
-          src="/home/preview.png"
-          width={2232}
-          height={1202}
+          src="/home/preview-v2.png"
+          width={2178}
+          height={1204}
           sizes="100vw lg:960px"
           alt="Database preview"
           priority={true}

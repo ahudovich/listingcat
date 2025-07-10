@@ -71,10 +71,10 @@ export default function Footer() {
   return (
     <footer className="sticky top-[100vh] bg-gray-100 border-t border-zinc-200">
       <div className="container py-10 lg:flex">
-        <div className="mb-8">
-          <BaseLogo className="mb-3 w-35.5 h-5.5" />
+        <div className="mb-8 text-center sm:text-left">
+          <BaseLogo className="mx-auto mb-3 w-35.5 h-5.5 sm:mx-0" />
           <p className="mb-4 text-xs-relaxed">Marketing database for startups and indie hackers.</p>
-          <ul className="flex items-center gap-3.5 mb-4">
+          <ul className="flex items-center justify-center gap-3.5 mb-4 sm:justify-start">
             {socialLinks.map((link) => (
               <li key={link.url}>
                 <Link className="group" href={link.url} target="_blank">
@@ -89,7 +89,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="grid gap-6 sm:flex sm:gap-x-20 lg:ml-auto">
+        <div className="grid gap-6 text-center sm:flex sm:gap-x-20 sm:text-left lg:ml-auto">
           {links.map((section) => (
             <div className="text-xs" key={section.label}>
               <div className="mb-2.5 font-medium text-xs text-primary">{section.label}</div>
@@ -119,7 +119,7 @@ export default function Footer() {
 
       <div className="container">
         <div className="flex flex-col items-center py-6 border-t border-zinc-200 sm:flex-row sm:justify-between">
-          <p className="mb-2.5 text-[0.8125rem] text-secondary">
+          <p className="mb-2.5 text-[0.8125rem] text-secondary sm:mb-0">
             &copy; {new Date().getFullYear()} Listing Cat. All rights reserved.
           </p>
 
