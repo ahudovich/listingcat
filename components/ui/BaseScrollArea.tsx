@@ -11,7 +11,7 @@ export default function BaseScrollArea({
 }) {
   return (
     <ScrollArea.Root className={cn('relative overflow-hidden', className)} type="auto" {...props}>
-      <ScrollArea.ScrollAreaViewport className="size-full">
+      <ScrollArea.ScrollAreaViewport className="size-full [&>div]:h-full">
         {children}
       </ScrollArea.ScrollAreaViewport>
 

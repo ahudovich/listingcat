@@ -4,16 +4,13 @@ import { useState } from 'react'
 import { ArrowDown01Icon } from '@hugeicons/core-free-icons'
 import { Collapsible } from 'radix-ui'
 import SidebarLink from '@/components/app/Sidebar/SidebarLink'
+import { SidebarNavSubSection } from '@/components/app/Sidebar/SidebarNavSubSection'
 import BaseIcon from '@/components/ui/BaseIcon'
-import type { IconSvgElement } from '@hugeicons/react'
+import type { SidebarNavItem, SidebarNavSection } from '@/types/sidebar'
 
 interface SidebarNavSectionProps {
   label?: string
-  links: Array<{
-    label: string
-    path: string
-    icon: IconSvgElement
-  }>
+  links: Array<SidebarNavItem | SidebarNavSection>
 }
 
 export default function SidebarNavSection({ label, links }: SidebarNavSectionProps) {
@@ -43,7 +40,11 @@ export default function SidebarNavSection({ label, links }: SidebarNavSectionPro
         <ul className="grid gap-1">
           {links.map((link, index) => (
             <li key={index}>
-              <SidebarLink label={link.label} path={link.path} icon={link.icon} />
+              {'children' in link ? (
+                <SidebarNavSubSection link={link} />
+              ) : (
+                <SidebarLink label={link.label} path={link.path} icon={link.icon} />
+              )}
             </li>
           ))}
         </ul>
