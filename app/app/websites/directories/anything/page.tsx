@@ -1,21 +1,26 @@
 import { Metadata } from 'next'
+import { eq } from 'drizzle-orm'
 import DataTableDirectories from '@/components/app/DataTable/tables/DataTableDirectories'
 import PageHeader from '@/components/app/PageHeader'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
+import { ProductCategories } from '@/enums/ProductCategories.enum'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
-  title: 'Directories | Listing Cat',
+  title: 'Anything | Directories | Listing Cat',
 }
 
 export default async function DirectoriesPage() {
-  const data = await getDB().select().from(tables.directories)
+  const data = await getDB()
+    .select()
+    .from(tables.directories)
+    .where(eq(tables.directories.category, ProductCategories.Anything))
 
   return (
     <>
       <PageHeader
-        title="Directories"
-        description="List your products or services on various websites."
+        title="Directories for anything"
+        description="Here you can find directories that accept any type of products."
       />
 
       <BaseScrollArea className="h-full rounded-b-xl">

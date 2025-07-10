@@ -3,7 +3,11 @@ import {
   CanvasIcon,
   FolderLibraryIcon,
   MarketingIcon,
+  OpenSourceIcon,
+  Pot01Icon,
+  Robot01Icon,
   Rocket01Icon,
+  Settings02Icon,
   Store03Icon,
   TestTube01Icon,
 } from '@hugeicons/core-free-icons'
@@ -23,7 +27,33 @@ const navLinks = [
       {
         label: 'Directories',
         path: '/app/websites/directories',
-        icon: FolderLibraryIcon,
+        children: [
+          {
+            label: 'Anything',
+            path: '/app/websites/directories/anything',
+            icon: FolderLibraryIcon,
+          },
+          {
+            label: 'AI Tools',
+            path: '/app/websites/directories/ai-tools',
+            icon: Robot01Icon,
+          },
+          {
+            label: 'Developer Tools',
+            path: '/app/websites/directories/dev-tools',
+            icon: Settings02Icon,
+          },
+          {
+            label: 'Open Source',
+            path: '/app/websites/directories/open-source',
+            icon: OpenSourceIcon,
+          },
+          {
+            label: 'Boilerplates',
+            path: '/app/websites/directories/boilerplates',
+            icon: Pot01Icon,
+          },
+        ],
       },
       {
         label: 'Marketplaces',
@@ -63,7 +93,7 @@ export default async function Sidebar() {
         </Link>
       </div>
 
-      <nav className="grid gap-6">
+      <nav className="grid gap-3">
         {navLinks.map((link, index) => (
           <SidebarNavSection key={index} label={link.label} links={link.links} />
         ))}
