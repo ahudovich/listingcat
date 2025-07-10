@@ -23,7 +23,7 @@ export default function SidebarLink({ label, path, icon }: SidebarLinkProps) {
       )}
       href={path}
     >
-      <BaseIcon className="size-4.5 transition-colors" icon={icon} />
+      <BaseIcon className="shrink-0 size-4.5 transition-colors" icon={icon} />
       <span className="font-medium text-xs text-secondary">{label}</span>
     </Link>
   )
