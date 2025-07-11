@@ -5,7 +5,7 @@ import type { ComponentProps } from 'react'
 import type { VariantProps } from 'tailwind-variants'
 
 const categoryBadgeVariants = tv({
-  base: 'inline-block px-2 py-0.5 rounded-md font-semibold text-[0.625rem] leading-[0.875rem] tracking-[0.01rem] uppercase',
+  base: 'inline-block px-2 py-0.5 rounded-md font-semibold text-[0.625rem] leading-[0.875rem] tracking-[0.01rem] whitespace-nowrap uppercase',
   variants: {
     category: {
       [ProductCategories.AITools]: 'text-violet-800 bg-violet-200 border border-violet-500',

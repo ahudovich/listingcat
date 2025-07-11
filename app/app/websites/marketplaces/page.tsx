@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import DataTableMarketplaces from '@/components/app/DataTable/tables/DataTableMarketplaces'
 import PageHeader from '@/components/app/PageHeader'
-import BaseScrollArea from '@/components/ui/BaseScrollArea'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
@@ -18,9 +17,7 @@ export default async function MarketplacesPage() {
         description="Websites where you can sell products, provide services, share deals, etc."
       />
 
-      <BaseScrollArea className="h-full rounded-b-xl">
-        <DataTableMarketplaces data={data} />
-      </BaseScrollArea>
+      <DataTableMarketplaces data={data} />
     </>
   )
 }

@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import DataTableLaunchPlatforms from '@/components/app/DataTable/tables/DataTableLaunchPlatforms'
 import PageHeader from '@/components/app/PageHeader'
-import BaseScrollArea from '@/components/ui/BaseScrollArea'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
@@ -18,9 +17,7 @@ export default async function LaunchPlatformsPage() {
         description="Discover platforms where you can launch your products."
       />
 
-      <BaseScrollArea className="h-full rounded-b-xl">
-        <DataTableLaunchPlatforms data={data} />
-      </BaseScrollArea>
+      <DataTableLaunchPlatforms data={data} />
     </>
   )
 }
