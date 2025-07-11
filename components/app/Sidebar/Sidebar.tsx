@@ -87,7 +87,7 @@ const navLinks = [
 
 export default async function Sidebar() {
   return (
-    <aside className="w-72">
+    <aside className="w-72 h-full">
       <BaseScrollArea className="h-full">
         <div className="flex flex-col px-5 py-6 h-full">
           <div className="flex items-center gap-3 mb-8">

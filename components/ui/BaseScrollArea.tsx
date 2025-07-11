@@ -21,6 +21,13 @@ export default function BaseScrollArea({
       >
         <ScrollArea.ScrollAreaThumb className="flex-1 bg-zinc-400/70 rounded-full transition-colors hover:bg-zinc-400" />
       </ScrollArea.ScrollAreaScrollbar>
+
+      <ScrollArea.ScrollAreaScrollbar
+        className="flex p-1 h-3.5 bg-zinc-100 select-none touch-none"
+        orientation="horizontal"
+      >
+        <ScrollArea.ScrollAreaThumb className="flex-1 bg-zinc-400/70 rounded-full transition-colors hover:bg-zinc-400" />
+      </ScrollArea.ScrollAreaScrollbar>
     </ScrollArea.Root>
   )
 }
