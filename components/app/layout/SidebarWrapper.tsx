@@ -1,7 +1,8 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Cancel01Icon, Menu01Icon } from '@hugeicons/core-free-icons'
 import BaseIcon from '@/components/ui/BaseIcon'
 import BaseLogo from '@/components/ui/BaseLogo'
@@ -13,9 +14,16 @@ import type { RefObject } from 'react'
 
 export function SidebarWrapper({ children }: { children: React.ReactNode }) {
   const sidebarRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   useBodyScrollLock({ isOpen: isSidebarOpen, rootRef: sidebarRef as RefObject<HTMLDivElement> })
+
+  // Close sidebar when user navigates to a different page
+  useEffect(() => {
+    setIsSidebarOpen(false)
+  }, [pathname])
 
   return (
     <>
@@ -53,7 +61,7 @@ export function SidebarWrapper({ children }: { children: React.ReactNode }) {
         style={{ zIndex: zIndexes.mobileSidebar }}
       >
         <BaseScrollArea className="h-full">
-          <div className="relative">
+          <div className="relative h-full">
             <button
               className="absolute right-4 top-4 z-[1] grid size-8 cursor-pointer lg:hidden"
               type="button"
