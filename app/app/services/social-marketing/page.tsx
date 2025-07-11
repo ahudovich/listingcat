@@ -19,7 +19,7 @@ export default async function SocialMarketingPage() {
       />
 
       <BaseScrollArea>
-        <div className="grid grid-cols-2 gap-4 p-4 xl:grid-cols-3 2xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 p-4 xs:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {data.map((service) => (
             <ServiceSocialCard key={service.id} service={service} />
           ))}

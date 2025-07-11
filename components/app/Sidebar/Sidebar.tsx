@@ -14,7 +14,6 @@ import {
 import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
 import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
 import BaseLogo from '@/components/ui/BaseLogo'
-import BaseScrollArea from '@/components/ui/BaseScrollArea'
 
 const navLinks = [
   {
@@ -87,26 +86,24 @@ const navLinks = [
 
 export default async function Sidebar() {
   return (
-    <aside className="w-72">
-      <BaseScrollArea className="h-full">
-        <div className="flex flex-col px-5 py-6 h-full">
-          <div className="flex items-center gap-3 mb-8">
-            <Link className="self-start" href="/">
-              <BaseLogo className="w-32.5 h-5" />
-            </Link>
-          </div>
-
-          <nav className="grid gap-3 mb-6">
-            {navLinks.map((link, index) => (
-              <SidebarNavSection key={index} label={link.label} links={link.links} />
-            ))}
-          </nav>
-
-          <div className="mt-auto">
-            <SidebarProfile />
-          </div>
+    <aside className="w-72 h-full">
+      <div className="flex flex-col px-5 py-6 h-full">
+        <div className="flex items-center gap-3 mb-8">
+          <Link className="self-start" href="/">
+            <BaseLogo className="w-32.5 h-5" />
+          </Link>
         </div>
-      </BaseScrollArea>
+
+        <nav className="grid gap-3 mb-6">
+          {navLinks.map((link, index) => (
+            <SidebarNavSection key={index} label={link.label} links={link.links} />
+          ))}
+        </nav>
+
+        <div className="mt-auto">
+          <SidebarProfile />
+        </div>
+      </div>
     </aside>
   )
 }

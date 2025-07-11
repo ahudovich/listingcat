@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useLockBodyScroll } from 'react-use'
+import type { RefObject } from 'react'
 
-export function useBodyScrollLock({ isOpen }: { isOpen: boolean }) {
+export function useBodyScrollLock({
+  isOpen,
+  rootRef,
+}: {
+  isOpen: boolean
+  rootRef?: RefObject<HTMLElement> | null
+}) {
   const [isLocked, toggleLocked] = useState(false)
 
-  // TODO: Add ref handling
-  useLockBodyScroll(isLocked)
+  useLockBodyScroll(isLocked, rootRef ?? undefined)
 
   useEffect(() => {
     toggleLocked(isOpen)
