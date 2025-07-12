@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url'
+import { withContentCollections } from '@content-collections/next'
 import { withSentryConfig } from '@sentry/nextjs'
 import { createJiti } from 'jiti'
 
@@ -10,7 +11,7 @@ await jiti.import('./env')
 /** @type {import('next').NextConfig} */
 const nextConfig = {}
 
-export default withSentryConfig(nextConfig, {
+const sentryConfig = withSentryConfig(nextConfig, {
   org: 'listingcat',
   project: 'listingcat-next',
 
@@ -26,3 +27,5 @@ export default withSentryConfig(nextConfig, {
   // Automatically tree-shake Sentry logger statements to reduce bundle size
   disableLogger: true,
 })
+
+export default withContentCollections(sentryConfig)

@@ -94,3 +94,11 @@
   padding-right: 1rem;
   max-width: 72rem;
 }
+
+@utility container-article {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 42rem;
+}
