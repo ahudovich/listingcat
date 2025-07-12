@@ -7,3 +7,4 @@ These rules enforce standards for React code
 
 - Use latest React syntax and best practices
 - Always use long form syntax for boolean props, e.g. isModal={true}
+- Never use default export for components, prefer `export function ComponentName() { ... }`

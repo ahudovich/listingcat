@@ -18,6 +18,10 @@ const links: Array<{
     label: 'Links',
     items: [
       {
+        name: 'Blog',
+        url: '/blog',
+      },
+      {
         name: 'Contact us',
         url: `mailto:${EMAILS.SUPPORT}`,
       },
