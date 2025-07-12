@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight02Icon, CheckmarkCircle03Icon } from '@hugeicons/core-free-icons'
 import LastDatabaseUpdate from '@/components/LastDatabaseUpdate'
+import { TrustedBy } from '@/components/TrustedBy/TrustedBy'
 import BaseButton from '@/components/ui/BaseButton'
 import BaseIcon from '@/components/ui/BaseIcon'
 import { APP_REDIRECT_URL } from '@/enums/constants'
@@ -33,7 +34,7 @@ export default async function HomePage() {
           more, all in one place.
         </p>
 
-        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-3.5 mb-8 text-sm">
+        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2.5 mb-6 text-[0.9375rem] xs:gap-y-3.5 xs:mb-8 xs:text-sm">
           {heroFeatures.map((feature, index) => (
             <li className="flex items-center gap-2" key={index}>
               <BaseIcon
@@ -45,6 +46,8 @@ export default async function HomePage() {
             </li>
           ))}
         </ul>
+
+        <TrustedBy className="mb-6" />
 
         <div className="flex justify-center">
           <BaseButton className="group min-w-50" size="lg" asChild>
