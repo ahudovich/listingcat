@@ -69,7 +69,7 @@ export function TrustedBy({ className }: { className?: string }) {
           </li>
         ))}
       </ul>
-      Trusted by 300+ founders
+      Trusted by 400+ founders
     </div>
   )
 }

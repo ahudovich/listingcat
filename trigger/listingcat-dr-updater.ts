@@ -164,7 +164,7 @@ async function processTableDRUpdates(tableDef: TableWithWebsiteUrl): Promise<voi
 
 export const drUpdater = schedules.task({
   id: 'listingcat-dr-updater',
-  cron: '0 12 * * 1', // Every week on Monday at 12:00 UTC
+  // cron: '0 12 * * 1', // Every week on Monday at 12:00 UTC
   machine: { preset: 'micro' },
   maxDuration: 3600, // 1 hour
 
