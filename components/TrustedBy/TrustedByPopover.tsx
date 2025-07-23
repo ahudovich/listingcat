@@ -1,5 +1,6 @@
 import { Popover } from 'radix-ui'
 import { cn } from '@/utils/css'
+import { zIndexes } from '@/utils/z-indexes'
 
 export default function TrustedByPopover({
   className,
@@ -21,11 +22,12 @@ export default function TrustedByPopover({
       <Popover.Portal>
         <Popover.Content
           className={cn(
-            'overflow-hidden px-3 py-1.5 bg-white border border-layout-separator rounded-md shadow-lg text-xs text-secondary animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
+            'relative overflow-hidden px-3 py-1.5 bg-white border border-layout-separator rounded-md shadow-lg text-xs text-secondary animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
             className
           )}
           side="top"
           sideOffset={4}
+          style={{ zIndex: zIndexes.popover }}
         >
           <p className="mb-1 font-medium">
             <a

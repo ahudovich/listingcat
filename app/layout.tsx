@@ -10,7 +10,7 @@ const inter = Inter({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.className} h-full`}>
-      <body className="h-full font-text text-secondary antialiased">
+      <body className="relative h-full font-text text-secondary antialiased">
         <PostHogProvider />
         {children}
         <BaseToaster />
