@@ -25,8 +25,9 @@ export default async function HomePage() {
       <div className="mb-8 text-center md:mb-12">
         <LastDatabaseUpdate />
 
-        <h1 className="mb-2.5 mx-auto max-w-[38rem] font-black text-primary text-balance text-3xl md:mb-3 md:max-w-[44rem] md:text-5xl">
-          Marketing Database for&nbsp;Startups and Indie Hackers
+        <h1 className="mb-3.5 mx-auto max-w-[38rem] font-black text-primary text-balance text-2xl min-[27.5rem]:text-3xl md:mb-4 md:text-5xl">
+          Explore the Best Places to&nbsp;
+          <span className="border-b-4 border-emerald-600">Promote Your Startup</span>
         </h1>
 
         <p className="mb-5 mx-auto max-w-[38rem] text-sm-relaxed text-balance xs:text-md-relaxed md:mb-6 md:text-lg-relaxed">
@@ -34,7 +35,7 @@ export default async function HomePage() {
           more, all in one place.
         </p>
 
-        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2.5 mb-6 text-[0.9375rem] xs:gap-y-3.5 xs:mb-8 xs:text-sm">
+        <ul className="flex flex-wrap justify-center gap-x-4 gap-y-3.5 mb-6 text-[0.9375rem] xs:gap-x-8 xs:mb-8 xs:text-sm">
           {heroFeatures.map((feature, index) => (
             <li className="flex items-center gap-2" key={index}>
               <BaseIcon
