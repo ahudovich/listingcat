@@ -77,7 +77,7 @@ export default function Footer() {
       <div className="container py-10 lg:flex">
         <div className="mb-8 text-center sm:text-left">
           <BaseLogo className="mx-auto mb-3 w-35.5 h-5.5 sm:mx-0" />
-          <p className="mb-4 text-xs-relaxed">Marketing database for startups and indie hackers.</p>
+          <p className="mb-4 text-xs-relaxed">Explore the best places to promote your startup.</p>
           <ul className="flex items-center justify-center gap-3.5 mb-4 sm:justify-start">
             {socialLinks.map((link) => (
               <li key={link.url}>

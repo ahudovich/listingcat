@@ -1,5 +1,5 @@
 import { ReloadIcon } from '@hugeicons/core-free-icons'
-import { formatDistanceToNow } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
 import BaseIcon from '@/components/ui/BaseIcon'
 import BaseTooltip from '@/components/ui/BaseTooltip'
 import { getLastDatabaseUpdate } from '@/lib/db/operations'
@@ -15,7 +15,10 @@ export default async function LastDatabaseUpdate() {
         strokeWidth={2.5}
       />
       Last updated:{' '}
-      <BaseTooltip className="max-w-64" text="The last time the database was updated">
+      <BaseTooltip
+        className="max-w-64"
+        text={`We are committed to keep our database up-to-date. The last update was made on ${format(lastUpdateDate ?? new Date(), 'MMMM d')} at ${format(lastUpdateDate ?? new Date(), 'HH:MM')}.`}
+      >
         <span className="underline underline-offset-4 decoration-dotted cursor-help">
           {formatDistanceToNow(lastUpdateDate ?? new Date(), { addSuffix: true })}
         </span>
