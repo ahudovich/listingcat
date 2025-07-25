@@ -48,8 +48,6 @@ async function fetchSeoMetrics(
       },
     })
 
-    logger.log(`SEO metrics for ${url}:`, { response })
-
     return {
       dr: response.data.domain.domainRating || null,
       traffic: response.data.domain.traffic || null,
@@ -109,7 +107,7 @@ async function updateDrValues(
   skippedCount: number
   erroredCount: number
 } | null> {
-  // Update database with new SEO metrics (skip null values and unchanged values)
+  // Update database with new DR values (skip null values and unchanged values)
   const drUpdatesToMake = []
 
   let skippedCount = 0
@@ -191,6 +189,99 @@ async function updateDrValues(
   }
 }
 
+async function updateTrafficValues(
+  tableDef: TableWithWebsiteUrl,
+  seoMetricResults: Array<{
+    url: string
+    traffic: number | null
+  }>
+): Promise<{
+  updatedCount: number
+  skippedCount: number
+  erroredCount: number
+} | null> {
+  // Update database with new traffic values (skip null values and unchanged values)
+  const trafficUpdatesToMake = []
+
+  let skippedCount = 0
+  let erroredCount = 0
+
+  for (const seoMetricResult of seoMetricResults) {
+    if (seoMetricResult.traffic !== null) {
+      const currentTraffic = seoMetricResult?.traffic
+
+      // Only update if DR has changed (round to integer since DB column is an integer)
+      const roundedTraffic = Math.round(seoMetricResult.traffic)
+
+      if (roundedTraffic !== currentTraffic) {
+        trafficUpdatesToMake.push({
+          url: seoMetricResult.url,
+          newTraffic: roundedTraffic,
+        })
+      } else {
+        skippedCount++
+        logger.log(
+          `Skipping traffic update for ${seoMetricResult.url}: traffic unchanged (${seoMetricResult.traffic})`
+        )
+      }
+    } else {
+      erroredCount++
+      logger.log(`Skipping traffic update for ${seoMetricResult.url}: traffic is null (error)`)
+    }
+  }
+
+  // Perform bulk update if there are updates to make
+  let updatedCount = 0
+
+  if (trafficUpdatesToMake.length > 0) {
+    try {
+      const updateValues = trafficUpdatesToMake.map((update) => [update.url, update.newTraffic])
+
+      await db.execute(sql`
+        UPDATE ${sql.identifier(tableDef.sqlTableName)}
+        SET traffic = updates.new_traffic::integer, updated_at = NOW()
+        FROM (VALUES ${sql.join(updateValues, sql`, `)}) AS updates(website_url, new_traffic)
+        WHERE ${sql.identifier(tableDef.sqlTableName)}.website_url = updates.website_url
+      `)
+
+      updatedCount = trafficUpdatesToMake.length
+
+      logger.log(
+        `Successfully updated traffic values for ${updatedCount} records in table ${tableDef.sqlTableName}`
+      )
+
+      return {
+        updatedCount,
+        skippedCount,
+        erroredCount,
+      }
+    } catch (updateError: unknown) {
+      logger.error(`Failed to perform bulk update for table ${tableDef.sqlTableName}:`, {
+        updateError,
+      })
+
+      // Send Discord error notification
+      const errorMessage =
+        `❌ **${tableDef.name} Traffic Update FAILED**\n\n` +
+        `Error occurred during bulk database update\n\n` +
+        `Please check logs for detailed error information.`
+
+      await sendDiscordNotification({
+        type: 'cron',
+        message: errorMessage,
+      })
+
+      return null
+    }
+  }
+
+  return {
+    updatedCount: 0,
+    skippedCount: trafficUpdatesToMake.length,
+    erroredCount: 0,
+  }
+}
+
 async function processTable(tableDef: TableWithWebsiteUrl): Promise<void> {
   logger.log(`Starting SEO metrics update for table: ${tableDef.sqlTableName}`)
 
@@ -240,11 +331,24 @@ async function processTable(tableDef: TableWithWebsiteUrl): Promise<void> {
       totalCount: seoMetricResults.length,
     })
   }
+
+  const trafficUpdateResults = await updateTrafficValues(tableDef, seoMetricResults)
+
+  if (trafficUpdateResults) {
+    await logUpdateResults({
+      tableDef,
+      label: 'Traffic',
+      erroredCount: trafficUpdateResults.erroredCount,
+      updatedCount: trafficUpdateResults.updatedCount,
+      skippedCount: trafficUpdateResults.skippedCount,
+      totalCount: seoMetricResults.length,
+    })
+  }
 }
 
 export const seoMetricsUpdater = schedules.task({
   id: 'listingcat-seo-metrics-updater',
-  // cron: '0 12 * * 1', // Every week on Monday at 12:00 UTC
+  cron: '0 08 * * 6', // Every week on Saturday at 08:00 UTC
   machine: { preset: 'micro' },
   maxDuration: 3600, // 1 hour
 
