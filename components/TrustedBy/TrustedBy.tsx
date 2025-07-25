@@ -34,6 +34,16 @@ const trustedBy = [
     },
   },
   {
+    name: 'Joschua Sünnecke',
+    image: '/home/founders/joschua-sunnecke.png',
+    profileUrl: 'https://x.com/JoschuaBuilds',
+    product: {
+      name: 'Postel',
+      url: 'https://www.postel.app',
+      logo: '/home/founders/logo-postel.svg',
+    },
+  },
+  {
     name: 'Kostya Nesterovich',
     image: '/home/founders/kostya-nesterovich.png',
     profileUrl: 'https://x.com/nstkostya',
