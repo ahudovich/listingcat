@@ -20,7 +20,8 @@ interface SeoApiResponse {
   }
 }
 
-const API_RATE_LIMIT_IN_SECONDS = 0.5
+// 3 requests per second
+const API_RATE_LIMIT_IN_SECONDS = 0.35
 
 const db = getDB()
 
