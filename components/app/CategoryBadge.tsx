@@ -5,15 +5,15 @@ import type { ComponentProps } from 'react'
 import type { VariantProps } from 'tailwind-variants'
 
 const categoryBadgeVariants = tv({
-  base: 'inline-block px-2 py-0.5 rounded-md font-semibold text-[0.625rem] leading-[0.875rem] tracking-[0.01rem] whitespace-nowrap uppercase',
+  base: 'inline-block px-3 py-0.5 rounded-full font-semibold text-[0.625rem] leading-[0.875rem] tracking-[0.01rem] whitespace-nowrap uppercase',
   variants: {
     category: {
-      [ProductCategories.AITools]: 'text-violet-800 bg-violet-200 border border-violet-500',
-      [ProductCategories.Anything]: 'text-green-800 bg-green-200 border border-green-500',
-      [ProductCategories.Boilerplates]: 'text-yellow-800 bg-yellow-200 border border-yellow-500',
-      [ProductCategories.DevTools]: 'text-blue-800 bg-blue-200 border border-blue-500',
-      [ProductCategories.Directories]: 'text-orange-800 bg-orange-200 border border-orange-500',
-      [ProductCategories.OpenSource]: 'text-zinc-800 bg-zinc-200 border border-zinc-500',
+      [ProductCategories.AITools]: 'text-violet-800 bg-violet-100 border border-violet-600/50',
+      [ProductCategories.Anything]: 'text-teal-800 bg-teal-100 border border-teal-600/50',
+      [ProductCategories.Boilerplates]: 'text-yellow-800 bg-yellow-100 border border-yellow-600/50',
+      [ProductCategories.DevTools]: 'text-blue-800 bg-blue-100 border border-blue-600/50',
+      [ProductCategories.Directories]: 'text-orange-800 bg-orange-100 border border-orange-600/50',
+      [ProductCategories.OpenSource]: 'text-zinc-800 bg-zinc-100 border border-zinc-600/50',
     },
   },
   defaultVariants: {
