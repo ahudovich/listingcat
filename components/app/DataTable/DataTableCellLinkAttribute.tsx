@@ -21,7 +21,7 @@ export default function DataTableCellLinkAttribute({
     <div className="flex items-center gap-1.5 capitalize">
       <div
         className={cn(
-          'inline-flex items-center justify-center gap-1 px-2 py-0.5 min-w-16 rounded-full font-semibold text-[0.625rem] leading-[0.875rem] tracking-[0.01rem] whitespace-nowrap uppercase',
+          'inline-flex items-center justify-center gap-1 px-2 py-0.5 min-w-24 rounded-full font-semibold text-[0.625rem] leading-[0.875rem] tracking-[0.01rem] whitespace-nowrap uppercase',
           isDofollow
             ? 'text-green-800 bg-green-100 border border-green-600/50'
             : 'text-red-800 bg-red-100 border border-red-600/50'
