@@ -5,12 +5,14 @@ import { zIndexes } from '@/utils/z-indexes'
 export default function TrustedByPopover({
   className,
   name,
+  title,
   product,
   profileUrl,
   children,
 }: {
   className?: string
   name: string
+  title: string
   profileUrl: string
   product: { name: string; url: string; logo: string }
   children: React.ReactNode
@@ -41,7 +43,7 @@ export default function TrustedByPopover({
           </p>
 
           <p className="flex items-center gap-1 text-[0.8125rem]">
-            Founder of{' '}
+            {title} of{' '}
             <a
               className="inline-flex items-center gap-1.25 font-semibold transition-colors hover:text-accent"
               href={product.url}

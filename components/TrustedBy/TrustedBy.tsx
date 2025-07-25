@@ -5,6 +5,7 @@ import TrustedByPopover from './TrustedByPopover'
 const trustedBy = [
   {
     name: 'Nathan Covey',
+    title: 'Founder',
     image: '/home/founders/nathan-covey.png',
     profileUrl: 'https://x.com/nathan_covey',
     product: {
@@ -15,6 +16,7 @@ const trustedBy = [
   },
   {
     name: 'Evgeniy Mikholap',
+    title: 'Co‑Founder',
     image: '/home/founders/evgeniy-mikholap.png',
     profileUrl: 'https://x.com/evgeniymikholap',
     product: {
@@ -25,6 +27,7 @@ const trustedBy = [
   },
   {
     name: 'Piotr Kulpinski',
+    title: 'Founder',
     image: '/home/founders/piotr-kulpinski.png',
     profileUrl: 'https://x.com/piotrkulpinski',
     product: {
@@ -34,8 +37,9 @@ const trustedBy = [
     },
   },
   {
-    name: 'Joschua Sünnecke',
-    image: '/home/founders/joschua-sunnecke.png',
+    name: 'Joschua Builds',
+    title: 'Co‑Founder',
+    image: '/home/founders/joschua-builds.png',
     profileUrl: 'https://x.com/JoschuaBuilds',
     product: {
       name: 'Postel',
@@ -45,6 +49,7 @@ const trustedBy = [
   },
   {
     name: 'Kostya Nesterovich',
+    title: 'Founder',
     image: '/home/founders/kostya-nesterovich.png',
     profileUrl: 'https://x.com/nstkostya',
     product: {
@@ -63,6 +68,7 @@ export function TrustedBy({ className }: { className?: string }) {
           <li key={founder.name} className="-mr-2 cursor-pointer last:mr-0">
             <TrustedByPopover
               name={founder.name}
+              title={founder.title}
               product={founder.product}
               profileUrl={founder.profileUrl}
             >
