@@ -8,6 +8,7 @@ import DataTableCellLinkAttribute from '@/components/app/DataTable/DataTableCell
 import DataTableCellName from '@/components/app/DataTable/DataTableCellName'
 import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricing'
 import DataTableCellSubmission from '@/components/app/DataTable/DataTableCellSubmission'
+import { DataTableCellTraffic } from '@/components/app/DataTable/DataTableCellTraffic'
 import DataTableWebsites from '@/components/app/DataTable/tables/DataTableWebsites'
 import type { Directory } from '@/lib/db/schema/tables/directories'
 
@@ -29,6 +30,17 @@ const columns = [
     size: 84,
     meta: {
       tooltip: 'Domain Rating (by Ahrefs). Updated weekly.',
+    },
+  }),
+
+  columnHelper.accessor('traffic', {
+    header: 'Traffic',
+    cell: (info) => <DataTableCellTraffic value={info.getValue()} />,
+    sortingFn: 'basic',
+    size: 100,
+    meta: {
+      tooltip:
+        'The estimated number of monthly visits from organic search (by Ahrefs). Updated weekly.',
     },
   }),
 
