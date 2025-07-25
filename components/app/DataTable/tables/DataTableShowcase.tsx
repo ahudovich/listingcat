@@ -35,7 +35,12 @@ const columns = [
 
   columnHelper.accessor('traffic', {
     header: 'Traffic',
-    cell: (info) => <DataTableCellTraffic value={info.getValue()} />,
+    cell: (info) => (
+      <DataTableCellTraffic
+        value={info.getValue()}
+        webAnalyticsUrl={info.row.original.webAnalyticsUrl}
+      />
+    ),
     sortingFn: 'basic',
     size: 100,
     meta: {

@@ -23,6 +23,7 @@ export default function DataTableCellPricing({
       ) : (
         <>{value}</>
       )}
+
       {pricingUrl && (
         <Link className="group/link" href={pricingUrl} target="_blank">
           <BaseIcon
