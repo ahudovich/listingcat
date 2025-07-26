@@ -10,6 +10,7 @@ import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricin
 import DataTableCellSubmission from '@/components/app/DataTable/DataTableCellSubmission'
 import { DataTableCellTraffic } from '@/components/app/DataTable/DataTableCellTraffic'
 import DataTableWebsites from '@/components/app/DataTable/tables/DataTableWebsites'
+import { cn } from '@/utils/css'
 import type { Directory } from '@/lib/db/schema/tables/directories'
 
 const columnHelper = createColumnHelper<Directory>()
@@ -29,7 +30,7 @@ const columns = [
     sortingFn: 'basic',
     size: 84,
     meta: {
-      tooltip: 'Domain Rating (by Ahrefs). Updated weekly.',
+      tooltip: 'Domain Rating (by Ahrefs). Updated weekly',
     },
   }),
 
@@ -45,7 +46,22 @@ const columns = [
     size: 100,
     meta: {
       tooltip:
-        'The estimated number of monthly visits from organic search (by Ahrefs). Updated weekly.',
+        'The estimated number of monthly visits from organic search (by Ahrefs). Updated weekly',
+    },
+  }),
+
+  columnHelper.accessor('spamScore', {
+    header: 'Spam Score',
+    cell: (info) => (
+      <div className={cn('', info.row.original.spamScore === -1 && 'text-faded')}>
+        {info.row.original.spamScore !== -1 ? `${info.row.original.spamScore}%` : '--'}
+      </div>
+    ),
+    sortingFn: 'basic',
+    size: 130,
+    meta: {
+      tooltip:
+        'Represents the percentage (0-100%) of sites with similar features that were penalized or banned by Google. The lower the score the better (by Moz.com)',
     },
   }),
 

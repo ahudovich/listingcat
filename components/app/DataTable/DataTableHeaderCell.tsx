@@ -34,7 +34,7 @@ export default function DataTableHeaderCell({
     <th className="p-0" style={{ width: size && `${size / 16}rem` }}>
       <Component
         className={cn(
-          'relative flex items-center px-4 h-10.5 w-full bg-zinc-100 border-b border-b-zinc-200 font-medium text-xs select-none',
+          'relative flex items-center px-4 h-10.5 w-full bg-zinc-100 border-b border-b-zinc-200 font-medium text-xs whitespace-nowrap select-none',
           isSortable && 'text-left cursor-pointer'
         )}
         type={isSortable ? 'button' : undefined}
