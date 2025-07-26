@@ -10,6 +10,7 @@ import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricin
 import DataTableCellSubmission from '@/components/app/DataTable/DataTableCellSubmission'
 import { DataTableCellTraffic } from '@/components/app/DataTable/DataTableCellTraffic'
 import DataTableWebsites from '@/components/app/DataTable/tables/DataTableWebsites'
+import { cn } from '@/utils/css'
 import type { Directory } from '@/lib/db/schema/tables/directories'
 
 const columnHelper = createColumnHelper<Directory>()
@@ -51,7 +52,11 @@ const columns = [
 
   columnHelper.accessor('spamScore', {
     header: 'Spam Score',
-    cell: (info) => (info.row.original.spamScore ? `${info.row.original.spamScore}%` : 'N/A'),
+    cell: (info) => (
+      <div className={cn('', info.row.original.spamScore === -1 && 'text-faded')}>
+        {info.row.original.spamScore !== -1 ? `${info.row.original.spamScore}%` : '--'}
+      </div>
+    ),
     sortingFn: 'basic',
     size: 130,
     meta: {
