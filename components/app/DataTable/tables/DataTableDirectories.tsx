@@ -29,7 +29,7 @@ const columns = [
     sortingFn: 'basic',
     size: 84,
     meta: {
-      tooltip: 'Domain Rating (by Ahrefs). Updated weekly.',
+      tooltip: 'Domain Rating (by Ahrefs). Updated weekly',
     },
   }),
 
@@ -45,7 +45,7 @@ const columns = [
     size: 100,
     meta: {
       tooltip:
-        'The estimated number of monthly visits from organic search (by Ahrefs). Updated weekly.',
+        'The estimated number of monthly visits from organic search (by Ahrefs). Updated weekly',
     },
   }),
 
@@ -56,7 +56,7 @@ const columns = [
     size: 130,
     meta: {
       tooltip:
-        'Represents the percentage (0-100%) of sites with similar features that were penalized or banned by Google. The lower the score the better. By Moz.com',
+        'Represents the percentage (0-100%) of sites with similar features that were penalized or banned by Google. The lower the score the better (by Moz.com)',
     },
   }),
 
