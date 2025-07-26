@@ -348,7 +348,7 @@ async function processTable(tableDef: TableWithWebsiteUrl): Promise<void> {
 }
 
 export const seoMetricsUpdater = schedules.task({
-  id: 'listingcat-seo-metrics-updater',
+  id: 'listingcat-seo-metrics',
   cron: '0 08 * * 5', // Every week on Friday at 08:00 UTC
   machine: { preset: 'micro' },
   maxDuration: 3600, // 1 hour

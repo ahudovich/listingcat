@@ -1,0 +1,1 @@
+ALTER TABLE "directories" ADD COLUMN "spam_score" smallint;

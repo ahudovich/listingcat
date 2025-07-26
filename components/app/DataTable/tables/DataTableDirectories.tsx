@@ -49,6 +49,17 @@ const columns = [
     },
   }),
 
+  columnHelper.accessor('spamScore', {
+    header: 'Spam Score',
+    cell: (info) => (info.row.original.spamScore ? `${info.row.original.spamScore}%` : 'N/A'),
+    sortingFn: 'basic',
+    size: 130,
+    meta: {
+      tooltip:
+        'Represents the percentage (0-100%) of sites with similar features that were penalized or banned by Google. The lower the score the better. By Moz.com',
+    },
+  }),
+
   columnHelper.accessor('pricingModel', {
     header: 'Pricing',
     cell: (info) => (

@@ -1,4 +1,4 @@
-import { boolean, integer, pgTable, text } from 'drizzle-orm/pg-core'
+import { boolean, integer, pgTable, smallint, text } from 'drizzle-orm/pg-core'
 import { domainRatings, id, linkAttributes, pricing, timestamps } from '../helpers/columns'
 import { productCategoryEnum, TABLE_NAMES } from '../helpers/enums'
 
@@ -11,6 +11,7 @@ export const directories = pgTable(TABLE_NAMES.DIRECTORIES, {
   categoryNotes: text(),
   ...domainRatings,
   traffic: integer().notNull(),
+  spamScore: smallint(),
   webAnalyticsUrl: text().unique(),
   ...pricing,
   ...linkAttributes,
