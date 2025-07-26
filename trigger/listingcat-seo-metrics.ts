@@ -36,7 +36,7 @@ const TABLES_WITH_WEBSITE_URL = [
 type TableWithWebsiteUrl = (typeof TABLES_WITH_WEBSITE_URL)[number]
 
 async function fetchSeoMetrics(
-  url: string
+  websiteUrl: string
 ): Promise<{ dr: number | null; traffic: number | null } | null> {
   try {
     const response = await ofetch<SeoApiResponse>(`https://${env.RAPIDAPI_HOST}/url-metrics`, {
@@ -45,7 +45,7 @@ async function fetchSeoMetrics(
         'x-rapidapi-host': env.RAPIDAPI_HOST,
       },
       params: {
-        url,
+        url: websiteUrl,
       },
     })
 
@@ -54,12 +54,12 @@ async function fetchSeoMetrics(
       traffic: response.data.domain.traffic || null,
     }
   } catch (error: unknown) {
-    logger.error(`Error fetching SEO metrics for ${url}:`, { error })
+    logger.error(`Error fetching SEO metrics for ${websiteUrl}:`, { error })
     return null
   }
 }
 
-async function logUpdateResults({
+async function logResultsUpdate({
   tableDef,
   label,
   updatedCount,
@@ -99,8 +99,12 @@ async function logUpdateResults({
 
 async function updateDrValues(
   tableDef: TableWithWebsiteUrl,
-  seoMetricResults: Array<{
-    url: string
+  newSeoMetricResults: Array<{
+    websiteUrl: string
+    dr: number | null
+  }>,
+  oldSeoMetricResults: Array<{
+    websiteUrl: string
     dr: number | null
   }>
 ): Promise<{
@@ -114,27 +118,28 @@ async function updateDrValues(
   let skippedCount = 0
   let erroredCount = 0
 
-  for (const seoMetricResult of seoMetricResults) {
-    if (seoMetricResult.dr !== null) {
-      const currentDR = seoMetricResult?.dr
-
+  for (const newSeoMetricResult of newSeoMetricResults) {
+    if (newSeoMetricResult.dr !== null) {
       // Only update if DR has changed (round to integer since DB expects smallint)
-      const roundedDR = Math.round(seoMetricResult.dr)
+      const newDR = Math.round(newSeoMetricResult.dr)
+      const oldDR =
+        oldSeoMetricResults.find(({ websiteUrl }) => websiteUrl === newSeoMetricResult.websiteUrl)
+          ?.dr ?? null
 
-      if (roundedDR !== currentDR) {
+      if (newDR !== oldDR) {
         drUpdatesToMake.push({
-          url: seoMetricResult.url,
-          newDR: roundedDR,
+          websiteUrl: newSeoMetricResult.websiteUrl,
+          newDR,
         })
       } else {
         skippedCount++
         logger.log(
-          `Skipping DR update for ${seoMetricResult.url}: DR unchanged (${seoMetricResult.dr})`
+          `Skipping DR update for ${newSeoMetricResult.websiteUrl}: DR unchanged (${newDR})`
         )
       }
     } else {
       erroredCount++
-      logger.log(`Skipping DR update for ${seoMetricResult.url}: DR is null (error)`)
+      logger.log(`Skipping DR update for ${newSeoMetricResult.websiteUrl}: DR is null (error)`)
     }
   }
 
@@ -143,7 +148,7 @@ async function updateDrValues(
 
   if (drUpdatesToMake.length > 0) {
     try {
-      const updateValues = drUpdatesToMake.map((update) => [update.url, update.newDR])
+      const updateValues = drUpdatesToMake.map(({ websiteUrl, newDR }) => [websiteUrl, newDR])
 
       await db.execute(sql`
         UPDATE ${sql.identifier(tableDef.sqlTableName)}
@@ -192,8 +197,12 @@ async function updateDrValues(
 
 async function updateTrafficValues(
   tableDef: TableWithWebsiteUrl,
-  seoMetricResults: Array<{
-    url: string
+  newSeoMetricResults: Array<{
+    websiteUrl: string
+    traffic: number | null
+  }>,
+  oldSeoMetricResults: Array<{
+    websiteUrl: string
     traffic: number | null
   }>
 ): Promise<{
@@ -207,27 +216,30 @@ async function updateTrafficValues(
   let skippedCount = 0
   let erroredCount = 0
 
-  for (const seoMetricResult of seoMetricResults) {
-    if (seoMetricResult.traffic !== null) {
-      const currentTraffic = seoMetricResult?.traffic
-
+  for (const newSeoMetricResult of newSeoMetricResults) {
+    if (newSeoMetricResult.traffic !== null) {
       // Only update if DR has changed (round to integer since DB column is an integer)
-      const roundedTraffic = Math.round(seoMetricResult.traffic)
+      const newTraffic = Math.round(newSeoMetricResult.traffic)
+      const oldTraffic =
+        oldSeoMetricResults.find(({ websiteUrl }) => websiteUrl === newSeoMetricResult.websiteUrl)
+          ?.traffic ?? null
 
-      if (roundedTraffic !== currentTraffic) {
+      if (newTraffic !== oldTraffic) {
         trafficUpdatesToMake.push({
-          url: seoMetricResult.url,
-          newTraffic: roundedTraffic,
+          websiteUrl: newSeoMetricResult.websiteUrl,
+          newTraffic,
         })
       } else {
         skippedCount++
         logger.log(
-          `Skipping traffic update for ${seoMetricResult.url}: traffic unchanged (${seoMetricResult.traffic})`
+          `Skipping traffic update for ${newSeoMetricResult.websiteUrl}: traffic unchanged (${newTraffic})`
         )
       }
     } else {
       erroredCount++
-      logger.log(`Skipping traffic update for ${seoMetricResult.url}: traffic is null (error)`)
+      logger.log(
+        `Skipping traffic update for ${newSeoMetricResult.websiteUrl}: traffic is null (error)`
+      )
     }
   }
 
@@ -236,7 +248,10 @@ async function updateTrafficValues(
 
   if (trafficUpdatesToMake.length > 0) {
     try {
-      const updateValues = trafficUpdatesToMake.map((update) => [update.url, update.newTraffic])
+      const updateValues = trafficUpdatesToMake.map(({ websiteUrl, newTraffic }) => [
+        websiteUrl,
+        newTraffic,
+      ])
 
       await db.execute(sql`
         UPDATE ${sql.identifier(tableDef.sqlTableName)}
@@ -286,8 +301,8 @@ async function updateTrafficValues(
 async function processTable(tableDef: TableWithWebsiteUrl): Promise<void> {
   logger.log(`Starting SEO metrics update for table: ${tableDef.sqlTableName}`)
 
-  // Get all URLs with current DR values for this table
-  const result = await db
+  // Get all URLs with current DR and traffic values for this table
+  const oldSeoMetricResults = await db
     .select({
       dr: tableDef.table.dr,
       traffic: tableDef.table.traffic,
@@ -296,22 +311,22 @@ async function processTable(tableDef: TableWithWebsiteUrl): Promise<void> {
     .from(tableDef.table)
 
   // Extract URLs into an array
-  const urls = result.map((row) => row.websiteUrl)
+  const websiteUrls = oldSeoMetricResults.map((row) => row.websiteUrl)
 
-  logger.log(`Found ${urls.length} URLs in table "${tableDef.sqlTableName}"`)
+  logger.log(`Found ${websiteUrls.length} URLs in table "${tableDef.sqlTableName}"`)
 
   // Fetch metrics for each URL with a delay
-  const seoMetricResults: Array<{
-    url: string
+  const newSeoMetricResults: Array<{
+    websiteUrl: string
     dr: number | null
     traffic: number | null
   }> = []
 
-  for (const url of urls) {
-    const seoMetrics = await fetchSeoMetrics(url)
+  for (const websiteUrl of websiteUrls) {
+    const seoMetrics = await fetchSeoMetrics(websiteUrl)
 
-    seoMetricResults.push({
-      url,
+    newSeoMetricResults.push({
+      websiteUrl,
       dr: seoMetrics?.dr ?? null,
       traffic: seoMetrics?.traffic ?? null,
     })
@@ -320,29 +335,33 @@ async function processTable(tableDef: TableWithWebsiteUrl): Promise<void> {
     await wait.for({ seconds: API_RATE_LIMIT_IN_SECONDS })
   }
 
-  const drUpdateResults = await updateDrValues(tableDef, seoMetricResults)
+  const drUpdateResults = await updateDrValues(tableDef, newSeoMetricResults, oldSeoMetricResults)
 
   if (drUpdateResults) {
-    await logUpdateResults({
+    await logResultsUpdate({
       tableDef,
       label: 'DR',
       erroredCount: drUpdateResults.erroredCount,
       updatedCount: drUpdateResults.updatedCount,
       skippedCount: drUpdateResults.skippedCount,
-      totalCount: seoMetricResults.length,
+      totalCount: newSeoMetricResults.length,
     })
   }
 
-  const trafficUpdateResults = await updateTrafficValues(tableDef, seoMetricResults)
+  const trafficUpdateResults = await updateTrafficValues(
+    tableDef,
+    newSeoMetricResults,
+    oldSeoMetricResults
+  )
 
   if (trafficUpdateResults) {
-    await logUpdateResults({
+    await logResultsUpdate({
       tableDef,
       label: 'Traffic',
       erroredCount: trafficUpdateResults.erroredCount,
       updatedCount: trafficUpdateResults.updatedCount,
       skippedCount: trafficUpdateResults.skippedCount,
-      totalCount: seoMetricResults.length,
+      totalCount: newSeoMetricResults.length,
     })
   }
 }

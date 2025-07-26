@@ -24,7 +24,7 @@ const TABLES_WITH_WEBSITE_URL = [
 
 type TableWithWebsiteUrl = (typeof TABLES_WITH_WEBSITE_URL)[number]
 
-async function fetchMetrics(url: string): Promise<{ spamScore: number | null } | null> {
+async function fetchMetrics(websiteUrl: string): Promise<{ spamScore: number | null } | null> {
   try {
     // Response is JSON string
     const response = await ofetch<string>('https://moz-da-pa-low-cost.p.rapidapi.com/v2/getDaPa', {
@@ -34,7 +34,7 @@ async function fetchMetrics(url: string): Promise<{ spamScore: number | null } |
         'x-rapidapi-host': 'moz-da-pa-low-cost.p.rapidapi.com',
       },
       body: {
-        q: url,
+        q: websiteUrl,
         key: '8b2ebeafe6e0e5b4238824831af5c466',
       },
     })
@@ -51,12 +51,12 @@ async function fetchMetrics(url: string): Promise<{ spamScore: number | null } |
 
     return null
   } catch (error: unknown) {
-    logger.error(`Error fetching metrics for ${url}:`, { error })
+    logger.error(`Error fetching metrics for ${websiteUrl}:`, { error })
     return null
   }
 }
 
-async function logUpdateResults({
+async function logResultsUpdate({
   tableDef,
   label,
   updatedCount,
@@ -124,7 +124,7 @@ async function updateSpamScoreValues(
 
       if (newSpamScore !== oldSpamScore) {
         spamScoreUpdatesToMake.push({
-          url: newMetricResult.websiteUrl,
+          websiteUrl: newMetricResult.websiteUrl,
           newSpamScore: newMetricResult.spamScore,
         })
       } else {
@@ -146,7 +146,10 @@ async function updateSpamScoreValues(
 
   if (spamScoreUpdatesToMake.length > 0) {
     try {
-      const updateValues = spamScoreUpdatesToMake.map((update) => [update.url, update.newSpamScore])
+      const updateValues = spamScoreUpdatesToMake.map(({ websiteUrl, newSpamScore }) => [
+        websiteUrl,
+        newSpamScore,
+      ])
 
       await db.execute(sql`
         UPDATE ${sql.identifier(tableDef.sqlTableName)}
@@ -234,7 +237,7 @@ async function processTable(tableDef: TableWithWebsiteUrl): Promise<void> {
   )
 
   if (spamScoreUpdateResults) {
-    await logUpdateResults({
+    await logResultsUpdate({
       tableDef,
       label: 'Spam Score',
       erroredCount: spamScoreUpdateResults.erroredCount,
