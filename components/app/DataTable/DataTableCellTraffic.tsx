@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
 import BaseIcon from '@/components/ui/BaseIcon'
 import BaseTooltip from '@/components/ui/BaseTooltip'
-import { cn } from '@/utils/css'
 import { formatNumber } from '@/utils/formatters'
 
 export function DataTableCellTraffic({
@@ -13,8 +12,8 @@ export function DataTableCellTraffic({
   webAnalyticsUrl: string | null
 }) {
   return (
-    <div className={cn('flex items-center gap-x-1.5', value === 0 && 'text-faded')}>
-      {value === 0 ? '--' : formatNumber(value)}
+    <div className="flex items-center gap-x-1.5">
+      {formatNumber(value)}
       {webAnalyticsUrl && (
         <BaseTooltip className="max-w-56" text="Open web analytics">
           <Link className="group/link" href={webAnalyticsUrl} target="_blank">
