@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import {
   CanvasIcon,
+  DashboardSquare01Icon,
   FolderLibraryIcon,
   MarketingIcon,
   OpenSourceIcon,
@@ -47,6 +48,11 @@ const navLinks = [
             label: 'Open Source',
             path: '/app/websites/directories/open-source',
             icon: OpenSourceIcon,
+          },
+          {
+            label: 'Directories',
+            path: '/app/websites/directories/directories',
+            icon: DashboardSquare01Icon,
           },
           {
             label: 'Boilerplates',

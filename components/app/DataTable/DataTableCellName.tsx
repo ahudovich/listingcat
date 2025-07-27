@@ -12,7 +12,7 @@ export default function DataTableCellName({
   return (
     <div className="flex items-center">
       <Link
-        className="group/link inline-flex items-center gap-2 text-secondary leading-4.5"
+        className="group/link inline-flex items-center gap-2 text-secondary leading-4.5 whitespace-nowrap"
         href={websiteUrl}
         target="_blank"
       >
