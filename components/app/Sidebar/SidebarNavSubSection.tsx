@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowDown01Icon, Folder01Icon, Folder02Icon } from '@hugeicons/core-free-icons'
+import { ArrowUp01Icon, Folder01Icon, Folder02Icon } from '@hugeicons/core-free-icons'
 import { Collapsible } from 'radix-ui'
 import SidebarLink from '@/components/app/Sidebar/SidebarLink'
 import BaseIcon from '@/components/ui/BaseIcon'
@@ -20,7 +20,7 @@ export function SidebarNavSubSection({ link }: { link: SidebarNavSection }) {
           <span className="font-medium text-xs text-secondary">{link.label}</span>
           <BaseIcon
             className="shrink-0 ml-auto size-4 transition-all group-data-[state=closed]:-rotate-180"
-            icon={ArrowDown01Icon}
+            icon={ArrowUp01Icon}
           />
         </button>
       </Collapsible.Trigger>
