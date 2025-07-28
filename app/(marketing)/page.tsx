@@ -27,7 +27,7 @@ export default async function HomePage() {
           <LastDatabaseUpdate />
 
           <h1 className="mb-3.5 mx-auto font-black text-[1.5rem] text-primary leading-snug min-[30rem]:text-2xl sm:text-3xl md:mb-4 md:text-5xl">
-            Get Your{' '}
+            Get your{' '}
             <span className="border-b-2 border-b-emerald-600 text-emerald-600 sm:border-b-4">
               Startup Noticed
             </span>
