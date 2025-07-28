@@ -9,7 +9,7 @@ import { PostHogEvents } from '../../enums/PostHogEvents.enum'
 import { env } from '../../env'
 import { sendDiscordNotification } from '../discord'
 import { getDB } from '../drizzle'
-import { generatePlainTextOtpVerificationEmail, resend } from '../email'
+import { generatePlainTextOtpVerificationEmail, resend, sendWelcomeEmail } from '../email'
 import { capturePosthogEvent } from '../posthog'
 
 export const auth = betterAuth({
@@ -88,6 +88,13 @@ export const auth = betterAuth({
             type: 'general',
             message,
           })
+
+          // Send welcome email
+          const { error } = await sendWelcomeEmail(user.email)
+
+          if (error) {
+            Sentry.captureException(error)
+          }
         },
       },
     },
@@ -97,19 +104,19 @@ export const auth = betterAuth({
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
         if (type === 'email-verification') {
-          try {
-            await resend.emails.send({
-              from: `Listing Cat <${EMAILS.NO_REPLY}>`,
-              to: email,
-              subject: 'Verify your email address',
-              text: generatePlainTextOtpVerificationEmail({
-                heading: 'Confirm your signup',
-                text: 'Here is your OTP code to verify your email address:',
-                otpCode: otp,
-              }),
-            })
-          } catch (error: unknown) {
-            Sentry.captureException(error)
+          const { error: resendError } = await resend.emails.send({
+            from: `Listing Cat <${EMAILS.NO_REPLY}>`,
+            to: email,
+            subject: 'Verify your email address',
+            text: generatePlainTextOtpVerificationEmail({
+              heading: 'Confirm your signup',
+              text: 'Here is your OTP code to verify your email address:',
+              otpCode: otp,
+            }),
+          })
+
+          if (resendError) {
+            Sentry.captureException(resendError)
           }
         }
       },
