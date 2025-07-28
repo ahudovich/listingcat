@@ -26,11 +26,13 @@ export default async function HomePage() {
         <div className="mb-8 text-center md:mb-12">
           <LastDatabaseUpdate />
 
-          <h1 className="mb-3.5 mx-auto max-w-[38rem] font-black text-primary text-balance text-2xl min-[27.5rem]:text-3xl md:mb-4 md:text-5xl">
-            Discover the Best Places to&nbsp;
-            <span className="border-b-4 border-emerald-600 text-emerald-600">
-              Promote Your Startup
+          <h1 className="mb-3.5 mx-auto font-black text-[1.5rem] text-primary leading-snug min-[30rem]:text-2xl sm:text-3xl md:mb-4 md:text-5xl">
+            Get your{' '}
+            <span className="border-b-2 border-b-emerald-600 text-emerald-600 sm:border-b-4">
+              Startup Noticed
             </span>
+            <br />
+            with our Marketing Database
           </h1>
 
           <p className="mb-5 mx-auto max-w-[38rem] text-sm-relaxed text-balance xs:text-md-relaxed md:mb-6 md:text-lg-relaxed">
