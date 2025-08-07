@@ -71,6 +71,13 @@ const socialLinks = [
   },
 ]
 
+const toolLinks = [
+  {
+    name: 'UTM Campaign Builder',
+    url: '/tools/utm-campaign-builder',
+  },
+]
+
 export default function Footer() {
   return (
     <footer className="sticky top-[100vh] bg-gray-100 border-t border-zinc-200">
@@ -118,6 +125,24 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="py-4 border-t border-zinc-200 text-center sm:text-left">
+          <div className="mb-2.5 font-medium text-xs text-primary">Free tools</div>
+          <ul className="flex items-center justify-center gap-4 sm:justify-start">
+            {toolLinks.map((link) => (
+              <li className="text-xs" key={link.name}>
+                <Link
+                  className="inline-block py-0.5 transition-colors hover:text-primary"
+                  href={link.url}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
