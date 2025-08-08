@@ -77,14 +77,16 @@ export function CampaignUrlBuilderFaq() {
             value={item.id}
             key={item.id}
           >
-            <Accordion.Trigger className="group flex w-full items-center gap-2 py-3 font-semibold text-sm text-primary text-left cursor-pointer">
-              <span className="grow">{item.question}</span>
-              <BaseIcon
-                className="shrink-0 size-4.5 text-tertiary transition-all group-hover:text-primary group-data-[state=open]:-rotate-180"
-                icon={ArrowDown01Icon}
-                strokeWidth={2.5}
-              />
-            </Accordion.Trigger>
+            <h3>
+              <Accordion.Trigger className="group flex w-full items-center gap-2 py-3 font-semibold text-sm text-primary text-left cursor-pointer">
+                <span className="grow">{item.question}</span>
+                <BaseIcon
+                  className="shrink-0 size-4.5 text-tertiary transition-all group-hover:text-primary group-data-[state=open]:-rotate-180"
+                  icon={ArrowDown01Icon}
+                  strokeWidth={2.5}
+                />
+              </Accordion.Trigger>
+            </h3>
 
             <Accordion.Content className="pt-1 pb-4 text-sm text-secondary">
               {item.answer}

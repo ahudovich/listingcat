@@ -26,6 +26,34 @@ export default function Page() {
         <CampaignUrlBuilderForm />
       </section>
 
+      <section className="mb-16">
+        <h2 className="mb-6 font-extrabold text-2xl text-primary">
+          Why Use a Campaign UTM Builder?
+        </h2>
+
+        <div className="prose prose-zinc max-w-none">
+          <p className="mb-4 text-secondary leading-relaxed">
+            A campaign UTM builder is an essential tool for digital marketers who want to track the
+            effectiveness of their marketing campaigns. By adding UTM parameters to your URLs, you
+            can identify which marketing channels, campaigns, and content drive the most traffic and
+            conversions to your website.
+          </p>
+
+          <p className="mb-4 text-secondary leading-relaxed">
+            This free campaign URL builder generates Google Analytics-compatible URLs that help you
+            measure ROI, optimize your marketing spend, and make data-driven decisions. Whether
+            you&apos;re running paid ads, email campaigns, social media marketing, or content
+            marketing, UTM parameters provide the insights you need to succeed.
+          </p>
+
+          <p className="text-secondary leading-relaxed">
+            Our tool is completely free, requires no registration, and generates unlimited campaign
+            URLs. Start tracking your marketing campaigns today and unlock the power of data-driven
+            marketing.
+          </p>
+        </div>
+      </section>
+
       <CampaignUrlBuilderFaq />
     </article>
   )
