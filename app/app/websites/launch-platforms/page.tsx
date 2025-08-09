@@ -4,7 +4,7 @@ import PageHeader from '@/components/app/PageHeader'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
-  title: 'Launch Platforms | Listing Cat',
+  title: 'Launch Platforms',
 }
 
 export default async function LaunchPlatformsPage() {

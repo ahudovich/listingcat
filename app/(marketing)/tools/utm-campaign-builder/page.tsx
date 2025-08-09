@@ -3,9 +3,12 @@ import { CampaignUrlBuilderForm } from './components/CampaignUrlBuilderForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Free UTM Campaign Builder | Listing Cat',
+  title: 'Free UTM Campaign Builder',
   description:
     'Free UTM campaign builder to generate UTM-tagged links. Create clean, consistent UTM parameters for Google Analytics and other analytics tools.',
+  alternates: {
+    canonical: '/tools/utm-campaign-builder',
+  },
 }
 
 export default function Page() {
