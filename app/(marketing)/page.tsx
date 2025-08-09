@@ -10,9 +10,14 @@ import { getSessionState } from '@/lib/cached-functions'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Listing Cat',
+  title: {
+    absolute: 'Listing Cat - Marketing Database for Startups',
+  },
   description:
     'Get access to the largest database of directories, launch platforms, marketplaces, showcase websites, newsletters, communities, and much more!',
+  alternates: {
+    canonical: '/',
+  },
 }
 
 const heroFeatures = ['Always up-to-date', 'Curated by humans', 'Actively maintained']

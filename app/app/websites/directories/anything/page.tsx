@@ -6,7 +6,7 @@ import { ProductCategories } from '@/enums/ProductCategories.enum'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
-  title: 'Anything | Directories | Listing Cat',
+  title: 'Anything | Directories',
 }
 
 export default async function DirectoriesPage() {

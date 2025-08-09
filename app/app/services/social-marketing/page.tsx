@@ -5,7 +5,7 @@ import BaseScrollArea from '@/components/ui/BaseScrollArea'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
-  title: 'Social marketing | Listing Cat',
+  title: 'Social marketing',
 }
 
 export default async function SocialMarketingPage() {

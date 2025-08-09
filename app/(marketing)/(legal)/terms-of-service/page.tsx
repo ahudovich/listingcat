@@ -2,8 +2,11 @@ import Link from 'next/link'
 import { EMAILS } from '@/data/emails'
 
 export const metadata = {
-  title: 'Terms and Conditions | Listing Cat',
+  title: 'Terms and Conditions',
   description: 'Learn how Listing Cat handles terms and conditions.',
+  alternates: {
+    canonical: '/terms-of-service',
+  },
 }
 
 export default function TermsOfServicePage() {

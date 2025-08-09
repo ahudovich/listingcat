@@ -1,8 +1,11 @@
 import { EMAILS } from '@/data/emails'
 
 export const metadata = {
-  title: 'Privacy Policy | Listing Cat',
+  title: 'Privacy Policy',
   description: 'Learn how Listing Cat protects your privacy and data.',
+  alternates: {
+    canonical: '/privacy-policy',
+  },
 }
 
 export default function PrivacyPolicyPage() {
