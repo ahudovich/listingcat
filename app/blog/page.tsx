@@ -1,6 +1,15 @@
 import Link from 'next/link'
 import { allBlogPosts } from 'content-collections'
 import { format, parseISO } from 'date-fns'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Read our blog posts about the latest trends in the marketing and SEO world.',
+  alternates: {
+    canonical: '/blog',
+  },
+}
 
 export default function BlogPage() {
   return (

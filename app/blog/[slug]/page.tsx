@@ -30,7 +30,7 @@ export async function generateMetadata({
   const post = allBlogPosts.find((post) => post._meta.path === slug) as BlogPost
 
   return {
-    title: `${post.title} | Listing Cat`,
+    title: `${post.title}`,
     description: post.description,
     authors: [
       {
@@ -39,7 +39,7 @@ export async function generateMetadata({
       },
     ],
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_WEBSITE_BASE_URL}/blog/${slug}`,
+      canonical: `/blog/${slug}`,
     },
   }
 }

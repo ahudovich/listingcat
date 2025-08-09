@@ -4,7 +4,7 @@ import PageHeader from '@/components/app/PageHeader'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
-  title: 'Showcase | Listing Cat',
+  title: 'Showcase',
 }
 
 export default async function ShowcasePage() {

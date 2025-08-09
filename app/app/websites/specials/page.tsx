@@ -4,7 +4,7 @@ import PageHeader from '@/components/app/PageHeader'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {
-  title: 'Specials | Listing Cat',
+  title: 'Specials',
 }
 
 export default async function SpecialsPage() {

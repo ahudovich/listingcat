@@ -1,8 +1,11 @@
 import { EMAILS } from '@/data/emails'
 
 export const metadata = {
-  title: 'Refund Policy | Listing Cat',
+  title: 'Refund Policy',
   description: 'Learn how Listing Cat handles refunds.',
+  alternates: {
+    canonical: '/refund-policy',
+  },
 }
 
 export default function RefundPolicyPage() {
