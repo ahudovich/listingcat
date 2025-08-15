@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { allBlogPosts } from 'content-collections'
 import { format, parseISO } from 'date-fns'
+import { LINKS } from '@/data/links'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -36,7 +37,7 @@ export default function BlogPage() {
                 By{' '}
                 <a
                   className="inline-flex items-center gap-x-1.5 text-tertiary no-underline transition-colors hover:text-primary"
-                  href="https://x.com/AndreiHudovich"
+                  href={LINKS.AUTHOR.X}
                   target="_blank"
                   rel="nofollow"
                 >
