@@ -6,6 +6,7 @@ import { allBlogPosts } from 'content-collections'
 import { format, parseISO } from 'date-fns'
 import { env } from '@/env'
 import BaseIcon from '@/components/ui/BaseIcon'
+import { LINKS } from '@/data/links'
 import type { Metadata } from 'next'
 import type { BlogPost } from 'content-collections'
 
@@ -35,7 +36,7 @@ export async function generateMetadata({
     authors: [
       {
         name: 'Andrei Hudovich',
-        url: 'https://x.com/AndreiHudovich',
+        url: LINKS.AUTHOR.X,
       },
     ],
     alternates: {
@@ -59,7 +60,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {
         '@type': 'Person',
         name: 'Andrei Hudovich',
-        url: 'https://x.com/AndreiHudovich',
+        url: LINKS.AUTHOR.X,
       },
     ],
   }
@@ -101,7 +102,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             By
             <a
               className="inline-flex items-center gap-x-1.5 text-tertiary no-underline transition-colors hover:text-primary"
-              href="https://x.com/AndreiHudovich"
+              href={LINKS.AUTHOR.X}
               target="_blank"
               rel="nofollow"
             >

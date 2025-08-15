@@ -171,7 +171,7 @@ export default function Footer() {
             Made by
             <a
               className="inline-flex items-center gap-x-1.5 text-secondary transition-colors hover:text-primary"
-              href="https://x.com/AndreiHudovich"
+              href={LINKS.AUTHOR.X}
               target="_blank"
               rel="nofollow"
             >
