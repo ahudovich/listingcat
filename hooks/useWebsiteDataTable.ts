@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { rankItem } from '@tanstack/match-sorter-utils'
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -8,25 +9,32 @@ import {
 import { env } from '@/env'
 import type { AccessorKeyColumnDef, FilterFn, SortingState } from '@tanstack/react-table'
 
-// Custom global filter function
+// Global fuzzy filter function (`name` and `websiteUrl` columns only)
 const filterByNameOrWebsiteUrl: FilterFn<any> = (row, columnId, filterValue) => {
   if (!filterValue) return true
 
   const name = row.original.name as string
   const websiteUrl = row.original.websiteUrl as string
 
-  const searchTerm = filterValue.toLowerCase()
+  // Combine name and website URL for fuzzy search
+  const searchText = `${name} ${websiteUrl}`
 
-  return name.toLowerCase().includes(searchTerm) || websiteUrl.toLowerCase().includes(searchTerm)
+  const itemRank = rankItem(searchText, filterValue)
+
+  return itemRank.passed
 }
 
-interface UseDataTableProps<T> {
+interface UseWebsiteDataTableProps<T> {
   initialSorting: SortingState
   columns: Array<AccessorKeyColumnDef<T, any>>
   data: Array<T>
 }
 
-export function useWebsiteDataTable<T>({ initialSorting, columns, data }: UseDataTableProps<T>) {
+export function useWebsiteDataTable<T>({
+  initialSorting,
+  columns,
+  data,
+}: UseWebsiteDataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(initialSorting)
 
   const table = useReactTable({
