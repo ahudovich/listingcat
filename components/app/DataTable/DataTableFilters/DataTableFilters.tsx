@@ -1,31 +1,30 @@
 import { useId } from 'react'
-import { Search01Icon } from '@hugeicons/core-free-icons'
-import BaseInput from '@/components/ui/BaseInput'
+import BaseSearch from '@/components/ui/BaseSearch'
 import { cn } from '@/utils/css'
-import type { Table } from '@tanstack/react-table'
 
-interface DataTableFiltersProps<T = any> {
+interface DataTableFiltersProps {
   className?: string
-  table: Table<T>
+  globalFilter: string
+  setGlobalFilter: (value: string) => void
 }
 
-export function DataTableFilters<T>({ className, table }: DataTableFiltersProps<T>) {
+export function DataTableFilters({
+  className,
+  globalFilter,
+  setGlobalFilter,
+}: DataTableFiltersProps) {
   const id = useId()
 
   return (
     <div className={cn('flex gap-3', className)}>
-      <div className="relative">
-        <BaseInput
-          id={`${id}-search`}
-          className="w-66"
-          icon={Search01Icon}
-          iconPosition="left"
-          placeholder="Search by name or website url"
-          size="xs"
-          autoComplete="off"
-          onChange={(event) => table.setGlobalFilter(String(event.target.value))}
-        />
-      </div>
+      <BaseSearch
+        id={id}
+        className="w-66"
+        placeholder="Search by name or website url"
+        size="xs"
+        value={globalFilter}
+        onChange={(value) => setGlobalFilter(String(value))}
+      />
     </div>
   )
 }

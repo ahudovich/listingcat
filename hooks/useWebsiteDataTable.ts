@@ -9,21 +9,6 @@ import {
 import { env } from '@/env'
 import type { AccessorKeyColumnDef, FilterFn, SortingState } from '@tanstack/react-table'
 
-// Global fuzzy filter function (`name` and `websiteUrl` columns only)
-const filterByNameOrWebsiteUrl: FilterFn<any> = (row, columnId, filterValue) => {
-  if (!filterValue) return true
-
-  const name = row.original.name as string
-  const websiteUrl = row.original.websiteUrl as string
-
-  // Combine name and website URL for fuzzy search
-  const searchText = `${name} ${websiteUrl}`
-
-  const itemRank = rankItem(searchText, filterValue)
-
-  return itemRank.passed
-}
-
 interface UseWebsiteDataTableProps<T> {
   initialSorting: SortingState
   columns: Array<AccessorKeyColumnDef<T, any>>
@@ -36,6 +21,7 @@ export function useWebsiteDataTable<T>({
   data,
 }: UseWebsiteDataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(initialSorting)
+  const [globalFilter, setGlobalFilter] = useState<string>('')
 
   const table = useReactTable({
     debugTable: env.NEXT_PUBLIC_ENV === 'development',
@@ -45,6 +31,7 @@ export function useWebsiteDataTable<T>({
 
     state: {
       sorting,
+      globalFilter,
     },
 
     getCoreRowModel: getCoreRowModel(),
@@ -54,7 +41,8 @@ export function useWebsiteDataTable<T>({
     enableMultiSort: false,
     onSortingChange: setSorting,
 
-    globalFilterFn: filterByNameOrWebsiteUrl,
+    globalFilterFn: fuzzySearch,
+    onGlobalFilterChange: setGlobalFilter,
 
     // Reset default column sizes
     defaultColumn: {
@@ -66,5 +54,22 @@ export function useWebsiteDataTable<T>({
 
   return {
     table,
+    globalFilter,
+    setGlobalFilter,
   }
+}
+
+// Fuzzy search filter function
+const fuzzySearch: FilterFn<any> = (row, columnId, filterValue) => {
+  if (!filterValue) return true
+
+  const name = row.original.name as string
+  const websiteUrl = row.original.websiteUrl as string
+
+  // Combine name and website URL for fuzzy search
+  const searchText = `${name} ${websiteUrl}`
+
+  const itemRank = rankItem(searchText, filterValue)
+
+  return itemRank.passed
 }

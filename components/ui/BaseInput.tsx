@@ -52,8 +52,9 @@ const inputVariants = tv({
   },
 })
 
-type InputVariants = VariantProps<typeof inputVariants>
-type NativeInputProps = Omit<ComponentProps<'input'>, 'size'>
+export type InputVariants = VariantProps<typeof inputVariants>
+export type NativeInputProps = Omit<ComponentProps<'input'>, 'size' | 'value'>
+export type NativeInputValue = ComponentProps<'input'>['value']
 
 interface BaseInputProps {
   id: string
@@ -63,7 +64,7 @@ interface BaseInputProps {
   rootClasses?: string
   label?: string
   size?: InputVariants['size']
-  value?: string
+  value?: NativeInputValue
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 

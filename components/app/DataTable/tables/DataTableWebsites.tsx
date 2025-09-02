@@ -13,7 +13,7 @@ interface DataTableWebsitesProps<T> {
 }
 
 export default function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T>) {
-  const { table } = useWebsiteDataTable<T>({
+  const { table, globalFilter, setGlobalFilter } = useWebsiteDataTable<T>({
     initialSorting: [{ id: 'dr', desc: true }],
     columns,
     data,
@@ -21,7 +21,11 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
 
   return (
     <div className="overflow-hidden grid grid-rows-[auto_1fr]">
-      <DataTableFilters className="px-4 py-3 border-b border-b-layout-separator" table={table} />
+      <DataTableFilters
+        className="px-4 py-3 border-b border-b-layout-separator"
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
 
       <BaseScrollArea className="pb-3 rounded-b-xl lg:pb-0">
         <table className="w-full">
