@@ -1,6 +1,6 @@
 import { AlertDiamondIcon, ArrowRight02Icon } from '@hugeicons/core-free-icons'
-import BaseButton from '@/components/ui/BaseButton'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseButton } from '@/components/ui/BaseButton'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { LINKS } from '@/data/links'
 import { cn } from '@/utils/css'
 

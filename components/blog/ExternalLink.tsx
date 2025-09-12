@@ -1,5 +1,5 @@
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
-import BaseIcon from '../ui/BaseIcon'
+import { BaseIcon } from '../ui/BaseIcon'
 
 export default function ExternalLink({
   href,

@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge'
 import { tv } from 'tailwind-variants'
-import BaseIcon from './BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import type { ChangeEvent, ComponentProps } from 'react'
 import type { IconSvgElement } from '@hugeicons/react'
 import type { VariantProps } from 'tailwind-variants'
@@ -53,7 +53,7 @@ const inputVariants = tv({
 })
 
 export type InputVariants = VariantProps<typeof inputVariants>
-export type NativeInputProps = Omit<ComponentProps<'input'>, 'size' | 'value'>
+export type NativeInputProps = Omit<ComponentProps<'input'>, 'size' | 'value' | 'className'>
 export type NativeInputValue = ComponentProps<'input'>['value']
 
 interface BaseInputProps {
@@ -68,7 +68,7 @@ interface BaseInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function BaseInput({
+export function BaseInput({
   className,
   id,
   label,
@@ -82,15 +82,15 @@ export default function BaseInput({
 }: BaseInputProps & NativeInputProps) {
   const {
     base,
-    label: labelVariants,
+    label: labelClasses,
     input,
-    icon: iconVariants,
+    icon: iconClasses,
   } = inputVariants({ iconPosition, size })
 
   return (
     <div className={twMerge(base(), rootClasses)}>
       {label && (
-        <label className={labelVariants()} htmlFor={id}>
+        <label className={labelClasses()} htmlFor={id}>
           {label}
         </label>
       )}
@@ -104,7 +104,7 @@ export default function BaseInput({
           {...props}
         />
 
-        {icon && <BaseIcon className={iconVariants()} icon={icon} strokeWidth={2.5} />}
+        {icon && <BaseIcon className={iconClasses()} icon={icon} strokeWidth={2.5} />}
       </div>
     </div>
   )

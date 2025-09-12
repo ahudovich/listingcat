@@ -6,7 +6,7 @@ import { Logout03Icon, Mail01Icon, SentIcon } from '@hugeicons/core-free-icons'
 import posthog from 'posthog-js'
 import { DropdownMenu } from 'radix-ui'
 import { SubmitResourceModal } from '@/components/modals/SubmitResourceModal'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { EMAILS } from '@/data/emails'
 import { authClient } from '@/lib/auth/auth-client'
 

@@ -3,8 +3,8 @@
 import { useId, useState, useTransition } from 'react'
 import { flushSync } from 'react-dom'
 import { useRouter } from 'next/navigation'
-import BaseButton from '@/components/ui/BaseButton'
-import BaseInput from '@/components/ui/BaseInput'
+import { BaseButton } from '@/components/ui/BaseButton'
+import { BaseInput } from '@/components/ui/BaseInput'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { handleOtpVerification } from '@/lib/actions/auth'
 

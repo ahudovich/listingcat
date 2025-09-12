@@ -1,7 +1,7 @@
 import { User03Icon } from '@hugeicons/core-free-icons'
 import { Avatar } from 'radix-ui'
 import { tv } from 'tailwind-variants'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { cn } from '@/utils/css'
 import type { VariantProps } from 'tailwind-variants'
 

@@ -2,7 +2,7 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import { cn } from '@/utils/css'
 import type { IconSvgElement } from '@hugeicons/react'
 
-export default function BaseIcon({
+export function BaseIcon({
   className,
   icon,
   label,

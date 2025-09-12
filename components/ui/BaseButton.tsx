@@ -1,7 +1,7 @@
 import { Loading03Icon } from '@hugeicons/core-free-icons'
 import { Slot } from 'radix-ui'
 import { tv } from 'tailwind-variants'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import type { ComponentProps, ReactNode } from 'react'
 import type { VariantProps } from 'tailwind-variants'
 
@@ -37,7 +37,7 @@ interface BaseButtonProps {
   variant?: ButtonVariants['variant']
 }
 
-export default function BaseButton({
+export function BaseButton({
   asChild,
   children,
   className,

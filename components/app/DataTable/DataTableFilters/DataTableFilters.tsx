@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import BaseSearch from '@/components/ui/BaseSearch'
+import { BaseSearch } from '@/components/ui/BaseSearch'
 import { cn } from '@/utils/css'
 
 interface DataTableFiltersProps {

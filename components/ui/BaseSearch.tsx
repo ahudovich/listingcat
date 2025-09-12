@@ -1,28 +1,30 @@
 import { useEffect, useState } from 'react'
 import { useDebounce } from 'react-use'
 import { Cancel01Icon, Search01Icon } from '@hugeicons/core-free-icons'
-import BaseIcon from '@/components/ui/BaseIcon'
-import BaseInput from '@/components/ui/BaseInput'
+import { BaseIcon } from '@/components/ui/BaseIcon'
+import { BaseInput } from '@/components/ui/BaseInput'
 import { cn } from '@/utils/css'
 import type { ChangeEvent } from 'react'
 import type { InputVariants, NativeInputProps } from '@/components/ui/BaseInput'
 
 interface BaseSearchProps {
   id: string
+  className?: string
   value: string
   onChange: (value: string) => void
   size?: InputVariants['size']
   debounceMs?: number
 }
 
-export default function BaseSearch({
+export function BaseSearch({
   id,
+  className,
   size,
   value,
   onChange,
   debounceMs = 250,
   ...props
-}: BaseSearchProps & NativeInputProps) {
+}: NativeInputProps & BaseSearchProps) {
   const [internalValue, setInternalValue] = useState(value ?? '')
   const [isClearing, setIsClearing] = useState(false)
 
@@ -57,6 +59,7 @@ export default function BaseSearch({
     <div className="relative">
       <BaseInput
         id={`${id}-search`}
+        className={cn(className, internalValue && 'pr-8')}
         icon={Search01Icon}
         iconPosition="left"
         size={size}

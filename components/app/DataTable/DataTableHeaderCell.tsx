@@ -1,5 +1,5 @@
 import { ArrowDown02Icon, ArrowUp02Icon, HelpCircleIcon } from '@hugeicons/core-free-icons'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import BaseTooltip from '@/components/ui/BaseTooltip'
 import { cn } from '@/utils/css'
 import type { SortDirection } from '@tanstack/react-table'
