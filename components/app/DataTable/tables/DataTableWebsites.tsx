@@ -3,9 +3,9 @@
 import { flexRender } from '@tanstack/react-table'
 import { DataTableFilters } from '@/components/app/DataTable/DataTableFilters/DataTableFilters'
 import DataTableHeaderCell from '@/components/app/DataTable/DataTableHeaderCell'
+import { DataTablePagination } from '@/components/app/DataTable/DataTablePagination'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
 import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
-import { DataTablePagination } from '../DataTablePagination'
 import type { AccessorKeyColumnDef } from '@tanstack/react-table'
 
 interface DataTableWebsitesProps<T> {
