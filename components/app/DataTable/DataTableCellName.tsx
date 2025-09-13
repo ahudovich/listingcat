@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 
 export default function DataTableCellName({
   name,

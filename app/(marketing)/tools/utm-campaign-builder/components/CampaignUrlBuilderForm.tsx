@@ -3,9 +3,9 @@
 import { useEffect, useId, useMemo, useState } from 'react'
 import { useCopyToClipboard } from 'react-use'
 import { Copy01Icon } from '@hugeicons/core-free-icons'
-import BaseButton from '@/components/ui/BaseButton'
-import BaseIcon from '@/components/ui/BaseIcon'
-import BaseInput from '@/components/ui/BaseInput'
+import { BaseButton } from '@/components/ui/BaseButton'
+import { BaseIcon } from '@/components/ui/BaseIcon'
+import { BaseInput } from '@/components/ui/BaseInput'
 
 type UtmParams = {
   utm_source: string

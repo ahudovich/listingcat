@@ -2,7 +2,7 @@
 
 import { Cancel01Icon } from '@hugeicons/core-free-icons'
 import { Dialog } from 'radix-ui'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock'
 import { zIndexes } from '@/utils/z-indexes'
 

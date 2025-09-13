@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { cn } from '@/utils/css'
 import type { IconSvgElement } from '@hugeicons/react'
 

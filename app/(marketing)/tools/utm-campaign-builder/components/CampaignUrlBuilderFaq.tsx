@@ -1,6 +1,6 @@
 import { ArrowDown01Icon } from '@hugeicons/core-free-icons'
 import { Accordion } from 'radix-ui'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 
 const faqItems: Array<{ id: string; question: string; answer: string }> = [
   {

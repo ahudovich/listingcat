@@ -6,7 +6,7 @@ import { Logout03Icon, Mail01Icon, SentIcon } from '@hugeicons/core-free-icons'
 import posthog from 'posthog-js'
 import { DropdownMenu } from 'radix-ui'
 import { SubmitResourceModal } from '@/components/modals/SubmitResourceModal'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { EMAILS } from '@/data/emails'
 import { authClient } from '@/lib/auth/auth-client'
 
@@ -33,7 +33,7 @@ export default function SidebarProfileDropdown({ children }: { children: React.R
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
         <DropdownMenu.Content
-          className="overflow-hidden w-[15.5rem] bg-white border border-zinc-200 rounded-lg shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=top]:slide-in-from-bottom-2"
+          className="overflow-hidden w-62 bg-white border border-zinc-200 rounded-lg shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=top]:slide-in-from-bottom-2"
           loop={true}
           side="top"
           sideOffset={8}
