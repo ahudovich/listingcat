@@ -71,8 +71,8 @@ export function BaseSearch({
 
       <button
         className={cn(
-          'absolute top-1/2 right-2 -translate-y-1/2 grid place-items-center size-4 bg-zinc-100 rounded-full cursor-pointer opacity-0 transition-all hover:bg-zinc-200',
-          internalValue && 'opacity-100'
+          'invisible absolute top-1/2 right-2 -translate-y-1/2 grid place-items-center size-4 bg-zinc-100 rounded-full cursor-pointer opacity-0 transition-all hover:bg-zinc-200',
+          internalValue && 'visible opacity-100'
         )}
         type="button"
         onClick={handleClear}
