@@ -69,7 +69,7 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
         </table>
       </BaseScrollArea>
 
-      <DataTablePagination totalCount={table.getRowModel().rows.length} />
+      <DataTablePagination table={table} />
     </div>
   )
 }

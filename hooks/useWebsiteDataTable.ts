@@ -3,15 +3,18 @@ import { rankItem } from '@tanstack/match-sorter-utils'
 import {
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { env } from '@/env'
+import { PageSize } from '@/enums/data-table'
 import { LinkAttributes } from '@/enums/LinkAttributes.enum'
 import type {
   AccessorKeyColumnDef,
   ColumnFiltersState,
   FilterFn,
+  PaginationState,
   SortingState,
 } from '@tanstack/react-table'
 
@@ -26,9 +29,13 @@ export function useWebsiteDataTable<T>({
   columns,
   data,
 }: UseWebsiteDataTableProps<T>) {
-  const [sorting, setSorting] = useState<SortingState>(initialSorting)
   const [globalFilter, setGlobalFilter] = useState<string>('')
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>(initialSorting)
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: PageSize.Medium,
+  })
 
   const table = useReactTable({
     debugTable: env.NEXT_PUBLIC_ENV === 'development',
@@ -37,22 +44,25 @@ export function useWebsiteDataTable<T>({
     columns,
 
     state: {
-      sorting,
       globalFilter,
       columnFilters,
+      sorting,
+      pagination,
     },
 
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+
+    globalFilterFn: fuzzySearch,
+    onGlobalFilterChange: setGlobalFilter,
+    onColumnFiltersChange: setColumnFilters,
 
     enableMultiSort: false,
     onSortingChange: setSorting,
 
-    globalFilterFn: fuzzySearch,
-    onGlobalFilterChange: setGlobalFilter,
-
-    onColumnFiltersChange: setColumnFilters,
+    onPaginationChange: setPagination,
 
     filterFns: {
       pricingModelFilter,
@@ -73,6 +83,8 @@ export function useWebsiteDataTable<T>({
     setGlobalFilter,
     columnFilters,
     setColumnFilters,
+    pagination,
+    setPagination,
   }
 }
 
