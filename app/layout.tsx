@@ -26,7 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${inter.className} h-full`}>
       <body className="relative h-full font-text text-secondary antialiased">
         <PostHogProvider />
-        {children}
+        {/*
+         * `isolate` is required by Base UI
+         * https://base-ui.com/react/overview/quick-start#set-up-portals
+         */}
+        <div className="isolate h-full">{children}</div>
         <BaseToaster />
       </body>
     </html>

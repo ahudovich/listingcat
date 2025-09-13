@@ -23,8 +23,8 @@
   --text-color-control-placeholder: var(--color-zinc-400);
   --text-color-control-icon: var(--text-color-secondary);
 
-  --text-color-control-default: var(--text-color-primary);
-  --text-color-control-active: var(--text-color-primary);
+  --text-color-control-default: var(--text-color-secondary);
+  --text-color-control-active: var(--text-color-secondary);
   --text-color-control-error: var(--text-color-destructive);
 
   --background-color-control-default: var(--color-white);
@@ -85,6 +85,9 @@
   --text-5xl--line-height: calc(3.5 / 2.75);
 
   --animate-spin-slow: spin 1.5s linear infinite;
+
+  /* Z-indexes */
+  --z-index-popup: 10;
 }
 
 @utility container {
