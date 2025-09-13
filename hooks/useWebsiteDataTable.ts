@@ -1,19 +1,26 @@
 import { useState } from 'react'
+import { useLocalStorage } from 'react-use'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import {
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { env } from '@/env'
+import { COOKIE_PREFIX } from '@/enums/constants'
+import { PageSize } from '@/enums/data-table'
 import { LinkAttributes } from '@/enums/LinkAttributes.enum'
 import type {
   AccessorKeyColumnDef,
   ColumnFiltersState,
   FilterFn,
+  PaginationState,
   SortingState,
 } from '@tanstack/react-table'
+
+const DEFAULT_PAGE_SIZE = PageSize.Medium
 
 interface UseWebsiteDataTableProps<T> {
   initialSorting: SortingState
@@ -26,9 +33,17 @@ export function useWebsiteDataTable<T>({
   columns,
   data,
 }: UseWebsiteDataTableProps<T>) {
-  const [sorting, setSorting] = useState<SortingState>(initialSorting)
+  const [storedPageSize, setStoredPageSize, removeStoredPageSize] = useLocalStorage<number>(
+    `${COOKIE_PREFIX}-page-size`
+  )
+
   const [globalFilter, setGlobalFilter] = useState<string>('')
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>(initialSorting)
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: storedPageSize ?? DEFAULT_PAGE_SIZE,
+  })
 
   const table = useReactTable({
     debugTable: env.NEXT_PUBLIC_ENV === 'development',
@@ -37,22 +52,36 @@ export function useWebsiteDataTable<T>({
     columns,
 
     state: {
-      sorting,
       globalFilter,
       columnFilters,
+      sorting,
+      pagination,
     },
 
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+
+    globalFilterFn: fuzzySearch,
+    onGlobalFilterChange: setGlobalFilter,
+    onColumnFiltersChange: setColumnFilters,
 
     enableMultiSort: false,
     onSortingChange: setSorting,
 
-    globalFilterFn: fuzzySearch,
-    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: (updater) => {
+      const newPagination = typeof updater === 'function' ? updater(pagination) : updater
 
-    onColumnFiltersChange: setColumnFilters,
+      setPagination(newPagination)
+
+      // Handle localStorage logic for page size
+      if (newPagination.pageSize !== DEFAULT_PAGE_SIZE) {
+        setStoredPageSize(newPagination.pageSize)
+      } else {
+        removeStoredPageSize()
+      }
+    },
 
     filterFns: {
       pricingModelFilter,
@@ -73,6 +102,8 @@ export function useWebsiteDataTable<T>({
     setGlobalFilter,
     columnFilters,
     setColumnFilters,
+    pagination,
+    setPagination,
   }
 }
 
