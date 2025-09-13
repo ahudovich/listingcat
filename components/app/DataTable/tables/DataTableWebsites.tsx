@@ -5,6 +5,7 @@ import { DataTableFilters } from '@/components/app/DataTable/DataTableFilters/Da
 import DataTableHeaderCell from '@/components/app/DataTable/DataTableHeaderCell'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
 import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
+import { DataTablePagination } from '../DataTablePagination'
 import type { AccessorKeyColumnDef } from '@tanstack/react-table'
 
 interface DataTableWebsitesProps<T> {
@@ -30,7 +31,7 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
         setColumnFilters={setColumnFilters}
       />
 
-      <BaseScrollArea className="pb-3 rounded-b-xl lg:pb-0">
+      <BaseScrollArea className="pb-3 lg:pb-0">
         <table className="w-full">
           <thead className="sticky top-0 z-[1] bg-white">
             {table.getHeaderGroups().map(({ id, headers }) => (
@@ -67,6 +68,8 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
           </tbody>
         </table>
       </BaseScrollArea>
+
+      <DataTablePagination totalCount={table.getRowModel().rows.length} />
     </div>
   )
 }
