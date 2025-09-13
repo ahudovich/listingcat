@@ -67,7 +67,7 @@ export function BaseSelect({
         </label>
       )}
 
-      <Select.Root id={id} {...props}>
+      <Select.Root id={id} value={value} {...props}>
         <Select.Trigger className={trigger({ className })}>
           <Select.Value
             className={valueClasses({ className: !value && 'text-control-placeholder' })}

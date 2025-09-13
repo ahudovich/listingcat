@@ -51,6 +51,11 @@ export function DataTableFilters({
     )
   }
 
+  function resetFilters() {
+    setGlobalFilter('')
+    setColumnFilters([])
+  }
+
   return (
     <div className={cn('flex gap-3', className)}>
       <BaseSearch
@@ -93,6 +98,16 @@ export function DataTableFilters({
           </BaseSelectItem>
         ))}
       </BaseSelect>
+
+      <button
+        className={cn(
+          'invisible px-3 h-control-xs rounded-control opacity-0 outline-none font-medium text-xs text-control-default cursor-pointer select-none transition-all focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
+          (globalFilter || columnFilters.length > 0) && 'visible opacity-100'
+        )}
+        onClick={resetFilters}
+      >
+        Reset
+      </button>
     </div>
   )
 }
