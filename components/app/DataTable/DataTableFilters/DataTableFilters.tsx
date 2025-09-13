@@ -57,7 +57,7 @@ export function DataTableFilters({
   }
 
   return (
-    <div className={cn('flex gap-3', className)}>
+    <div className={cn('flex gap-3 overflow-x-auto', className)}>
       <BaseSearch
         id={id}
         className="w-66"
