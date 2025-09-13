@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.11.1+sha512.e519b9f7639869dc8d5c3c5dfef73b3f091094b0a006d7317353c72b124e80e1afd429732e28705ad6bfa1ee879c1fce46c128ccebd3192101f43dd67c667912",
+  "packageManager": "pnpm@10.15.1+sha512.34e538c329b5553014ca8e8f4535997f96180a1d0f614339357449935350d924e22f8614682191264ec33d1462ac21561aff97f6bb18065351c162c7e8f6de67",
   "engines": {
     "node": "22"
   },
@@ -39,11 +39,13 @@
     "email:dev": "email dev"
   },
   "dependencies": {
+    "@base-ui-components/react": "1.0.0-beta.3",
     "@hugeicons/core-free-icons": "^1.0.14",
     "@hugeicons/react": "^1.0.5",
     "@react-email/components": "^0.3.2",
     "@sentry/nextjs": "^9.27.0",
     "@t3-oss/env-nextjs": "^0.13.6",
+    "@tanstack/match-sorter-utils": "^8.19.4",
     "@tanstack/react-table": "^8.21.3",
     "@trigger.dev/sdk": "^3.3.17",
     "better-auth": "^1.2.8",
@@ -63,8 +65,8 @@
     "react-use": "^17.6.0",
     "resend": "^4.5.1",
     "sonner": "^2.0.5",
-    "tailwind-merge": "^3.3.0",
-    "tailwind-variants": "^1.0.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^3.1.1",
     "zod": "^3.25.51"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 ---
 description: 
 globs: *.tsx,*.ts
-alwaysApply: false
+alwaysApply: true
 ---
 
 These rules enforce standards for Typescript files.

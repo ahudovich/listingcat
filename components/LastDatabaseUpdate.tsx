@@ -1,6 +1,6 @@
 import { ReloadIcon } from '@hugeicons/core-free-icons'
 import { format, formatDistanceToNow } from 'date-fns'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import BaseTooltip from '@/components/ui/BaseTooltip'
 import { getLastDatabaseUpdate } from '@/lib/db/operations'
 import { cn } from '@/utils/css'

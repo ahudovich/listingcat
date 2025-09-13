@@ -1,6 +1,6 @@
 ---
 globs: *.tsx
-alwaysApply: false
+alwaysApply: true
 ---
 
 These rules enforce standards for React code

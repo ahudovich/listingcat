@@ -2,7 +2,7 @@ import { headers } from 'next/headers'
 import { MoreHorizontalCircle01Icon, User03Icon } from '@hugeicons/core-free-icons'
 import SidebarProfileDropdown from '@/components/app/Sidebar/SidebarProfile/SidebarProfileDropdown'
 import BaseAvatar from '@/components/ui/BaseAvatar'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { auth } from '@/lib/auth'
 
 export default async function SidebarProfile({ className }: { className?: string }) {

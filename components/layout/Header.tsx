@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import BaseButton from '@/components/ui/BaseButton'
+import { BaseButton } from '@/components/ui/BaseButton'
 import BaseLogo from '@/components/ui/BaseLogo'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { getSessionState } from '@/lib/cached-functions'

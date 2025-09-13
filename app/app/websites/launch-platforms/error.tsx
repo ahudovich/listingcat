@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import * as Sentry from '@sentry/nextjs'
-import BaseButton from '@/components/ui/BaseButton'
+import { BaseButton } from '@/components/ui/BaseButton'
 
 export default function Error({
   error,

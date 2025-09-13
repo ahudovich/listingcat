@@ -1,6 +1,6 @@
-import { twMerge } from 'tailwind-merge'
 import { tv } from 'tailwind-variants'
-import BaseIcon from './BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
+import { cn } from '@/utils/css'
 import type { ChangeEvent, ComponentProps } from 'react'
 import type { IconSvgElement } from '@hugeicons/react'
 import type { VariantProps } from 'tailwind-variants'
@@ -11,7 +11,7 @@ const inputVariants = tv({
     label: 'inline-block mb-1.5 text-sm font-medium text-secondary cursor-pointer',
     icon: 'absolute top-1/2 -translate-y-1/2 size-4',
     input:
-      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-colors placeholder:text-control-placeholder focus:bg-control-active focus:border-control-active focus:ring-2 focus:ring-control-default focus:text-control-active',
+      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-colors placeholder:text-control-placeholder focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
   },
   variants: {
     iconPosition: {
@@ -52,8 +52,9 @@ const inputVariants = tv({
   },
 })
 
-type InputVariants = VariantProps<typeof inputVariants>
-type NativeInputProps = Omit<ComponentProps<'input'>, 'size'>
+export type InputVariants = VariantProps<typeof inputVariants>
+export type NativeInputProps = Omit<ComponentProps<'input'>, 'size' | 'value' | 'className'>
+export type NativeInputValue = ComponentProps<'input'>['value']
 
 interface BaseInputProps {
   id: string
@@ -63,13 +64,13 @@ interface BaseInputProps {
   rootClasses?: string
   label?: string
   size?: InputVariants['size']
-  value?: string
+  value?: NativeInputValue
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function BaseInput({
-  className,
+export function BaseInput({
   id,
+  className,
   label,
   rootClasses,
   icon,
@@ -81,15 +82,15 @@ export default function BaseInput({
 }: BaseInputProps & NativeInputProps) {
   const {
     base,
-    label: labelVariants,
+    label: labelClasses,
     input,
-    icon: iconVariants,
+    icon: iconClasses,
   } = inputVariants({ iconPosition, size })
 
   return (
-    <div className={twMerge(base(), rootClasses)}>
+    <div className={cn(base(), rootClasses)}>
       {label && (
-        <label className={labelVariants()} htmlFor={id}>
+        <label className={labelClasses()} htmlFor={id}>
           {label}
         </label>
       )}
@@ -103,7 +104,7 @@ export default function BaseInput({
           {...props}
         />
 
-        {icon && <BaseIcon className={iconVariants()} icon={icon} strokeWidth={2.5} />}
+        {icon && <BaseIcon className={iconClasses()} icon={icon} strokeWidth={2.5} />}
       </div>
     </div>
   )

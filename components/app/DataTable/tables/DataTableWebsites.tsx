@@ -13,15 +13,22 @@ interface DataTableWebsitesProps<T> {
 }
 
 export default function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T>) {
-  const { table } = useWebsiteDataTable<T>({
-    initialSorting: [{ id: 'dr', desc: true }],
-    columns,
-    data,
-  })
+  const { table, globalFilter, setGlobalFilter, columnFilters, setColumnFilters } =
+    useWebsiteDataTable<T>({
+      initialSorting: [{ id: 'dr', desc: true }],
+      columns,
+      data,
+    })
 
   return (
     <div className="overflow-hidden grid grid-rows-[auto_1fr]">
-      <DataTableFilters className="px-4 py-3 border-b border-b-layout-separator" table={table} />
+      <DataTableFilters
+        className="px-4 py-3 border-b border-b-layout-separator"
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        columnFilters={columnFilters}
+        setColumnFilters={setColumnFilters}
+      />
 
       <BaseScrollArea className="pb-3 rounded-b-xl lg:pb-0">
         <table className="w-full">
@@ -34,7 +41,6 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
                     isSortable={header.column.getCanSort()}
                     sortingDirection={header.column.getIsSorted()}
                     size={header.column.columnDef.size}
-                    // @ts-expect-error - TODO: fix this
                     tooltip={header.column.columnDef.meta?.tooltip}
                     onClick={header.column.getToggleSortingHandler()}
                   >

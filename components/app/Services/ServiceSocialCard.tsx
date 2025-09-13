@@ -1,5 +1,5 @@
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { Service } from '@/lib/db/schema/tables/services'
 
 export function ServiceSocialCard({ service }: { service: Service }) {

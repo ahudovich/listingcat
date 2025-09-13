@@ -59,6 +59,7 @@ const columns = [
       />
     ),
     sortingFn: 'alphanumeric',
+    filterFn: 'pricingModelFilter',
   }),
 
   columnHelper.accessor('category', {
@@ -79,6 +80,7 @@ const columns = [
       />
     ),
     enableSorting: false,
+    filterFn: 'linkAttributeFilter',
     meta: {
       tooltip: 'Whether the platform gives you a dofollow link.',
     },

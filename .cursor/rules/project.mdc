@@ -1,0 +1,9 @@
+---
+description: General project rules
+globs:
+alwaysApply: true
+---
+
+This is a project specific rules file.
+
+- Use `pnpm` as a package manager

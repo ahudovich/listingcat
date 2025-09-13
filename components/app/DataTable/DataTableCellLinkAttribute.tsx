@@ -3,7 +3,7 @@ import {
   CheckmarkCircle02Icon,
   InformationCircleIcon,
 } from '@hugeicons/core-free-icons'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import BaseTooltip from '@/components/ui/BaseTooltip'
 import { LinkAttributes } from '@/enums/LinkAttributes.enum'
 import { cn } from '@/utils/css'

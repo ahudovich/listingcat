@@ -5,7 +5,7 @@ import { ArrowDown01Icon } from '@hugeicons/core-free-icons'
 import { Collapsible } from 'radix-ui'
 import SidebarLink from '@/components/app/Sidebar/SidebarLink'
 import { SidebarNavSubSection } from '@/components/app/Sidebar/SidebarNavSubSection'
-import BaseIcon from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import type { SidebarNavItem, SidebarNavSection } from '@/types/sidebar'
 
 interface SidebarNavSectionProps {
