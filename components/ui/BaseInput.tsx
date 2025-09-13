@@ -1,6 +1,6 @@
-import { twMerge } from 'tailwind-merge'
 import { tv } from 'tailwind-variants'
 import { BaseIcon } from '@/components/ui/BaseIcon'
+import { cn } from '@/utils/css'
 import type { ChangeEvent, ComponentProps } from 'react'
 import type { IconSvgElement } from '@hugeicons/react'
 import type { VariantProps } from 'tailwind-variants'
@@ -11,7 +11,7 @@ const inputVariants = tv({
     label: 'inline-block mb-1.5 text-sm font-medium text-secondary cursor-pointer',
     icon: 'absolute top-1/2 -translate-y-1/2 size-4',
     input:
-      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-colors placeholder:text-control-placeholder focus:bg-control-active focus:border-control-active focus:ring-2 focus:ring-control-default focus:text-control-active',
+      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-colors placeholder:text-control-placeholder focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
   },
   variants: {
     iconPosition: {
@@ -69,8 +69,8 @@ interface BaseInputProps {
 }
 
 export function BaseInput({
-  className,
   id,
+  className,
   label,
   rootClasses,
   icon,
@@ -88,7 +88,7 @@ export function BaseInput({
   } = inputVariants({ iconPosition, size })
 
   return (
-    <div className={twMerge(base(), rootClasses)}>
+    <div className={cn(base(), rootClasses)}>
       {label && (
         <label className={labelClasses()} htmlFor={id}>
           {label}
