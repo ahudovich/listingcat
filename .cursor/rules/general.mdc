@@ -1,0 +1,32 @@
+---
+description: General coding rules
+globs:
+alwaysApply: true
+---
+
+This are general coding rules for the project.
+
+# ENUMS AND CONSTANTS
+
+- Never use "magic strings" or "magic numbers" in the code.
+- Always use typescript enums or vanilla javascript constants where appropriate.
+- Declare them inside the file that uses them ONLY if they are used only in one place (this file).
+- Extract typescript enums to separate files if they are used in multiple places (put them inside `enums` folder).
+- Extract javascript constants to separate files if they are used in multiple places (put them inside `constants.ts` file).
+- Name typescript enums with PascalCase.
+- Name javascript constants with SCREAMING_SNAKE_CASE.
+
+Examples:
+
+```ts
+// TS enum
+enum Color {
+  Red = 'red',
+  Green = 'green',
+  Blue = 'blue',
+}
+
+// JS constants
+const MAX_ITEMS = 100
+const COOKIE_PREFIX = 'prefix'
+```
