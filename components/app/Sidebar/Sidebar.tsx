@@ -96,7 +96,7 @@ export default async function Sidebar() {
     <aside className="w-72 h-full">
       <div className="flex flex-col px-5 py-6 h-full">
         <div className="flex items-center gap-3 mb-8">
-          <Link className="self-start" href="/">
+          <Link className="self-start" href="/home">
             <BaseLogo className="w-32.5 h-5" />
           </Link>
         </div>
