@@ -9,13 +9,13 @@
   },
   "author": {
     "name": "Andrei Hudovich",
-    "email": "andrei.hudovich@gmail.com",
+    "email": "andrei@hudovich.com",
     "url": "https://hudovich.com"
   },
   "homepage": "https://listingcat.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AndreiHudovich/listingcat"
+    "url": "https://github.com/ahudovich/listingcat"
   },
   "scripts": {
     "prepare": "husky",
