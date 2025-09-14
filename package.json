@@ -54,7 +54,7 @@
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.44.1",
     "lodash-es": "^4.17.21",
-    "next": "^15.3.3",
+    "next": "^15.5.3",
     "ofetch": "^1.4.1",
     "postgres": "^3.4.7",
     "posthog-js": "^1.249.2",
