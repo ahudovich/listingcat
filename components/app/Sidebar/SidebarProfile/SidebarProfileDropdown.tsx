@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Home09Icon, Logout03Icon, Mail01Icon, SentIcon } from '@hugeicons/core-free-icons'
 import posthog from 'posthog-js'
 import { DropdownMenu } from 'radix-ui'
@@ -12,18 +11,17 @@ import { EMAILS } from '@/data/emails'
 import { authClient } from '@/lib/auth/auth-client'
 
 export default function SidebarProfileDropdown({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
-
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false)
 
   async function handleSignOut() {
     await authClient.signOut({
       fetchOptions: {
         async onSuccess() {
-          router.replace('/') // TODO: Add full page reload like in Nuxt?
-
           // Unlink previously identified PostHog user
           posthog.reset()
+
+          // Full page reload after sign out
+          window.location.href = '/'
         },
       },
     })
