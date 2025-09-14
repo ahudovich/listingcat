@@ -8,11 +8,25 @@ import AuthCard from '@/components/auth/AuthCard'
 import AuthSeparator from '@/components/auth/AuthSeparator'
 import IconBrandsGoogle from '@/components/icons/IconBrandsGoogle'
 import IconBrandsMicrosoft from '@/components/icons/IconBrandsMicrosoft'
+import BaseBadge from '@/components/ui/BaseBadge'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseInput } from '@/components/ui/BaseInput'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { handleSignIn } from '@/lib/actions/auth'
 import { authClient } from '@/lib/auth/auth-client'
+
+const socialProviders = [
+  {
+    provider: 'google',
+    icon: IconBrandsGoogle,
+    label: 'Sign in with Google',
+  },
+  {
+    provider: 'microsoft',
+    icon: IconBrandsMicrosoft,
+    label: 'Sign in with Microsoft',
+  },
+] as const
 
 export default function AuthLogin() {
   const id = useId()
@@ -22,6 +36,9 @@ export default function AuthLogin() {
   const [password, setPassword] = useState('')
   const [actionError, setActionError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
+
+  // Get the last used login method
+  const lastLoginMethod = authClient.getLastUsedLoginMethod()
 
   async function submitAction() {
     flushSync(() => {
@@ -41,7 +58,7 @@ export default function AuthLogin() {
     })
   }
 
-  async function handleSocialSignIn(provider: 'google' | 'microsoft') {
+  async function handleSocialSignIn(provider: (typeof socialProviders)[number]['provider']) {
     await authClient.signIn.social({
       provider,
       callbackURL: APP_REDIRECT_URL,
@@ -94,32 +111,43 @@ export default function AuthLogin() {
           />
         </div>
 
-        <BaseButton className="w-full" type="submit" isLoading={isPending} disabled={isPending}>
-          Log in
-        </BaseButton>
+        <div className="relative">
+          <BaseButton className="w-full" type="submit" isLoading={isPending} disabled={isPending}>
+            Log in
+          </BaseButton>
+          {lastLoginMethod === 'email' && <LastLoginMethodBadge />}
+        </div>
       </form>
 
       <AuthSeparator />
 
       <div className="grid gap-3">
-        <BaseButton
-          className="w-full"
-          variant="secondary"
-          onClick={() => handleSocialSignIn('google')}
-        >
-          <IconBrandsGoogle className="!size-4.5" />
-          Sign in with Google
-        </BaseButton>
-
-        <BaseButton
-          className="w-full"
-          variant="secondary"
-          onClick={() => handleSocialSignIn('microsoft')}
-        >
-          <IconBrandsMicrosoft className="!size-4.5" />
-          Sign in with Microsoft
-        </BaseButton>
+        {socialProviders.map((item) => (
+          <div className="relative" key={item.provider}>
+            <BaseButton
+              className="w-full"
+              variant="secondary"
+              onClick={() => handleSocialSignIn(item.provider)}
+            >
+              <item.icon className="!size-4.5" />
+              {item.label}
+            </BaseButton>
+            {lastLoginMethod === item.provider && <LastLoginMethodBadge />}
+          </div>
+        ))}
       </div>
     </AuthCard>
+  )
+}
+
+function LastLoginMethodBadge() {
+  return (
+    <BaseBadge
+      className="absolute -top-1.5 -right-1.5 font-bold uppercase"
+      variant="green"
+      suppressHydrationWarning={true}
+    >
+      Last
+    </BaseBadge>
   )
 }
