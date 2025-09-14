@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Logout03Icon, Mail01Icon, SentIcon } from '@hugeicons/core-free-icons'
+import { Home09Icon, Logout03Icon, Mail01Icon, SentIcon } from '@hugeicons/core-free-icons'
 import posthog from 'posthog-js'
 import { DropdownMenu } from 'radix-ui'
 import { SubmitResourceModal } from '@/components/modals/SubmitResourceModal'
@@ -39,6 +40,23 @@ export default function SidebarProfileDropdown({ children }: { children: React.R
           sideOffset={8}
           onCloseAutoFocus={(event) => event.preventDefault()}
         >
+          <DropdownMenu.Group className="p-1">
+            <DropdownMenu.Item
+              className="group flex items-center gap-x-3 px-3 py-2 w-full rounded-lg outline-none transition-colors cursor-pointer hover:bg-zinc-100 focus:bg-zinc-100"
+              asChild
+            >
+              <Link href="/home">
+                <BaseIcon
+                  className="shrink-0 size-4.5 text-tertiary transition-colors group-hover:text-secondary group-focus:text-secondary"
+                  icon={Home09Icon}
+                />
+                <span className="font-medium text-xs text-secondary">Home page</span>
+              </Link>
+            </DropdownMenu.Item>
+          </DropdownMenu.Group>
+
+          <DropdownMenu.Separator className="h-px bg-zinc-200" />
+
           <DropdownMenu.Group className="p-1">
             <DropdownMenu.Item
               className="group flex items-center gap-x-3 px-3 py-2 w-full rounded-lg outline-none transition-colors cursor-pointer hover:bg-zinc-100 focus:bg-zinc-100"
