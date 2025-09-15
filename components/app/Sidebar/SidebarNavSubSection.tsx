@@ -21,6 +21,7 @@ export function SidebarNavSubSection({ link }: { link: SidebarNavSection }) {
           <BaseIcon
             className="shrink-0 ml-auto size-4 transition-all group-data-[state=closed]:-rotate-180"
             icon={ArrowUp01Icon}
+            strokeWidth={2.5}
           />
         </button>
       </Collapsible.Trigger>

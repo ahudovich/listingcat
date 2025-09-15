@@ -14,6 +14,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
 import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
+import { SidebarProjectSelector } from '@/components/app/Sidebar/SidebarProjectSelector'
 import SidebarService from '@/components/app/Sidebar/SidebarService'
 import BaseLogo from '@/components/ui/BaseLogo'
 
@@ -95,10 +96,12 @@ export default async function Sidebar() {
   return (
     <aside className="w-72 h-full">
       <div className="flex flex-col px-5 py-6 h-full">
-        <div className="flex items-center gap-3 mb-8">
-          <Link className="self-start" href="/home">
+        <div className="mb-6">
+          <Link className="self-start inline-block mb-3" href="/home">
             <BaseLogo className="w-32.5 h-5" />
           </Link>
+
+          <SidebarProjectSelector />
         </div>
 
         <nav className="grid gap-3 mb-6">
