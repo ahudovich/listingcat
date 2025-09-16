@@ -4,5 +4,6 @@ export const LINKS = {
   },
   PARTNERS: {
     SUBMISSION_SERVICE: 'https://www.effortlessbacklinks.com/?ref=listingcat',
+    OUTRANK: 'https://outrank.so/?via=listingcat',
   },
 }

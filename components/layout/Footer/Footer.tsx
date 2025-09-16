@@ -13,6 +13,7 @@ const links: Array<{
     name: string
     url: string
     isExternal?: boolean
+    isSponsored?: boolean
   }>
 }> = [
   {
@@ -125,6 +126,7 @@ export default function Footer() {
                     <Link
                       className="inline-block py-0.5 transition-colors hover:text-primary"
                       href={link.url}
+                      rel={link.isSponsored ? 'sponsored' : undefined}
                       target={link.isExternal ? '_blank' : undefined}
                     >
                       {link.name}
