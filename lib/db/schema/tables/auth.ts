@@ -1,5 +1,7 @@
+import { relations } from 'drizzle-orm'
 import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { benefitEnum } from '../helpers/enums'
+import { projects } from './projects'
 
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
@@ -12,6 +14,10 @@ export const users = pgTable('users', {
   benefits: benefitEnum('benefits').array(),
   isEarlyBird: boolean('is_early_bird'),
 })
+
+export const usersRelations = relations(users, ({ many }) => ({
+  projects: many(projects),
+}))
 
 export const sessions = pgTable('sessions', {
   id: text('id').primaryKey(),
