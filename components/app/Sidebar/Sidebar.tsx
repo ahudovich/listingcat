@@ -15,7 +15,6 @@ import { SidebarLink } from '@/components/app/Sidebar/SidebarLink'
 import { SidebarNavSection } from '@/components/app/Sidebar/SidebarNavSection'
 import { SidebarProfile } from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
 import { SidebarProjectSelector } from '@/components/app/Sidebar/SidebarProjectSelector'
-import { SidebarService } from '@/components/app/Sidebar/SidebarService'
 import BaseLogo from '@/components/ui/BaseLogo'
 
 const navLinks = [
@@ -104,7 +103,6 @@ export default async function Sidebar() {
         </nav>
 
         <div className="mt-auto">
-          <SidebarService className="mb-4" />
           <SidebarProfile />
         </div>
       </div>
