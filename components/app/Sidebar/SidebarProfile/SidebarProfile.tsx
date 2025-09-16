@@ -5,7 +5,7 @@ import BaseAvatar from '@/components/ui/BaseAvatar'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { auth } from '@/lib/auth'
 
-export default async function SidebarProfile({ className }: { className?: string }) {
+export async function SidebarProfile({ className }: { className?: string }) {
   const session = await auth.api.getSession({
     headers: await headers(),
   })

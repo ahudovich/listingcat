@@ -12,7 +12,7 @@ interface SidebarLinkProps {
   icon: IconSvgElement
 }
 
-export default function SidebarLink({ label, path, icon }: SidebarLinkProps) {
+export function SidebarLink({ label, path, icon }: SidebarLinkProps) {
   const pathname = usePathname()
 
   return (

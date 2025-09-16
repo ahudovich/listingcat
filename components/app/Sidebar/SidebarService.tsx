@@ -4,7 +4,7 @@ import { BaseIcon } from '@/components/ui/BaseIcon'
 import { LINKS } from '@/data/links'
 import { cn } from '@/utils/css'
 
-export default function SidebarUpgrade({ className }: { className?: string }) {
+export function SidebarService({ className }: { className?: string }) {
   return (
     <div className={cn('p-4 bg-white border border-zinc-200 rounded-lg', className)}>
       <p className="flex items-center gap-x-1.5 mb-1.5 font-semibold text-xs">

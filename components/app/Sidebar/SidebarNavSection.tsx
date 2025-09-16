@@ -1,50 +1,47 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowDown01Icon } from '@hugeicons/core-free-icons'
+import { ArrowUp01Icon, Folder01Icon, Folder02Icon } from '@hugeicons/core-free-icons'
 import { Collapsible } from 'radix-ui'
-import SidebarLink from '@/components/app/Sidebar/SidebarLink'
-import { SidebarNavSubSection } from '@/components/app/Sidebar/SidebarNavSubSection'
+import { SidebarLink } from '@/components/app/Sidebar/SidebarLink'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import type { SidebarNavItem, SidebarNavSection } from '@/types/sidebar'
+import type { IconSvgElement } from '@hugeicons/react'
 
 interface SidebarNavSectionProps {
-  label?: string
-  links: Array<SidebarNavItem | SidebarNavSection>
+  label: string
+  path: string
+  icon?: IconSvgElement
+  children?: Array<{
+    label: string
+    path: string
+    icon: IconSvgElement
+  }>
 }
 
-export default function SidebarNavSection({ label, links }: SidebarNavSectionProps) {
+export function SidebarNavSection({ link }: { link: SidebarNavSectionProps }) {
   const [isOpen, setIsOpen] = useState(true)
+
+  const Icon = isOpen ? Folder02Icon : Folder01Icon
 
   return (
     <Collapsible.Root open={isOpen} onOpenChange={setIsOpen}>
-      {label && (
-        <Collapsible.Trigger asChild>
-          <button
-            className="group flex items-center gap-1.5 mb-2 py-1 w-full cursor-pointer"
-            type="button"
-          >
-            <BaseIcon
-              className="shrink-0 size-3 text-muted transition-transform group-data-[state=closed]:-rotate-90"
-              icon={ArrowDown01Icon}
-              strokeWidth={3}
-            />
-            <span className="font-semibold text-[0.625rem] text-muted tracking-wider uppercase">
-              {label}
-            </span>
-          </button>
-        </Collapsible.Trigger>
-      )}
+      <Collapsible.Trigger asChild>
+        <button className="group flex items-center gap-3 mb-1 px-3 py-2 w-full rounded-lg cursor-pointer transition-colors hover:bg-zinc-100 [&>svg]:text-tertiary">
+          <BaseIcon className="shrink-0 size-4.5 transition-colors" icon={Icon} />
+          <span className="font-medium text-xs text-secondary">{link.label}</span>
+          <BaseIcon
+            className="shrink-0 ml-auto size-4 transition-all group-data-[state=closed]:-rotate-180"
+            icon={ArrowUp01Icon}
+            strokeWidth={2.5}
+          />
+        </button>
+      </Collapsible.Trigger>
 
       <Collapsible.Content asChild>
-        <ul className="grid gap-1">
-          {links.map((link, index) => (
+        <ul className="grid gap-1 pl-3">
+          {link.children?.map((link, index) => (
             <li key={index}>
-              {'children' in link ? (
-                <SidebarNavSubSection link={link} />
-              ) : (
-                <SidebarLink label={link.label} path={link.path} icon={link.icon} />
-              )}
+              <SidebarLink label={link.label} path={link.path} icon={link.icon} />
             </li>
           ))}
         </ul>

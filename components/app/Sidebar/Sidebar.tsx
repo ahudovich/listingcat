@@ -3,7 +3,6 @@ import {
   CanvasIcon,
   DashboardSquare01Icon,
   FolderLibraryIcon,
-  MarketingIcon,
   OpenSourceIcon,
   Pot01Icon,
   Robot01Icon,
@@ -12,83 +11,69 @@ import {
   Store03Icon,
   TestTube01Icon,
 } from '@hugeicons/core-free-icons'
-import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
-import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
+import { SidebarLink } from '@/components/app/Sidebar/SidebarLink'
+import { SidebarNavSection } from '@/components/app/Sidebar/SidebarNavSection'
+import { SidebarProfile } from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
 import { SidebarProjectSelector } from '@/components/app/Sidebar/SidebarProjectSelector'
-import SidebarService from '@/components/app/Sidebar/SidebarService'
+import { SidebarService } from '@/components/app/Sidebar/SidebarService'
 import BaseLogo from '@/components/ui/BaseLogo'
 
 const navLinks = [
   {
-    label: 'Websites',
-    links: [
+    label: 'Launch Platforms',
+    path: '/app/websites/launch-platforms',
+    icon: Rocket01Icon,
+  },
+  {
+    label: 'Directories',
+    path: '/app/websites/directories',
+    children: [
       {
-        label: 'Launch Platforms',
-        path: '/app/websites/launch-platforms',
-        icon: Rocket01Icon,
+        label: 'Anything',
+        path: '/app/websites/directories/anything',
+        icon: FolderLibraryIcon,
+      },
+      {
+        label: 'AI Tools',
+        path: '/app/websites/directories/ai-tools',
+        icon: Robot01Icon,
+      },
+      {
+        label: 'Developer Tools',
+        path: '/app/websites/directories/dev-tools',
+        icon: Settings02Icon,
+      },
+      {
+        label: 'Open Source',
+        path: '/app/websites/directories/open-source',
+        icon: OpenSourceIcon,
       },
       {
         label: 'Directories',
-        path: '/app/websites/directories',
-        children: [
-          {
-            label: 'Anything',
-            path: '/app/websites/directories/anything',
-            icon: FolderLibraryIcon,
-          },
-          {
-            label: 'AI Tools',
-            path: '/app/websites/directories/ai-tools',
-            icon: Robot01Icon,
-          },
-          {
-            label: 'Developer Tools',
-            path: '/app/websites/directories/dev-tools',
-            icon: Settings02Icon,
-          },
-          {
-            label: 'Open Source',
-            path: '/app/websites/directories/open-source',
-            icon: OpenSourceIcon,
-          },
-          {
-            label: 'Directories',
-            path: '/app/websites/directories/directories',
-            icon: DashboardSquare01Icon,
-          },
-          {
-            label: 'Boilerplates',
-            path: '/app/websites/directories/boilerplates',
-            icon: Pot01Icon,
-          },
-        ],
+        path: '/app/websites/directories/directories',
+        icon: DashboardSquare01Icon,
       },
       {
-        label: 'Marketplaces',
-        path: '/app/websites/marketplaces',
-        icon: Store03Icon,
-      },
-      {
-        label: 'Showcase',
-        path: '/app/websites/showcase',
-        icon: CanvasIcon,
-      },
-      {
-        label: 'Specials',
-        path: '/app/websites/specials',
-        icon: TestTube01Icon,
+        label: 'Boilerplates',
+        path: '/app/websites/directories/boilerplates',
+        icon: Pot01Icon,
       },
     ],
   },
   {
-    label: 'Services',
-    links: [
-      {
-        label: 'Social marketing',
-        path: '/app/services/social-marketing',
-        icon: MarketingIcon,
-      },
-    ],
+    label: 'Marketplaces',
+    path: '/app/websites/marketplaces',
+    icon: Store03Icon,
+  },
+  {
+    label: 'Showcase',
+    path: '/app/websites/showcase',
+    icon: CanvasIcon,
+  },
+  {
+    label: 'Specials',
+    path: '/app/websites/specials',
+    icon: TestTube01Icon,
   },
 ]
 
@@ -104,9 +89,17 @@ export default async function Sidebar() {
           <SidebarProjectSelector />
         </div>
 
-        <nav className="grid gap-3 mb-6">
+        <nav className="grid gap-1 mb-6">
           {navLinks.map((link, index) => (
-            <SidebarNavSection key={index} label={link.label} links={link.links} />
+            <ul key={index} className="grid gap-1">
+              <li key={index}>
+                {'children' in link ? (
+                  <SidebarNavSection link={link} />
+                ) : (
+                  <SidebarLink label={link.label} path={link.path} icon={link.icon} />
+                )}
+              </li>
+            </ul>
           ))}
         </nav>
 
