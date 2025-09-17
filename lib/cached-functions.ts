@@ -1,7 +1,7 @@
 import { cache } from 'react'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
 import { getDB, tables } from '@/lib/drizzle'
 
@@ -37,4 +37,13 @@ export const getProjects = cache(async (userId: string) => {
     .where(eq(tables.projects.userId, userId))
 
   return projects
+})
+
+export const getProject = cache(async (userId: string, projectSlug: string) => {
+  const project = await getDB()
+    .select()
+    .from(tables.projects)
+    .where(and(eq(tables.projects.userId, userId), eq(tables.projects.slug, projectSlug)))
+
+  return project[0]
 })

@@ -1,16 +1,16 @@
+'use client'
+
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { Menu } from '@base-ui-components/react/menu'
 import { ArrowDown01Icon, Tick02Icon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import type { Project } from '@/lib/db/schema/tables/projects'
 
-export function SidebarProjectSelector({
-  projects,
-  projectSlug,
-}: {
-  projects: Array<Project>
-  projectSlug?: string
-}) {
+export function SidebarProjectSelector({ projects }: { projects: Array<Project> }) {
+  const params = useParams()
+  const projectSlug = params.projectSlug as string | undefined
+
   const currentProject = projects.find((project) => project.slug === projectSlug)
 
   return (
@@ -44,7 +44,11 @@ export function SidebarProjectSelector({
         >
           <Menu.Popup className="overflow-hidden p-1 w-full bg-white border border-zinc-200 rounded-lg shadow-lg transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
             {projects.map((project) => (
-              <SidebarProjectSelectorItem key={project.id} project={project} />
+              <SidebarProjectSelectorItem
+                key={project.id}
+                project={project}
+                isCurrentProject={project.slug === projectSlug}
+              />
             ))}
           </Menu.Popup>
         </Menu.Positioner>
@@ -53,7 +57,13 @@ export function SidebarProjectSelector({
   )
 }
 
-export function SidebarProjectSelectorItem({ project }: { project: Project }) {
+export function SidebarProjectSelectorItem({
+  project,
+  isCurrentProject,
+}: {
+  project: Project
+  isCurrentProject: boolean
+}) {
   return (
     <Menu.Item
       className="flex items-center gap-2.5 px-3 py-2 font-medium text-xs rounded-lg outline-none select-none transition-colors cursor-pointer data-[highlighted]:bg-zinc-100"
@@ -66,11 +76,14 @@ export function SidebarProjectSelectorItem({ project }: { project: Project }) {
         alt={`${project.name} favicon`}
       />
       {project.name}
-      <BaseIcon
-        className="shrink-0 ml-auto size-4 text-control-icon"
-        icon={Tick02Icon}
-        strokeWidth={2.5}
-      />
+
+      {isCurrentProject && (
+        <BaseIcon
+          className="shrink-0 ml-auto size-4 text-control-icon"
+          icon={Tick02Icon}
+          strokeWidth={2.5}
+        />
+      )}
     </Menu.Item>
   )
 }

@@ -77,7 +77,7 @@ const navLinks = [
   },
 ]
 
-export default async function Sidebar({ projectSlug }: { projectSlug?: string }) {
+export default async function Sidebar() {
   const { session } = await verifySession()
   const projects = await getProjects(session.user.id)
 
@@ -89,7 +89,7 @@ export default async function Sidebar({ projectSlug }: { projectSlug?: string })
             <BaseLogo className="w-32.5 h-5" />
           </Link>
 
-          <SidebarProjectSelector projects={projects} projectSlug={projectSlug} />
+          <SidebarProjectSelector projects={projects} />
         </div>
 
         <nav className="grid gap-1 mb-6">
