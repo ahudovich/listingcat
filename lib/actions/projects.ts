@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import * as Sentry from '@sentry/nextjs'
 import slug from 'slug'
 import { z } from 'zod'
@@ -55,6 +56,9 @@ export async function createProject(
       slug: projectSlug,
       websiteUrl: websiteUrl.trim(),
     })
+
+    // Revalidate the layout to refresh the sidebar
+    revalidatePath('/app', 'layout')
 
     return { success: true, slug: projectSlug }
   } catch (error) {
