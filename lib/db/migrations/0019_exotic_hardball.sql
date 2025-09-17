@@ -1,0 +1,1 @@
+ALTER TABLE "projects" ADD CONSTRAINT "user_website_url_unique" UNIQUE("user_id","website_url");
