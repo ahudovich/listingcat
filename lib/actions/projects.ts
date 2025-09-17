@@ -1,24 +1,32 @@
 'use server'
 
 import * as Sentry from '@sentry/nextjs'
+import slug from 'slug'
 import { z } from 'zod'
-import { sendDiscordNotification } from '@/lib/discord'
+import { verifySession } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
 
-const schema = z.object({
-  name: z.string(),
+const ProjectSchema = z.object({
+  name: z.string().min(1),
   websiteUrl: z.url('Please enter a valid URL'),
 })
 
-export interface SubmitResourceResult {
-  success: boolean
-  error?: string
-}
+export type CreateProjectResult =
+  | {
+      success: false
+      error?: string
+    }
+  | {
+      success: true
+      slug: string
+    }
 
-export async function submitResource(
-  currentState: SubmitResourceResult | null,
+export async function createProject(
+  currentState: CreateProjectResult | null,
   formData: FormData
-): Promise<SubmitResourceResult> {
+): Promise<CreateProjectResult> {
+  const { session } = await verifySession()
+
   try {
     // Extract and validate form data
     const rawFormData = {
@@ -26,7 +34,7 @@ export async function submitResource(
       websiteUrl: formData.get('websiteUrl')?.toString() ?? '',
     }
 
-    const validationResult = schema.safeParse(rawFormData)
+    const validationResult = ProjectSchema.safeParse(rawFormData)
 
     if (!validationResult.success) {
       return {
@@ -37,31 +45,24 @@ export async function submitResource(
 
     const { name, websiteUrl } = validationResult.data
 
+    // Generate URL-friendly slug
+    const projectSlug = slug(name)
+
     // Save to database
-    await getDB().insert(tables.submissions).values({
+    await getDB().insert(tables.projects).values({
+      userId: session.user.id,
       name: name.trim(),
+      slug: projectSlug,
       websiteUrl: websiteUrl.trim(),
     })
 
-    // Send Discord notification
-    // prettier-ignore
-    const discordMessage =
-      '🎉 ** New resource submitted **\n\n' +
-      `• Name: ${name}\n` +
-      `• URL: ${websiteUrl}`
-
-    await sendDiscordNotification({
-      type: 'submissions',
-      message: discordMessage,
-    })
-
-    return { success: true }
+    return { success: true, slug: projectSlug }
   } catch (error) {
     Sentry.captureException(error)
 
     return {
       success: false,
-      error: 'Failed to submit resource. Please try again.',
+      error: 'Failed to create project. Please try again.',
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import PageHeader from '@/components/app/PageHeader'
+import { PageHeader } from '@/components/app/PageHeader'
 import { ServiceSocialCard } from '@/components/app/Services/ServiceSocialCard'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
 import { getDB, tables } from '@/lib/drizzle'

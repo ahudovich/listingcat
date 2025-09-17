@@ -16,6 +16,7 @@ import { SidebarNavSection } from '@/components/app/Sidebar/SidebarNavSection'
 import { SidebarProfile } from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
 import { SidebarProjectSelector } from '@/components/app/Sidebar/SidebarProjectSelector'
 import BaseLogo from '@/components/ui/BaseLogo'
+import { getProjects, verifySession } from '@/lib/cached-functions'
 
 const navLinks = [
   {
@@ -76,7 +77,10 @@ const navLinks = [
   },
 ]
 
-export default async function Sidebar() {
+export default async function Sidebar({ projectSlug }: { projectSlug?: string }) {
+  const { session } = await verifySession()
+  const projects = await getProjects(session.user.id)
+
   return (
     <aside className="w-72 h-full">
       <div className="flex flex-col px-5 py-6 h-full">
@@ -85,7 +89,7 @@ export default async function Sidebar() {
             <BaseLogo className="w-32.5 h-5" />
           </Link>
 
-          <SidebarProjectSelector />
+          <SidebarProjectSelector projects={projects} projectSlug={projectSlug} />
         </div>
 
         <nav className="grid gap-1 mb-6">

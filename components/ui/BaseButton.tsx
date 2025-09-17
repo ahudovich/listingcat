@@ -6,7 +6,7 @@ import type { ComponentProps, ReactNode } from 'react'
 import type { VariantProps } from 'tailwind-variants'
 
 const buttonVariants = tv({
-  base: 'inline-flex justify-center items-center gap-1.5 rounded-full outline-none font-semibold whitespace-nowrap transition-colors cursor-pointer focus:ring-2 focus:ring-control-default disabled:opacity-50 disabled:cursor-default [&>svg]:shrink-0 [&>svg]:fill-current',
+  base: 'group inline-flex justify-center items-center gap-1.5 rounded-full outline-none font-semibold whitespace-nowrap transition-colors cursor-pointer focus:ring-2 focus:ring-control-default disabled:opacity-50 disabled:cursor-default [&>svg]:shrink-0 [&>svg]:fill-current',
   variants: {
     size: {
       xs: 'px-4 h-control-xs text-xs [&_svg]:!size-3.5',

@@ -1,11 +1,19 @@
 import { SidebarWrapper } from '@/components/app/layout/SidebarWrapper'
 import Sidebar from '@/components/app/Sidebar/Sidebar'
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default async function AppLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ projectSlug?: string }>
+}) {
+  const { projectSlug } = await params
+
   return (
     <main className="lg:overflow-hidden lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-1 lg:h-dvh lg:bg-zinc-50">
       <SidebarWrapper>
-        <Sidebar />
+        <Sidebar projectSlug={projectSlug} />
       </SidebarWrapper>
 
       <div className="pb-4 lg:pr-3 lg:py-3">

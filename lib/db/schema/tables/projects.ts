@@ -11,9 +11,9 @@ export const projects = pgTable('projects', {
   userId: text()
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  name: text(),
-  websiteUrl: text().notNull(),
+  name: text().notNull(),
   slug: text().notNull(),
+  websiteUrl: text().notNull(),
   ...timestamps,
 })
 

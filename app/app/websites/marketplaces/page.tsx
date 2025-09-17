@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import DataTableMarketplaces from '@/components/app/DataTable/tables/DataTableMarketplaces'
-import PageHeader from '@/components/app/PageHeader'
+import { PageHeader } from '@/components/app/PageHeader'
 import { getDB, tables } from '@/lib/drizzle'
 
 export const metadata: Metadata = {

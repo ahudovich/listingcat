@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { eq } from 'drizzle-orm'
 import DataTableDirectories from '@/components/app/DataTable/tables/DataTableDirectories'
-import PageHeader from '@/components/app/PageHeader'
+import { PageHeader } from '@/components/app/PageHeader'
 import { ProductCategories } from '@/enums/ProductCategories.enum'
 import { getDB, tables } from '@/lib/drizzle'
 
