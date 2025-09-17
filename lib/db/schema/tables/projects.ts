@@ -13,6 +13,7 @@ export const projects = pgTable('projects', {
     .references(() => users.id, { onDelete: 'cascade' }),
   name: text(),
   websiteUrl: text().notNull(),
+  slug: text().notNull(),
   ...timestamps,
 })
 
@@ -22,3 +23,5 @@ export const projectsRelations = relations(projects, ({ one }) => ({
     references: [users.id],
   }),
 }))
+
+export type Project = typeof projects.$inferSelect
