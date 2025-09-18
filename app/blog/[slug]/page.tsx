@@ -21,12 +21,8 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata at build time
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}): Promise<Metadata> {
-  const { slug } = await params
+export async function generateMetadata(props: PageProps<'/blog/[slug]'>): Promise<Metadata> {
+  const { slug } = await props.params
 
   const post = allBlogPosts.find((post) => post._meta.path === slug) as BlogPost
 
@@ -45,8 +41,8 @@ export async function generateMetadata({
   }
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+export default async function BlogPostPage(props: PageProps<'/blog/[slug]'>) {
+  const { slug } = await props.params
 
   const post = allBlogPosts.find((post) => post._meta.path === slug) as BlogPost
 
