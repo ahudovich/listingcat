@@ -1,6 +1,6 @@
 import { cache } from 'react'
 import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { and, eq } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
 import { getDB, tables } from '@/lib/drizzle'
@@ -44,6 +44,11 @@ export const getProject = cache(async (userId: string, projectSlug: string) => {
     .select()
     .from(tables.projects)
     .where(and(eq(tables.projects.userId, userId), eq(tables.projects.slug, projectSlug)))
+
+  // Show 404 if project not found
+  if (!project[0]) {
+    notFound()
+  }
 
   return project[0]
 })

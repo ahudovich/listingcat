@@ -8,7 +8,7 @@ export function ProjectsNoData() {
   const [isCreateProjectModalOpen, setIsCreateProjectModalOpen] = useState(false)
 
   return (
-    <div className="grid place-content-center h-full text-center p-12">
+    <div className="grid place-content-center p-12 h-full text-center">
       <h1 className="mb-2 font-display font-bold text-xl text-primary">
         You don&apos;t have any projects yet.
       </h1>

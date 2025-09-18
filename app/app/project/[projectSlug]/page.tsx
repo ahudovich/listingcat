@@ -2,13 +2,11 @@ import { Metadata } from 'next'
 import { PageHeader } from '@/components/app/PageHeader'
 import { getProject, verifySession } from '@/lib/cached-functions'
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ projectSlug: string }>
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: PageProps<'/app/project/[projectSlug]'>
+): Promise<Metadata> {
   const { session } = await verifySession()
-  const projectSlug = (await params).projectSlug
+  const { projectSlug } = await props.params
 
   const project = await getProject(session.user.id, projectSlug)
 
@@ -17,13 +15,9 @@ export async function generateMetadata({
   }
 }
 
-export default async function ProjectPage({
-  params,
-}: {
-  params: Promise<{ projectSlug: string }>
-}) {
+export default async function ProjectPage(props: PageProps<'/app/project/[projectSlug]'>) {
   const { session } = await verifySession()
-  const projectSlug = (await params).projectSlug
+  const { projectSlug } = await props.params
 
   const project = await getProject(session.user.id, projectSlug)
 
