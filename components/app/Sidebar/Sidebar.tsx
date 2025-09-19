@@ -13,6 +13,7 @@ import {
   TestTube01Icon,
 } from '@hugeicons/core-free-icons'
 import SidebarNavSection from '@/components/app/Sidebar/SidebarNavSection'
+import { SidebarNews } from '@/components/app/Sidebar/SidebarNews'
 import SidebarProfile from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
 import BaseLogo from '@/components/ui/BaseLogo'
 
@@ -107,6 +108,7 @@ export default async function Sidebar() {
         </nav>
 
         <div className="mt-auto">
+          <SidebarNews className="mb-4" />
           <SidebarProfile />
         </div>
       </div>
