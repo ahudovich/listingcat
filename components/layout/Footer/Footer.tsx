@@ -87,7 +87,7 @@ export default function Footer() {
         <div className="mb-8 text-center lg:mb-0 sm:text-left">
           <BaseLogo className="mx-auto mb-3 w-35.5 h-5.5 sm:mx-0" />
           <p className="mb-4 text-xs-relaxed">Discover the best places to promote your startup.</p>
-          <ul className="flex items-center justify-center gap-3.5 mb-6 sm:justify-start">
+          <ul className="flex items-center justify-center gap-3.5 sm:justify-start">
             {socialLinks.map((link) => (
               <li key={link.url}>
                 <Link className="group" href={link.url} target="_blank">
@@ -100,20 +100,6 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-
-          <div className="inline-block px-6 py-3 bg-emerald-50 border border-emerald-600/75 ring-3 ring-emerald-600/25 rounded-xl text-xs text-secondary">
-            <p className="mb-1">Looking for a submission service?</p>
-            <p>
-              <a
-                className="font-semibold text-emerald-700 hover:text-emerald-800"
-                href={LINKS.PARTNERS.SUBMISSION_SERVICE}
-                rel="sponsored"
-                target="_blank"
-              >
-                Submit your startup to 100+ directories
-              </a>
-            </p>
-          </div>
         </div>
 
         <div className="grid gap-6 text-center sm:flex sm:gap-x-20 sm:text-left lg:ml-auto">
