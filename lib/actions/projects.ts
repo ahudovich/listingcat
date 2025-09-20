@@ -2,15 +2,11 @@
 
 import { revalidatePath } from 'next/cache'
 import * as Sentry from '@sentry/nextjs'
+import { createServerValidate, ServerValidateError } from '@tanstack/react-form/nextjs'
 import slug from 'slug'
-import { z } from 'zod'
 import { verifySession } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
-
-const ProjectSchema = z.object({
-  name: z.string().min(1),
-  websiteUrl: z.url('Please enter a valid URL'),
-})
+import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/options'
 
 export type CreateProjectResult =
   | {
@@ -22,48 +18,48 @@ export type CreateProjectResult =
       slug: string
     }
 
-export async function createProject(
-  currentState: CreateProjectResult | null,
+export const validateCreateProjectForm = createServerValidate({
+  ...createProjectFormOptions,
+  onServerValidate: createProjectSchema,
+})
+
+export async function createProjectAction(
+  currentState: unknown,
   formData: FormData
 ): Promise<CreateProjectResult> {
   const { session } = await verifySession()
 
   try {
-    // Extract and validate form data
-    const rawFormData = {
-      name: formData.get('name')?.toString() ?? '',
-      websiteUrl: formData.get('websiteUrl')?.toString() ?? '',
-    }
-
-    const validationResult = ProjectSchema.safeParse(rawFormData)
-
-    if (!validationResult.success) {
-      return {
-        success: false,
-        error: 'Please fill in all fields correctly.',
-      }
-    }
-
-    const { name, websiteUrl } = validationResult.data
+    // Validate form data
+    const validatedData = await validateCreateProjectForm(formData)
 
     // Generate URL-friendly slug
-    const projectSlug = slug(name)
+    const projectSlug = slug(validatedData.name)
 
     // Save to database
     await getDB().insert(tables.projects).values({
       userId: session.user.id,
-      name: name.trim(),
+      name: validatedData.name.trim(),
       slug: projectSlug,
-      websiteUrl: websiteUrl.trim(),
+      websiteUrl: validatedData.websiteUrl.trim(),
     })
 
     // Revalidate the layout to refresh the sidebar
     revalidatePath('/app', 'layout')
 
     return { success: true, slug: projectSlug }
-  } catch (error) {
+  } catch (error: unknown) {
     Sentry.captureException(error)
 
+    // Form validation error
+    if (error instanceof ServerValidateError) {
+      return {
+        success: false,
+        error: error.formState.errors.map(({ message }) => message).join(', '),
+      }
+    }
+
+    // Other errors
     return {
       success: false,
       error: 'Failed to create project. Please try again.',

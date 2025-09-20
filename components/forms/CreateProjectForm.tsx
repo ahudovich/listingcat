@@ -1,15 +1,35 @@
+'use client'
+
 import { useActionState, useId } from 'react'
 import Link from 'next/link'
 import { ArrowRight02Icon } from '@hugeicons/core-free-icons'
+import { revalidateLogic, useForm } from '@tanstack/react-form'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseInput } from '@/components/ui/BaseInput'
-import { createProject } from '@/lib/actions/projects'
+import { createProjectAction } from '@/lib/actions/projects'
+import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/options'
 
 export function CreateProjectForm() {
   const id = useId()
 
-  const [state, formAction, isPending] = useActionState(createProject, null)
+  const [state, formAction] = useActionState(createProjectAction, null)
+
+  const form = useForm({
+    ...createProjectFormOptions,
+    validationLogic: revalidateLogic({
+      mode: 'submit',
+      modeAfterSubmission: 'change',
+    }),
+  })
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    if (!form.state.canSubmit || form.state.isPristine) {
+      event.preventDefault()
+    }
+
+    form.handleSubmit()
+  }
 
   return (
     <>
@@ -44,34 +64,72 @@ export function CreateProjectForm() {
           </BaseButton>
         </div>
       ) : (
-        <form action={formAction}>
+        <form action={formAction} onSubmit={handleSubmit}>
           <div className="mb-4">
-            <BaseInput
-              id={`${id}-name`}
-              name="name"
-              label="Project name"
-              type="text"
-              placeholder="Tesla"
-              autoComplete="off"
-              required={true}
-            />
+            <form.Field name="name" validators={{ onDynamic: createProjectSchema.shape.name }}>
+              {(field) => (
+                <>
+                  <BaseInput
+                    id={`${id}-${field.name}`}
+                    name={field.name}
+                    label="Project name"
+                    type="text"
+                    placeholder="Tesla"
+                    autoComplete="off"
+                    value={field.state.value}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                  />
+
+                  {!field.state.meta.isValid && (
+                    <p className="mt-1 font-medium text-xs text-red-500" role="alert">
+                      {field.state.meta.errors.map((error) => error?.message).join(', ')}
+                    </p>
+                  )}
+                </>
+              )}
+            </form.Field>
           </div>
 
           <div className="mb-8">
-            <BaseInput
-              id={`${id}-website-url`}
+            <form.Field
               name="websiteUrl"
-              label="Project website (full URL)"
-              type="url"
-              placeholder="https://tesla.com"
-              autoComplete="off"
-              required={true}
-            />
+              validators={{ onDynamic: createProjectSchema.shape.websiteUrl }}
+            >
+              {(field) => (
+                <>
+                  <BaseInput
+                    id={`${id}-${field.name}`}
+                    name={field.name}
+                    label="Project website (full URL)"
+                    type="text"
+                    placeholder="https://tesla.com"
+                    autoComplete="off"
+                    value={field.state.value}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                  />
+
+                  {!field.state.meta.isValid && (
+                    <p className="mt-1 font-medium text-xs text-red-500" role="alert">
+                      {field.state.meta.errors.map((error) => error?.message).join(', ')}
+                    </p>
+                  )}
+                </>
+              )}
+            </form.Field>
           </div>
 
-          <BaseButton className="w-full" type="submit" isLoading={isPending} disabled={isPending}>
-            Create
-          </BaseButton>
+          <form.Subscribe selector={(formState) => [formState.canSubmit, formState.isSubmitting]}>
+            {([canSubmit, isSubmitting]) => (
+              <BaseButton
+                className="w-full"
+                type="submit"
+                disabled={!canSubmit}
+                isLoading={isSubmitting}
+              >
+                Create
+              </BaseButton>
+            )}
+          </form.Subscribe>
         </form>
       )}
     </>
