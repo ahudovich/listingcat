@@ -11,7 +11,7 @@ const inputVariants = tv({
     label: 'inline-block mb-1.5 text-sm font-medium text-secondary cursor-pointer',
     icon: 'absolute top-1/2 -translate-y-1/2 size-4',
     input:
-      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-colors placeholder:text-control-placeholder focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
+      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-all placeholder:text-control-placeholder focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
   },
   variants: {
     iconPosition: {
@@ -59,6 +59,7 @@ export type NativeInputValue = ComponentProps<'input'>['value']
 interface BaseInputProps {
   id: string
   className?: string
+  error?: string
   icon?: IconSvgElement
   iconPosition?: InputVariants['iconPosition']
   rootClasses?: string
@@ -71,6 +72,7 @@ interface BaseInputProps {
 export function BaseInput({
   id,
   className,
+  error,
   label,
   rootClasses,
   icon,
@@ -98,7 +100,10 @@ export function BaseInput({
       <div className="relative">
         <input
           id={id}
-          className={input({ className })}
+          className={cn(
+            input({ className }),
+            error && 'border-control-error ring-2 ring-control-error'
+          )}
           value={value}
           onChange={onChange}
           {...props}
@@ -106,6 +111,10 @@ export function BaseInput({
 
         {icon && <BaseIcon className={iconClasses()} icon={icon} strokeWidth={2.5} />}
       </div>
+
+      <p className="mt-1.5 text-xs text-control-error" role="alert">
+        {error}
+      </p>
     </div>
   )
 }

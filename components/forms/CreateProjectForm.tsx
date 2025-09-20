@@ -79,15 +79,10 @@ export function CreateProjectForm() {
                     type="text"
                     placeholder="Tesla"
                     autoComplete="off"
+                    error={field.state.meta.errors[0]?.message}
                     value={field.state.value}
                     onChange={(event) => field.handleChange(event.target.value)}
                   />
-
-                  {!field.state.meta.isValid && (
-                    <p className="mt-1 font-medium text-xs text-red-500" role="alert">
-                      {field.state.meta.errors.map((error) => error?.message).join(', ')}
-                    </p>
-                  )}
                 </>
               )}
             </form.Field>
@@ -107,15 +102,10 @@ export function CreateProjectForm() {
                     type="text"
                     placeholder="https://tesla.com"
                     autoComplete="off"
+                    error={field.state.meta.errors[0]?.message}
                     value={field.state.value}
                     onChange={(event) => field.handleChange(event.target.value)}
                   />
-
-                  {!field.state.meta.isValid && (
-                    <p className="mt-1 font-medium text-xs text-red-500" role="alert">
-                      {field.state.meta.errors.map((error) => error?.message).join(', ')}
-                    </p>
-                  )}
                 </>
               )}
             </form.Field>
