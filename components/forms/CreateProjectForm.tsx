@@ -4,6 +4,7 @@ import { useActionState, useId } from 'react'
 import Link from 'next/link'
 import { ArrowRight02Icon } from '@hugeicons/core-free-icons'
 import { revalidateLogic, useForm } from '@tanstack/react-form'
+import { BaseAlert } from '@/components/ui/BaseAlert'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseInput } from '@/components/ui/BaseInput'
@@ -34,19 +35,21 @@ export function CreateProjectForm() {
   return (
     <>
       {state && !state.success && (
-        <p
-          className="mb-4 px-3 py-2 bg-red-100 border border-red-300 rounded-control text-xs text-red-700"
-          aria-live="polite"
-        >
-          {state.error ?? 'Something went wrong. Please try again.'}
-        </p>
+        <BaseAlert className="mb-4" variant="destructive" aria-live="polite">
+          {state.errors ? (
+            <ul className="space-y-0.5 pl-4 list-disc list-outside">
+              {state.errors.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>Something went wrong. Please try again.</p>
+          )}
+        </BaseAlert>
       )}
 
       {state && state.success ? (
-        <div
-          className="px-6 py-3 bg-green-100 border border-green-300 rounded-control text-center"
-          aria-live="polite"
-        >
+        <BaseAlert className="px-6 py-3 text-center" aria-live="polite">
           <p className="mb-1 font-semibold text-green-800">Project created successfully!</p>
           <p className="mb-4 text-xs text-green-700 text-balance">
             You can now start submitting resources.
@@ -62,7 +65,7 @@ export function CreateProjectForm() {
               />
             </Link>
           </BaseButton>
-        </div>
+        </BaseAlert>
       ) : (
         <form action={formAction} onSubmit={handleSubmit}>
           <div className="mb-4">

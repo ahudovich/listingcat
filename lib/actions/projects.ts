@@ -7,11 +7,12 @@ import slug from 'slug'
 import { verifySession } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
 import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/options'
+import { getZodErrorsAsArray } from '@/utils/validation'
 
 export type CreateProjectResult =
   | {
       success: false
-      error?: string
+      errors?: Array<string>
     }
   | {
       success: true
@@ -55,14 +56,14 @@ export async function createProjectAction(
     if (error instanceof ServerValidateError) {
       return {
         success: false,
-        error: error.formState.errors.map(({ message }) => message).join(', '),
+        errors: getZodErrorsAsArray(error.formState.errors) ?? [error.message],
       }
     }
 
     // Other errors
     return {
       success: false,
-      error: 'Failed to create project. Please try again.',
+      errors: ['Failed to create project. Please try again.'],
     }
   }
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { useDebounce } from 'react-use'
 import { Cancel01Icon, Search01Icon } from '@hugeicons/core-free-icons'
