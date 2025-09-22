@@ -89,11 +89,11 @@ export function AppHeaderProjectSelector({
 
       <Combobox.Portal>
         <Combobox.Positioner
-          className="w-64 outline-none select-none z-popup"
+          className="outline-none select-none z-popup"
           align="start"
           sideOffset={4}
         >
-          <Combobox.Popup className="overflow-hidden w-[var(--anchor-width)] min-w-64 bg-white border border-layout-separator rounded-lg shadow-lg transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
+          <Combobox.Popup className="overflow-hidden w-[var(--anchor-width)] min-w-64 bg-white border border-layout-separator rounded-lg shadow-lg transition-opacity data-[starting-style]:opacity-0">
             {/* Search */}
             <div className="group relative">
               <BaseIcon

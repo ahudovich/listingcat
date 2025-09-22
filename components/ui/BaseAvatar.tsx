@@ -6,7 +6,7 @@ import type { VariantProps } from 'tailwind-variants'
 
 const avatarVariants = tv({
   slots: {
-    base: '',
+    base: 'block',
     fallbackIcon: '',
   },
   variants: {
@@ -30,18 +30,18 @@ type AvatarVariants = VariantProps<typeof avatarVariants>
 
 interface BaseAvatarProps {
   name: string
-  src: string
   className?: string
+  src?: string
   size?: AvatarVariants['size']
 }
 
-export function BaseAvatar({ className, size, src, name, ...props }: BaseAvatarProps) {
+export function BaseAvatar({ className, name, size, src, ...props }: BaseAvatarProps) {
   const { base, fallbackIcon } = avatarVariants({ size })
 
   return (
     <Avatar.Root className={base({ className })} {...props}>
       <Avatar.Image className="size-full object-cover rounded-full" src={src} alt={name} />
-      <Avatar.Fallback className="grid place-content-center size-full bg-zinc-200/50 rounded-full text-tertiary">
+      <Avatar.Fallback className="grid place-content-center size-full bg-layout-separator/50 rounded-full text-tertiary">
         <BaseIcon className={fallbackIcon()} icon={User03Icon} />
       </Avatar.Fallback>
     </Avatar.Root>
