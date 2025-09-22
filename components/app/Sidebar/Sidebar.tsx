@@ -15,7 +15,7 @@ import { SidebarLink } from '@/components/app/Sidebar/SidebarLink'
 import { SidebarNavSection } from '@/components/app/Sidebar/SidebarNavSection'
 import { SidebarProfile } from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
 import { SidebarProjectSelector } from '@/components/app/Sidebar/SidebarProjectSelector'
-import BaseLogo from '@/components/ui/BaseLogo'
+import { BaseLogo } from '@/components/ui/BaseLogo'
 import { getProjects, verifySession } from '@/lib/cached-functions'
 
 const navLinks = [

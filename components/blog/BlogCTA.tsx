@@ -3,7 +3,7 @@ import { ArrowRight02Icon } from '@hugeicons/core-free-icons'
 import { TrustedBy } from '@/components/TrustedBy/TrustedBy'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseLogo from '@/components/ui/BaseLogo'
+import { BaseLogo } from '@/components/ui/BaseLogo'
 
 export function BlogCTA() {
   return (
