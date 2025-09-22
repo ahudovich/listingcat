@@ -72,24 +72,22 @@ const navLinks = [
   },
 ]
 
-export default async function Sidebar() {
+export async function Sidebar() {
   return (
-    <aside className="w-72 h-full">
-      <div className="flex flex-col px-5 py-6 h-full">
-        <nav className="grid gap-1 mb-6">
-          {navLinks.map((link, index) => (
-            <ul key={index} className="grid gap-1">
-              <li key={index}>
-                {'children' in link ? (
-                  <SidebarNavSection link={link} />
-                ) : (
-                  <SidebarLink label={link.label} path={link.path} icon={link.icon} />
-                )}
-              </li>
-            </ul>
-          ))}
-        </nav>
-      </div>
+    <aside className="w-64 h-full bg-zinc-50 border-r border-layout-separator">
+      <nav className="p-2">
+        {navLinks.map((link, index) => (
+          <ul key={index} className="grid gap-1">
+            <li key={index}>
+              {'children' in link ? (
+                <SidebarNavSection link={link} />
+              ) : (
+                <SidebarLink label={link.label} path={link.path} icon={link.icon} />
+              )}
+            </li>
+          </ul>
+        ))}
+      </nav>
     </aside>
   )
 }

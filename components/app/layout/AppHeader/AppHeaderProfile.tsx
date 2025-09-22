@@ -46,7 +46,7 @@ export function AppHeaderProfile({ className }: { className?: string }) {
 
         <Menu.Portal>
           <Menu.Positioner className="outline-none z-popup" align="end" sideOffset={4}>
-            <Menu.Popup className="overflow-hidden w-64 bg-white border border-layout-separator rounded-lg shadow-lg transition-opacity data-[starting-style]:opacity-0">
+            <Menu.Popup className="overflow-hidden w-64 bg-white border border-layout-separator rounded-lg shadow-lg origin-[var(--transform-origin)] transition-[scale,opacity] ease-out data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
               <div className="px-4 py-2 text-xs">
                 {name && <p className="font-medium truncate">{name}</p>}
                 {email && (

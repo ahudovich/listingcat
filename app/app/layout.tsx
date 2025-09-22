@@ -1,22 +1,18 @@
 import { AppHeader } from '@/components/app/layout/AppHeader/AppHeader'
 import { SidebarWrapper } from '@/components/app/layout/SidebarWrapper'
-import Sidebar from '@/components/app/Sidebar/Sidebar'
+import { Sidebar } from '@/components/app/Sidebar/Sidebar'
 
-export default async function AppLayout({ children }: { children: React.ReactNode }) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="grid grid-rows-[auto_1fr] h-dvh">
       <AppHeader />
-      <main className="lg:overflow-hidden lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-1 lg:h-dvh lg:bg-zinc-50">
+      <main className="overflow-hidden lg:grid lg:grid-cols-[auto_1fr] lg:h-full">
         <SidebarWrapper>
           <Sidebar />
         </SidebarWrapper>
 
-        <div className="pb-4 lg:pr-3 lg:py-3">
-          <div className="bg-white lg:grid lg:grid-rows-[auto_1fr] lg:h-full lg:border lg:border-zinc-200 lg:rounded-xl">
-            {children}
-          </div>
-        </div>
+        <div className="bg-white lg:grid lg:grid-rows-[auto_1fr] lg:h-full">{children}</div>
       </main>
-    </>
+    </div>
   )
 }

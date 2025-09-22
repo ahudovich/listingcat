@@ -38,7 +38,7 @@ export function SidebarNavSection({ link }: { link: SidebarNavSectionProps }) {
       </Collapsible.Trigger>
 
       <Collapsible.Content asChild>
-        <ul className="grid gap-1 pl-3">
+        <ul className="grid pl-3">
           {link.children?.map((link, index) => (
             <li key={index}>
               <SidebarLink label={link.label} path={link.path} icon={link.icon} />
