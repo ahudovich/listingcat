@@ -78,9 +78,10 @@ export function BaseSearch({
         )}
         type="button"
         onClick={handleClear}
+        aria-label="Clear search"
       >
         <BaseIcon
-          className="shrink-0 size-2.5 text-tertiary transition-all group-hover:text-primary group-data-[state=open]:-rotate-180"
+          className="shrink-0 size-2.5 text-tertiary transition-all group-hover:text-primary"
           icon={Cancel01Icon}
           strokeWidth={3}
         />

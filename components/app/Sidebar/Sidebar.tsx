@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import {
   CanvasIcon,
   DashboardSquare01Icon,
@@ -14,9 +13,6 @@ import {
 import { SidebarLink } from '@/components/app/Sidebar/SidebarLink'
 import { SidebarNavSection } from '@/components/app/Sidebar/SidebarNavSection'
 import { SidebarProfile } from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
-import { SidebarProjectSelector } from '@/components/app/Sidebar/SidebarProjectSelector'
-import { BaseLogo } from '@/components/ui/BaseLogo'
-import { getProjects, verifySession } from '@/lib/cached-functions'
 
 const navLinks = [
   {
@@ -78,20 +74,9 @@ const navLinks = [
 ]
 
 export default async function Sidebar() {
-  const { session } = await verifySession()
-  const projects = await getProjects(session.user.id)
-
   return (
     <aside className="w-72 h-full">
       <div className="flex flex-col px-5 py-6 h-full">
-        <div className="mb-6">
-          <Link className="self-start inline-block mb-3" href="/home">
-            <BaseLogo className="w-32.5 h-5" />
-          </Link>
-
-          <SidebarProjectSelector projects={projects} />
-        </div>
-
         <nav className="grid gap-1 mb-6">
           {navLinks.map((link, index) => (
             <ul key={index} className="grid gap-1">

@@ -21,7 +21,7 @@ export const projects = pgTable(
   (table) => [
     // Project slugs must be unique for each user
     unique('user_slug_unique').on(table.userId, table.slug),
-    // Projects website URLs must be unique for each user
+    // Project website URL must be unique for each user
     unique('user_website_url_unique').on(table.userId, table.websiteUrl),
   ]
 )
