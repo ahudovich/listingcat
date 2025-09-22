@@ -1,9 +1,15 @@
 'use client'
 
 import { useEffect, useId, useState } from 'react'
+import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { Combobox } from '@base-ui-components/react/combobox'
-import { Search01FreeIcons, Tick02Icon, UnfoldMoreIcon } from '@hugeicons/core-free-icons'
+import {
+  Add01Icon,
+  Search01FreeIcons,
+  Tick02Icon,
+  UnfoldMoreIcon,
+} from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import type { Project } from '@/lib/db/schema/tables/projects'
 
@@ -84,6 +90,7 @@ export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
           sideOffset={4}
         >
           <Combobox.Popup className="overflow-hidden w-[var(--anchor-width)] min-w-64 bg-white border border-layout-separator rounded-lg shadow-lg transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
+            {/* Search */}
             <div className="group relative">
               <BaseIcon
                 className="absolute top-1/2 left-4 -translate-y-1/2 size-4 text-control-icon"
@@ -100,10 +107,12 @@ export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
 
             <Combobox.Separator className="w-full h-px bg-layout-separator" />
 
+            {/* Empty state */}
             <Combobox.Empty className="px-4 py-3 font-medium text-xs empty:p-0">
               No projects found
             </Combobox.Empty>
 
+            {/* Projects list */}
             <Combobox.List className="overflow-y-auto scroll-py-1 p-1 max-h-47 empty:p-0">
               {(project: Project) => (
                 <Combobox.Item
@@ -130,6 +139,24 @@ export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
                 </Combobox.Item>
               )}
             </Combobox.List>
+
+            <Combobox.Separator className="w-full h-px bg-layout-separator" />
+
+            {/* Create project */}
+            <div className="p-1">
+              <Combobox.Item
+                className="font-medium text-xs rounded-lg select-none transition-colors cursor-pointer data-[highlighted]:bg-zinc-100"
+                render={
+                  <Link
+                    className="flex items-center gap-2.5 px-3 py-2 w-full"
+                    href="/app/project/create"
+                  >
+                    <BaseIcon className="shrink-0 size-4 text-control-icon" icon={Add01Icon} />
+                    Create project
+                  </Link>
+                }
+              />
+            </div>
           </Combobox.Popup>
         </Combobox.Positioner>
       </Combobox.Portal>
