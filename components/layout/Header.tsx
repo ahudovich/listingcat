@@ -17,20 +17,18 @@ export default async function Header() {
         <div className="flex items-center gap-2 sm:gap-4">
           {!isLoggedIn ? (
             <>
-              <BaseButton variant="ghost" size="sm" asChild>
-                <Link href="/login">Log in</Link>
+              <BaseButton render={<Link href="/login" />} variant="ghost" size="sm">
+                Log in
               </BaseButton>
 
-              <BaseButton size="sm" asChild>
-                <Link href="/create-account">
-                  <span className="hidden sm:inline">Create account</span>
-                  <span className="inline sm:hidden">Sign up</span>
-                </Link>
+              <BaseButton render={<Link href="/create-account" />} size="sm">
+                <span className="hidden sm:inline">Create account</span>
+                <span className="inline sm:hidden">Sign up</span>
               </BaseButton>
             </>
           ) : (
-            <BaseButton size="sm" asChild>
-              <Link href={APP_REDIRECT_URL}>Dashboard</Link>
+            <BaseButton render={<Link href={APP_REDIRECT_URL} />} size="sm">
+              Dashboard
             </BaseButton>
           )}
         </div>

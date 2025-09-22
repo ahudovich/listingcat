@@ -11,8 +11,8 @@ export default function NotFound() {
       />
 
       <div className="p-4">
-        <BaseButton className="place-self-center" asChild>
-          <Link href="/app/dashboard">Return to projects</Link>
+        <BaseButton className="place-self-center" render={<Link href="/app/dashboard" />}>
+          Return to projects
         </BaseButton>
       </div>
     </>

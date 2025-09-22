@@ -1,8 +1,9 @@
+import { mergeProps } from '@base-ui-components/react/merge-props'
+import { useRender } from '@base-ui-components/react/use-render'
 import { Loading03Icon } from '@hugeicons/core-free-icons'
-import { Slot } from 'radix-ui'
 import { tv } from 'tailwind-variants'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import type { ComponentProps, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import type { VariantProps } from 'tailwind-variants'
 
 const buttonVariants = tv({
@@ -28,8 +29,7 @@ const buttonVariants = tv({
 
 type ButtonVariants = VariantProps<typeof buttonVariants>
 
-interface BaseButtonProps {
-  asChild?: boolean
+interface BaseButtonProps extends useRender.ComponentProps<'button'> {
   className?: string
   isLoading?: boolean
   size?: ButtonVariants['size']
@@ -38,23 +38,28 @@ interface BaseButtonProps {
 }
 
 export function BaseButton({
-  asChild,
+  render,
   className,
   isLoading,
   size,
   variant,
   children,
   ...props
-}: BaseButtonProps & ComponentProps<'button'>) {
-  const Component = asChild ? Slot.Root : 'button'
+}: BaseButtonProps) {
+  const defaultProps: useRender.ElementProps<'button'> = {
+    className: buttonVariants({ size, variant, className }),
+    children: isLoading ? (
+      <BaseIcon className="animate-spin-slow" icon={Loading03Icon} />
+    ) : (
+      children
+    ),
+  }
 
-  return (
-    <Component className={buttonVariants({ size, variant, className })} {...props}>
-      {isLoading ? (
-        <BaseIcon className="animate-spin-slow" icon={Loading03Icon} />
-      ) : (
-        <Slot.Slottable>{children}</Slot.Slottable>
-      )}
-    </Component>
-  )
+  const element = useRender({
+    defaultTagName: 'button',
+    render,
+    props: mergeProps<'button'>(defaultProps, props),
+  })
+
+  return element
 }

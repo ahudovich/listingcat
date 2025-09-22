@@ -154,12 +154,12 @@ export function AppHeaderProjectSelector({
                   <Link
                     className="flex items-center gap-2.5 px-3 py-2 w-full"
                     href="/app/project/create"
-                  >
-                    <BaseIcon className="shrink-0 size-4 text-control-icon" icon={Add01Icon} />
-                    Create project
-                  </Link>
+                  />
                 }
-              />
+              >
+                <BaseIcon className="shrink-0 size-4 text-control-icon" icon={Add01Icon} />
+                Create project
+              </Combobox.Item>
             </div>
           </Combobox.Popup>
         </Combobox.Positioner>

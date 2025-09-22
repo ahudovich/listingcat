@@ -61,16 +61,14 @@ export function AppHeaderProfile({ className }: { className?: string }) {
               <Menu.Group className="p-1">
                 <Menu.Item
                   className="group flex items-center gap-x-3 px-3 py-2 w-full rounded-lg outline-none transition-colors cursor-pointer select-none hover:bg-zinc-100 focus:bg-zinc-100"
-                  render={
-                    <Link href="/home">
-                      <BaseIcon
-                        className="shrink-0 size-4.5 text-tertiary transition-colors group-hover:text-secondary group-focus:text-secondary"
-                        icon={Home09Icon}
-                      />
-                      <span className="font-medium text-xs text-secondary">Home page</span>
-                    </Link>
-                  }
-                />
+                  render={<Link href="/home" />}
+                >
+                  <BaseIcon
+                    className="shrink-0 size-4.5 text-tertiary transition-colors group-hover:text-secondary group-focus:text-secondary"
+                    icon={Home09Icon}
+                  />
+                  <span className="font-medium text-xs text-secondary">Home page</span>
+                </Menu.Item>
               </Menu.Group>
 
               <Menu.Separator className="h-px bg-layout-separator" />
@@ -89,16 +87,14 @@ export function AppHeaderProfile({ className }: { className?: string }) {
 
                 <Menu.Item
                   className="group flex items-center gap-x-3 px-3 py-2 w-full rounded-lg outline-none transition-colors cursor-pointer select-none hover:bg-zinc-100 focus:bg-zinc-100"
-                  render={
-                    <a href={`mailto:${EMAILS.SUPPORT}`}>
-                      <BaseIcon
-                        className="shrink-0 size-4.5 text-tertiary transition-colors group-hover:text-secondary group-focus:text-secondary"
-                        icon={Mail01Icon}
-                      />
-                      <span className="font-medium text-xs text-secondary">Support</span>
-                    </a>
-                  }
-                />
+                  render={<a href={`mailto:${EMAILS.SUPPORT}`} />}
+                >
+                  <BaseIcon
+                    className="shrink-0 size-4.5 text-tertiary transition-colors group-hover:text-secondary group-focus:text-secondary"
+                    icon={Mail01Icon}
+                  />
+                  <span className="font-medium text-xs text-secondary">Support</span>
+                </Menu.Item>
               </Menu.Group>
 
               <Menu.Separator className="h-px bg-zinc-200" />

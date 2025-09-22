@@ -64,15 +64,17 @@ export async function HomeContent() {
           <TrustedBy className="mb-6" />
 
           <div className="flex justify-center">
-            <BaseButton className="group min-w-50" size="lg" asChild>
-              <Link href={isLoggedIn ? APP_REDIRECT_URL : '/create-account'}>
-                Get free access
-                <BaseIcon
-                  className="group-hover:translate-x-1 transition-transform"
-                  icon={ArrowRight02Icon}
-                  strokeWidth={2.5}
-                />
-              </Link>
+            <BaseButton
+              className="group min-w-50"
+              size="lg"
+              render={<Link href={isLoggedIn ? APP_REDIRECT_URL : '/create-account'} />}
+            >
+              Get free access
+              <BaseIcon
+                className="group-hover:translate-x-1 transition-transform"
+                icon={ArrowRight02Icon}
+                strokeWidth={2.5}
+              />
             </BaseButton>
           </div>
 

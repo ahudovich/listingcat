@@ -55,15 +55,13 @@ export function CreateProjectForm() {
             You can now start submitting resources.
           </p>
 
-          <BaseButton asChild>
-            <Link href={`/app/project/${state.slug}`}>
-              Go to project
-              <BaseIcon
-                className="text-current group-hover:translate-x-1 transition-transform"
-                icon={ArrowRight02Icon}
-                strokeWidth={2.5}
-              />
-            </Link>
+          <BaseButton render={<Link href={`/app/project/${state.slug}`} />}>
+            Go to project
+            <BaseIcon
+              className="text-current group-hover:translate-x-1 transition-transform"
+              icon={ArrowRight02Icon}
+              strokeWidth={2.5}
+            />
           </BaseButton>
         </BaseAlert>
       ) : (
