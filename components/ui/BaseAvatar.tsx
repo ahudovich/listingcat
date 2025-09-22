@@ -37,7 +37,7 @@ interface BaseAvatarProps {
   size?: AvatarVariants['size']
 }
 
-export default function BaseAvatar({ className, size, src, name, ...props }: BaseAvatarProps) {
+export function BaseAvatar({ className, size, src, name, ...props }: BaseAvatarProps) {
   const { base, image, fallback, fallbackIcon } = avatarVariants({ size })
 
   return (

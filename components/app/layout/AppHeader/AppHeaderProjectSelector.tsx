@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useState } from 'react'
 import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Combobox } from '@base-ui-components/react/combobox'
 import {
   Add01Icon,
@@ -13,14 +13,18 @@ import {
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import type { Project } from '@/lib/db/schema/tables/projects'
 
-export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
+export function AppHeaderProjectSelector({
+  projects,
+  projectSlug,
+}: {
+  projects: Array<Project>
+  projectSlug: string
+}) {
   const id = useId()
   const router = useRouter()
-  const params = useParams()
-  const projectSlug = params.projectSlug as string | undefined
 
   // Project is guaranteed to be found
-  const currentProject = projects.find((project) => project.slug === projectSlug) as Project
+  const currentProject = projects.find((project) => project.slug === projectSlug)
 
   const [value, setValue] = useState(currentProject)
   const [open, setOpen] = useState(false)
@@ -29,10 +33,10 @@ export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
   useEffect(() => {
     const newProject = projects.find((project) => project.slug === projectSlug)
 
-    if (newProject && newProject.id !== value.id) {
+    if (newProject && newProject.id !== value?.id) {
       setValue(newProject)
     }
-  }, [projectSlug, projects, value.id])
+  }, [projectSlug, projects, value?.id])
 
   // Use the useFilter hook for filtering
   const { contains } = Combobox.useFilter({
