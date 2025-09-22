@@ -16,7 +16,7 @@ export async function AppHeader() {
           <BaseLogo className="size-5" isIconOnly={true} />
         </Link>
         <AppHeaderNav projects={projects} />
-        <AppHeaderProfile />
+        <AppHeaderProfile className="ml-auto" />
       </div>
     </header>
   )

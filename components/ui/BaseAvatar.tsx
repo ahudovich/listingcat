@@ -1,5 +1,5 @@
+import { Avatar } from '@base-ui-components/react/avatar'
 import { User03Icon } from '@hugeicons/core-free-icons'
-import { Avatar } from 'radix-ui'
 import { tv } from 'tailwind-variants'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import type { VariantProps } from 'tailwind-variants'
@@ -7,8 +7,6 @@ import type { VariantProps } from 'tailwind-variants'
 const avatarVariants = tv({
   slots: {
     base: '',
-    image: 'size-full object-cover rounded-full',
-    fallback: 'grid place-content-center size-full bg-zinc-200 rounded-full text-tertiary',
     fallbackIcon: '',
   },
   variants: {
@@ -18,8 +16,8 @@ const avatarVariants = tv({
         fallbackIcon: 'size-4',
       },
       md: {
-        base: 'size-8',
-        fallbackIcon: 'size-5',
+        base: 'size-7',
+        fallbackIcon: 'size-4.5',
       },
     },
   },
@@ -38,14 +36,14 @@ interface BaseAvatarProps {
 }
 
 export function BaseAvatar({ className, size, src, name, ...props }: BaseAvatarProps) {
-  const { base, image, fallback, fallbackIcon } = avatarVariants({ size })
+  const { base, fallbackIcon } = avatarVariants({ size })
 
   return (
     <Avatar.Root className={base({ className })} {...props}>
-      <Avatar.AvatarImage className={image()} src={src} alt={name} />
-      <Avatar.AvatarFallback className={fallback()}>
+      <Avatar.Image className="size-full object-cover rounded-full" src={src} alt={name} />
+      <Avatar.Fallback className="grid place-content-center size-full bg-zinc-200/50 rounded-full text-tertiary">
         <BaseIcon className={fallbackIcon()} icon={User03Icon} />
-      </Avatar.AvatarFallback>
+      </Avatar.Fallback>
     </Avatar.Root>
   )
 }
