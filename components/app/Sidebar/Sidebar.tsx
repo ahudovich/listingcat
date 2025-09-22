@@ -12,7 +12,6 @@ import {
 } from '@hugeicons/core-free-icons'
 import { SidebarLink } from '@/components/app/Sidebar/SidebarLink'
 import { SidebarNavSection } from '@/components/app/Sidebar/SidebarNavSection'
-import { SidebarProfile } from '@/components/app/Sidebar/SidebarProfile/SidebarProfile'
 
 const navLinks = [
   {
@@ -90,10 +89,6 @@ export default async function Sidebar() {
             </ul>
           ))}
         </nav>
-
-        <div className="mt-auto">
-          <SidebarProfile />
-        </div>
       </div>
     </aside>
   )

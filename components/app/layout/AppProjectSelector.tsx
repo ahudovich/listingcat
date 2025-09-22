@@ -52,7 +52,7 @@ export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
       itemToStringLabel={(project) => project.name}
       itemToStringValue={(project) => project.slug}
     >
-      <Combobox.Trigger className="flex items-center gap-2.5 px-2 py-1 bg-control-default rounded-control font-medium text-xs appearance-none cursor-pointer select-none">
+      <Combobox.Trigger className="flex items-center gap-2.5 px-2 py-1 max-w-72 bg-control-default rounded-control font-medium text-xs appearance-none cursor-pointer select-none">
         <Combobox.Value>
           {(selectedProject: Project) => (
             <>
@@ -61,7 +61,7 @@ export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
                 src={`https://www.google.com/s2/favicons?domain=${selectedProject.websiteUrl}&sz=32`}
                 alt={`${selectedProject.name} favicon`}
               />
-              {selectedProject.name}
+              <span className="truncate">{selectedProject.name}</span>
             </>
           )}
         </Combobox.Value>
@@ -83,7 +83,7 @@ export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
           align="start"
           sideOffset={4}
         >
-          <Combobox.Popup className="overflow-hidden w-full bg-white border border-layout-separator rounded-lg shadow-lg transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
+          <Combobox.Popup className="overflow-hidden w-[var(--anchor-width)] min-w-64 bg-white border border-layout-separator rounded-lg shadow-lg transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
             <div className="group relative">
               <BaseIcon
                 className="absolute top-1/2 left-4 -translate-y-1/2 size-4 text-control-icon"
@@ -104,11 +104,11 @@ export function AppProjectSelector({ projects }: { projects: Array<Project> }) {
               No projects found
             </Combobox.Empty>
 
-            <Combobox.List className="overflow-y-auto p-1 max-h-47 empty:p-0">
+            <Combobox.List className="overflow-y-auto scroll-py-1 p-1 max-h-47 empty:p-0">
               {(project: Project) => (
                 <Combobox.Item
                   key={project.id}
-                  className="flex items-center gap-2.5 px-3 py-2 font-medium text-xs rounded-lg outline-none select-none transition-colors cursor-pointer data-[highlighted]:bg-zinc-100"
+                  className="flex items-center gap-2.5 px-3 py-2 font-medium text-xs rounded-lg select-none transition-colors cursor-pointer data-[highlighted]:bg-zinc-100"
                   value={project}
                 >
                   <img
