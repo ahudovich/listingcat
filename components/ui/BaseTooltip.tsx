@@ -1,4 +1,4 @@
-import { Tooltip } from 'radix-ui'
+import { Tooltip } from '@base-ui-components/react/tooltip'
 import { cn } from '@/utils/css'
 import { zIndexes } from '@/utils/z-indexes'
 
@@ -15,24 +15,24 @@ export default function BaseTooltip({
   text: string
 }) {
   return (
-    <Tooltip.TooltipProvider delayDuration={250}>
-      <Tooltip.Root>
-        <Tooltip.TooltipTrigger asChild>{children}</Tooltip.TooltipTrigger>
-
-        <Tooltip.TooltipPortal>
-          <Tooltip.TooltipContent
-            className={cn(
-              'overflow-hidden px-3 py-1.5 rounded-md bg-zinc-800 shadow-md text-[0.75rem] text-zinc-50 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
-              className
-            )}
-            sideOffset={sideOffset}
-            style={{ zIndex: zIndexes.tooltip }}
-            {...props}
-          >
-            {text}
-          </Tooltip.TooltipContent>
-        </Tooltip.TooltipPortal>
+    <Tooltip.Provider>
+      <Tooltip.Root delay={250}>
+        <Tooltip.Trigger>{children}</Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Positioner sideOffset={sideOffset}>
+            <Tooltip.Popup
+              className={cn(
+                'overflow-hidden origin-[var(--transform-origin)] px-3 py-1.5 rounded-md bg-zinc-800 shadow-md text-[0.75rem] text-zinc-50 transition-[transform,scale,opacity] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[instant]:duration-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
+                className
+              )}
+              style={{ zIndex: zIndexes.tooltip }}
+              {...props}
+            >
+              {text}
+            </Tooltip.Popup>
+          </Tooltip.Positioner>
+        </Tooltip.Portal>
       </Tooltip.Root>
-    </Tooltip.TooltipProvider>
+    </Tooltip.Provider>
   )
 }
