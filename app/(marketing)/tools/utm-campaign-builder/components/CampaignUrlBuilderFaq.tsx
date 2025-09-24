@@ -1,5 +1,5 @@
+import { Accordion } from '@base-ui-components/react/accordion'
 import { ArrowDown01Icon } from '@hugeicons/core-free-icons'
-import { Accordion } from 'radix-ui'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 
 const faqItems: Array<{ id: string; question: string; answer: string }> = [
@@ -70,27 +70,27 @@ export function CampaignUrlBuilderFaq() {
     <section>
       <h2 className="mb-6 font-extrabold text-2xl text-primary">FAQ</h2>
 
-      <Accordion.Root type="single" collapsible>
+      <Accordion.Root openMultiple={false}>
         {faqItems.map((item) => (
           <Accordion.Item
             className="border-t border-layout-separator"
             value={item.id}
             key={item.id}
           >
-            <h3>
+            <Accordion.Header>
               <Accordion.Trigger className="group flex w-full items-center gap-2 py-3 font-semibold text-sm text-primary text-left cursor-pointer">
                 <span className="grow">{item.question}</span>
                 <BaseIcon
-                  className="shrink-0 size-4.5 text-tertiary transition-all group-hover:text-primary group-data-[state=open]:-rotate-180"
+                  className="shrink-0 size-4.5 text-tertiary transition-all group-hover:text-primary group-data-[panel-open]:-rotate-180"
                   icon={ArrowDown01Icon}
                   strokeWidth={2.5}
                 />
               </Accordion.Trigger>
-            </h3>
+            </Accordion.Header>
 
-            <Accordion.Content className="pt-1 pb-4 text-sm text-secondary">
+            <Accordion.Panel className="overflow-hidden pt-1 pb-4 h-[var(--accordion-panel-height)] text-sm text-secondary transition-[height] ease-out data-[ending-style]:h-0 data-[starting-style]:h-0">
               {item.answer}
-            </Accordion.Content>
+            </Accordion.Panel>
           </Accordion.Item>
         ))}
         <div className="border-b border-layout-separator" />
