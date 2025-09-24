@@ -13,6 +13,7 @@ export function CreateProjectModal({ isOpen, setIsOpen }: CreateProjectModalProp
     <BaseModal
       title="Create a Project"
       description="Projects help you organize your submissions per each product."
+      modal="trap-focus"
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     >

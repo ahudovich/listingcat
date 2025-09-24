@@ -60,7 +60,6 @@
     "postgres": "^3.4.7",
     "posthog-js": "^1.249.2",
     "posthog-node": "^5.1.1",
-    "radix-ui": "^1.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-use": "^17.6.0",

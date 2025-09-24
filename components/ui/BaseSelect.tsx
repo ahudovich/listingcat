@@ -42,7 +42,7 @@ const selectVariants = tv({
 
 export type SelectVariants = VariantProps<typeof selectVariants>
 
-interface BaseSelectProps {
+interface BaseSelectProps extends React.ComponentProps<typeof Select.Root> {
   className?: string
   label?: string
   size?: SelectVariants['size']
@@ -56,7 +56,7 @@ export function BaseSelect({
   value,
   children,
   ...props
-}: BaseSelectProps & React.ComponentProps<typeof Select.Root>) {
+}: BaseSelectProps) {
   const { label: labelClasses, trigger, value: valueClasses } = selectVariants({ size })
 
   return (
