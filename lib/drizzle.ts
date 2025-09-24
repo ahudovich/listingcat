@@ -6,7 +6,6 @@ import { directories } from '@/lib/db/schema/tables/directories'
 import { launchPlatforms } from '@/lib/db/schema/tables/launch-platforms'
 import { marketplaces } from '@/lib/db/schema/tables/marketplaces'
 import { projects } from '@/lib/db/schema/tables/projects'
-import { services } from '@/lib/db/schema/tables/services'
 import { showcases } from '@/lib/db/schema/tables/showcase'
 import { specials } from '@/lib/db/schema/tables/specials'
 import { submissions } from '@/lib/db/schema/tables/submissions'
@@ -19,7 +18,6 @@ export const tables = {
   marketplaces,
   projects,
   showcases,
-  services,
   sessions,
   specials,
   submissions,
