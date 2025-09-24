@@ -11,7 +11,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Sidebar />
         </SidebarWrapper>
 
-        <div className="bg-white lg:grid lg:grid-rows-[auto_1fr] lg:h-full">{children}</div>
+        <div className="overflow-hidden bg-white lg:grid lg:grid-rows-[auto_1fr] lg:h-full">
+          {children}
+        </div>
       </main>
     </div>
   )

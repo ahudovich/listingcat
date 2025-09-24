@@ -69,6 +69,8 @@ export function AppHeaderProjectSelector({
               <img
                 className="shrink-0 size-4"
                 src={`https://www.google.com/s2/favicons?domain=${selectedProject.websiteUrl}&sz=32`}
+                width={16}
+                height={16}
                 alt={`${selectedProject.name} favicon`}
               />
               <span className="truncate">{selectedProject.name}</span>

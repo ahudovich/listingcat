@@ -22,7 +22,7 @@ export default function DataTableWebsites<T>({ data, columns }: DataTableWebsite
     })
 
   return (
-    <div className="overflow-hidden grid grid-rows-[auto_1fr]">
+    <div className="overflow-hidden grid grid-rows-[auto_1fr_auto]">
       <DataTableFilters
         className="px-4 py-3 border-b border-b-layout-separator"
         globalFilter={globalFilter}

@@ -12,11 +12,7 @@ export default async function LaunchPlatformsPage() {
 
   return (
     <>
-      <PageHeader
-        title="Launch Platforms"
-        description="Discover platforms where you can launch your products."
-      />
-
+      <PageHeader title="Launch Platforms" />
       <DataTableLaunchPlatforms data={data} />
     </>
   )

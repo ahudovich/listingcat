@@ -123,6 +123,6 @@ const columns = [
   }),
 ]
 
-export default function DataTableDirectories({ data }: { data: Array<Directory> }) {
+export function DataTableDirectories({ data }: { data: Array<Directory> }) {
   return <DataTableWebsites data={data} columns={columns} />
 }

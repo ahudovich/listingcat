@@ -112,9 +112,11 @@ export function BaseInput({
         {icon && <BaseIcon className={iconClasses()} icon={icon} strokeWidth={2.5} />}
       </div>
 
-      <p className="mt-1.5 text-xs text-control-error" role="alert">
-        {error}
-      </p>
+      {error && (
+        <p className="mt-1.5 text-xs text-control-error" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   )
 }

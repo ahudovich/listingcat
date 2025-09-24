@@ -7,19 +7,20 @@ import { cn } from '@/utils/css'
 import type { IconSvgElement } from '@hugeicons/react'
 
 interface SidebarLinkProps {
+  icon: IconSvgElement
   label: string
   path: string
-  icon: IconSvgElement
 }
 
-export function SidebarLink({ label, path, icon }: SidebarLinkProps) {
+export function SidebarLink({ icon, label, path }: SidebarLinkProps) {
   const pathname = usePathname()
 
   return (
     <Link
       className={cn(
         'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-zinc-100 [&>svg]:text-tertiary',
-        pathname === path && '!bg-zinc-200 [&>svg]:!text-secondary'
+        pathname === path &&
+          'bg-zinc-200 [&>svg]:text-secondary hover:bg-zinc-200 hover:[&>svg]:text-tertiary'
       )}
       href={path}
     >
