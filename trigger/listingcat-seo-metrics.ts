@@ -28,9 +28,6 @@ const db = getDB()
 const TABLES_WITH_WEBSITE_URL = [
   { table: tables.directories, name: 'Directories', sqlTableName: 'directories' },
   { table: tables.launchPlatforms, name: 'Launch Platforms', sqlTableName: 'launch_platforms' },
-  { table: tables.marketplaces, name: 'Marketplaces', sqlTableName: 'marketplaces' },
-  { table: tables.showcases, name: 'Showcases', sqlTableName: 'showcases' },
-  { table: tables.specials, name: 'Specials', sqlTableName: 'specials' },
 ] as const
 
 type TableWithWebsiteUrl = (typeof TABLES_WITH_WEBSITE_URL)[number]

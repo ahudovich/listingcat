@@ -6,11 +6,8 @@ import { ProductCategories } from '../../../../enums/ProductCategories.enum'
 export const DB_ENUM_NAME_BENEFIT = 'benefit'
 
 export const TABLE_NAMES = {
-  DIRECTORIES: 'directories',
   LAUNCH_PLATFORMS: 'launch_platforms',
-  MARKETPLACES: 'marketplaces',
-  SHOWCASES: 'showcases',
-  SPECIALS: 'specials',
+  DIRECTORIES: 'directories',
   TABLE_UPDATES: 'table_updates',
   SUBMISSIONS: 'submissions',
 } as const
