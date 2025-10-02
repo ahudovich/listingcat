@@ -5,7 +5,7 @@ export async function sendDiscordNotification({
   type,
   message,
 }: {
-  type: 'general' | 'cron' | 'submissions'
+  type: 'general' | 'cron' | 'resourceRequest'
   message: string
 }) {
   let webhookUrl
@@ -17,8 +17,8 @@ export async function sendDiscordNotification({
     case 'cron':
       webhookUrl = env.DISCORD_CRON_WEBHOOK_URL
       break
-    case 'submissions':
-      webhookUrl = env.DISCORD_SUBMISSIONS_WEBHOOK_URL
+    case 'resourceRequest':
+      webhookUrl = env.DISCORD_RESOURCE_REQUEST_WEBHOOK_URL
       break
   }
 

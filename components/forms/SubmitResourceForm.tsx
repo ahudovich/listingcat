@@ -1,7 +1,7 @@
 import { useActionState, useId } from 'react'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseInput } from '@/components/ui/BaseInput'
-import { submitResource } from '@/lib/actions/submissions'
+import { submitResource } from '@/lib/actions/resource-requests'
 
 export function SubmitResourceForm() {
   const id = useId()

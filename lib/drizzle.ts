@@ -5,7 +5,7 @@ import { accounts, sessions, users, verifications } from '@/lib/db/schema/tables
 import { directories } from '@/lib/db/schema/tables/directories'
 import { launchPlatforms } from '@/lib/db/schema/tables/launch-platforms'
 import { projects } from '@/lib/db/schema/tables/projects'
-import { submissions } from '@/lib/db/schema/tables/submissions'
+import { resourceRequests } from '@/lib/db/schema/tables/resource-requests'
 import { tableUpdates } from '@/lib/db/schema/tables/table-updates'
 
 export const tables = {
@@ -14,7 +14,7 @@ export const tables = {
   launchPlatforms,
   projects,
   sessions,
-  submissions,
+  resourceRequests,
   tableUpdates,
   users,
   verifications,

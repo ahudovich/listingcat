@@ -38,7 +38,7 @@ export async function submitResource(
     const { name, websiteUrl } = validationResult.data
 
     // Save to database
-    await getDB().insert(tables.submissions).values({
+    await getDB().insert(tables.resourceRequests).values({
       name: name.trim(),
       websiteUrl: websiteUrl.trim(),
     })
@@ -51,7 +51,7 @@ export async function submitResource(
       `• URL: ${websiteUrl}`
 
     await sendDiscordNotification({
-      type: 'submissions',
+      type: 'resourceRequest',
       message: discordMessage,
     })
 

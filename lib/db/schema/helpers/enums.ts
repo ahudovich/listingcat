@@ -10,7 +10,7 @@ export const TABLE_NAMES = {
   LAUNCH_PLATFORMS: 'launch_platforms',
   DIRECTORIES: 'directories',
   TABLE_UPDATES: 'table_updates',
-  SUBMISSIONS: 'submissions',
+  RESOURCE_REQUESTS: 'resource_requests',
 } as const
 
 export type TableName = (typeof TABLE_NAMES)[keyof typeof TABLE_NAMES]
