@@ -70,7 +70,7 @@ export function CampaignUrlBuilderFaq() {
     <section>
       <h2 className="mb-6 font-extrabold text-2xl text-primary">FAQ</h2>
 
-      <Accordion.Root openMultiple={false}>
+      <Accordion.Root multiple={false}>
         {faqItems.map((item) => (
           <Accordion.Item
             className="border-t border-layout-separator"

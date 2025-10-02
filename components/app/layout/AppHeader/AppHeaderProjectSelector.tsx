@@ -95,7 +95,7 @@ export function AppHeaderProjectSelector({
           align="start"
           sideOffset={4}
         >
-          <Combobox.Popup className="overflow-hidden w-[var(--anchor-width)] min-w-64 bg-white border border-layout-separator rounded-lg shadow-lg origin-[var(--transform-origin)] transition-[scale,opacity] ease-out data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
+          <Combobox.Popup className="overflow-hidden w-[var(--anchor-width)] min-w-64 bg-white border border-layout-separator rounded-lg shadow-lg origin-[var(--transform-origin)] transition-[transform,scale,opacity] ease-out data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
             {/* Search */}
             <div className="group relative">
               <BaseIcon

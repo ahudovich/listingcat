@@ -87,8 +87,8 @@ export function BaseSelect({
             alignItemWithTrigger={false}
             sideOffset={4}
           >
-            <Select.Popup className="overflow-hidden p-1 bg-white border border-zinc-200 rounded-lg shadow-lg transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
-              {children}
+            <Select.Popup className="overflow-hidden p-1 bg-white border border-zinc-200 rounded-lg shadow-lg origin-[var(--transform-origin)] transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
+              <Select.List>{children}</Select.List>
             </Select.Popup>
           </Select.Positioner>
         </Select.Portal>
