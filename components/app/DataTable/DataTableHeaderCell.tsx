@@ -32,38 +32,29 @@ export default function DataTableHeaderCell({
 
   return (
     <th className="p-0" style={{ width: size && `${size / 16}rem` }}>
-      <Component
-        className={cn(
-          'relative flex items-center px-4 h-10.5 w-full bg-zinc-100 border-b border-b-zinc-200 font-medium text-xs whitespace-nowrap select-none',
-          isSortable && 'text-left cursor-pointer'
-        )}
-        type={isSortable ? 'button' : undefined}
-        onClick={(event) => isSortable && onClick?.(event)}
-      >
-        <span className="relative">
+      <div className="relative flex items-center gap-1 px-4 h-10.5 w-full bg-zinc-100 border-b border-b-zinc-200">
+        <Component
+          className={cn(
+            'flex items-center gap-1 font-medium text-xs whitespace-nowrap select-none',
+            isSortable && 'text-left cursor-pointer'
+          )}
+          type={isSortable ? 'button' : undefined}
+          onClick={(event) => isSortable && onClick?.(event)}
+        >
           {children}
+          {icon && <BaseIcon className="size-3 text-secondary" icon={icon} strokeWidth={2.5} />}
+        </Component>
 
-          {icon && (
+        {tooltip && (
+          <BaseTooltip className="max-w-56" text={tooltip}>
             <BaseIcon
-              className="absolute -right-4 top-1/2 -translate-y-1/2 size-3 text-secondary"
-              icon={icon}
+              className="size-3 text-faded cursor-help"
+              icon={HelpCircleIcon}
               strokeWidth={2.5}
             />
-          )}
-          {tooltip && (
-            <BaseTooltip className="max-w-56" text={tooltip}>
-              <BaseIcon
-                className={cn(
-                  'absolute top-1/2 -translate-y-1/2 size-3 text-faded cursor-help',
-                  icon ? '-right-8' : '-right-4'
-                )}
-                icon={HelpCircleIcon}
-                strokeWidth={2.5}
-              />
-            </BaseTooltip>
-          )}
-        </span>
-      </Component>
+          </BaseTooltip>
+        )}
+      </div>
     </th>
   )
 }

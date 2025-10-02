@@ -1,19 +1,37 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { FolderLibraryIcon, Rocket01Icon } from '@hugeicons/core-free-icons'
+import {
+  DashboardSquare01Icon,
+  FolderLibraryIcon,
+  Rocket01Icon,
+  Settings01Icon,
+} from '@hugeicons/core-free-icons'
 import { SidebarLink } from '@/components/app/Sidebar/SidebarLink'
 
-const navLinks = [
+const mainNavLinks = [
+  {
+    label: 'Dashboard',
+    path: '.',
+    icon: DashboardSquare01Icon,
+  },
   {
     label: 'Launch Platforms',
-    path: `launch-platforms`,
+    path: 'launch-platforms',
     icon: Rocket01Icon,
   },
   {
     label: 'Directories',
-    path: `directories`,
+    path: 'directories',
     icon: FolderLibraryIcon,
+  },
+]
+
+const secondaryNavLinks = [
+  {
+    label: 'Project Settings',
+    path: 'settings',
+    icon: Settings01Icon,
   },
 ]
 
@@ -23,19 +41,37 @@ export function Sidebar() {
 
   return (
     <aside className="w-64 h-full bg-zinc-50 border-r border-layout-separator">
-      <nav className="p-2">
+      <nav className="flex flex-col justify-between p-2 h-full">
         {projectSlug && (
-          <ul className="grid gap-1">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <SidebarLink
-                  icon={link.icon}
-                  label={link.label}
-                  path={`/app/project/${projectSlug}/${link.path}`}
-                />
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="grid gap-1">
+              {mainNavLinks.map((link) => (
+                <li key={link.label}>
+                  <SidebarLink
+                    icon={link.icon}
+                    label={link.label}
+                    path={
+                      link.path === '.'
+                        ? `/app/project/${projectSlug}`
+                        : `/app/project/${projectSlug}/${link.path}`
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+
+            <ul className="grid gap-1">
+              {secondaryNavLinks.map((link) => (
+                <li key={link.label}>
+                  <SidebarLink
+                    icon={link.icon}
+                    label={link.label}
+                    path={`/app/project/${projectSlug}/${link.path}`}
+                  />
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </nav>
     </aside>
