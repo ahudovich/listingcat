@@ -1,5 +1,6 @@
 import { pgEnum } from 'drizzle-orm/pg-core'
 import { Benefits } from '../../../../enums/Benefits.enum'
+import { DirectoryType } from '../../../../enums/DirectoryType.enum'
 import { LinkAttributes } from '../../../../enums/LinkAttributes.enum'
 import { ProductCategories } from '../../../../enums/ProductCategories.enum'
 
@@ -15,6 +16,12 @@ export const TABLE_NAMES = {
 export type TableName = (typeof TABLE_NAMES)[keyof typeof TABLE_NAMES]
 
 export const benefitEnum = pgEnum(DB_ENUM_NAME_BENEFIT, [Benefits.ProAccess])
+
+export const directoryTypeEnum = pgEnum('directory_type', [
+  DirectoryType.General,
+  DirectoryType.Showcase,
+  DirectoryType.Marketplace,
+])
 
 export const productCategoryEnum = pgEnum('product_category', [
   ProductCategories.AITools,
