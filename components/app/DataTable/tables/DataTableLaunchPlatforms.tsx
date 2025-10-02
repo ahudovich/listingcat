@@ -66,6 +66,7 @@ const columns = [
     header: 'Category',
     cell: (info) => <CategoryBadge category={info.getValue()} />,
     sortingFn: 'alphanumeric',
+    filterFn: 'categoryFilter',
     meta: {
       tooltip: 'Accepted product types on this platform.',
     },

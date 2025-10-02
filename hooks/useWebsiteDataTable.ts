@@ -86,6 +86,7 @@ export function useWebsiteDataTable<T>({
     filterFns: {
       pricingModelFilter,
       linkAttributeFilter,
+      categoryFilter,
     },
 
     // Reset default column sizes
@@ -154,4 +155,13 @@ const linkAttributeFilter: FilterFn<any> = (row, columnId, filterValue) => {
   }
 
   return true
+}
+
+// Custom filter function for category
+const categoryFilter: FilterFn<any> = (row, columnId, filterValue) => {
+  if (!filterValue) return true
+
+  const category = row.getValue(columnId) as string
+
+  return category === filterValue
 }

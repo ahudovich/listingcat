@@ -3,6 +3,7 @@
 import { useId } from 'react'
 import { BaseSearch } from '@/components/ui/BaseSearch'
 import { BaseSelect, BaseSelectItem } from '@/components/ui/BaseSelect'
+import { ProductCategories } from '@/enums/ProductCategories.enum'
 import { cn } from '@/utils/css'
 import type { ColumnFiltersState } from '@tanstack/react-table'
 
@@ -26,6 +27,16 @@ const linkAttributeOptions = [
   { label: 'Nofollow', value: 'nofollow' },
 ]
 
+const categoryOptions = [
+  { label: 'Category', value: null },
+  { label: ProductCategories.Anything, value: ProductCategories.Anything },
+  { label: ProductCategories.AITools, value: ProductCategories.AITools },
+  { label: ProductCategories.Directories, value: ProductCategories.Directories },
+  { label: ProductCategories.OpenSource, value: ProductCategories.OpenSource },
+  { label: ProductCategories.DevTools, value: ProductCategories.DevTools },
+  { label: ProductCategories.Boilerplates, value: ProductCategories.Boilerplates },
+]
+
 export function DataTableFilters({
   className,
   globalFilter,
@@ -38,9 +49,11 @@ export function DataTableFilters({
   // Get current filter values from column filters state
   const pricingFilter = columnFilters.find(({ id }) => id === 'pricingModel')
   const linkAttributeFilter = columnFilters.find(({ id }) => id === 'linkAttribute')
+  const categoryFilter = columnFilters.find(({ id }) => id === 'category')
 
   const pricing = (pricingFilter?.value as string) ?? null
   const linkAttribute = (linkAttributeFilter?.value as string) ?? null
+  const category = (categoryFilter?.value as string) ?? null
 
   // Helper function to update column filters
   function updateColumnFilter(columnId: string, value: string | null) {
@@ -59,7 +72,7 @@ export function DataTableFilters({
   return (
     <div className={cn('flex items-center gap-3 overflow-x-auto', className)}>
       <BaseSearch
-        id={id}
+        id={`${id}-search`}
         className="w-66"
         placeholder="Search by name or website url"
         size="xs"
@@ -68,7 +81,7 @@ export function DataTableFilters({
       />
 
       <BaseSelect
-        id={id}
+        id={`${id}-pricing`}
         className="w-32"
         items={pricingOptions}
         modal={false}
@@ -84,7 +97,7 @@ export function DataTableFilters({
       </BaseSelect>
 
       <BaseSelect
-        id={id}
+        id={`${id}-link-attribute`}
         className="w-36"
         items={linkAttributeOptions}
         modal={false}
@@ -93,6 +106,22 @@ export function DataTableFilters({
         onValueChange={(value) => updateColumnFilter('linkAttribute', value as string | null)}
       >
         {linkAttributeOptions.map((option) => (
+          <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+            {option.label}
+          </BaseSelectItem>
+        ))}
+      </BaseSelect>
+
+      <BaseSelect
+        id={`${id}-category`}
+        className="w-36"
+        items={categoryOptions}
+        modal={false}
+        size="xs"
+        value={category}
+        onValueChange={(value) => updateColumnFilter('category', value as string | null)}
+      >
+        {categoryOptions.map((option) => (
           <BaseSelectItem key={option.value} label={option.label} value={option.value}>
             {option.label}
           </BaseSelectItem>

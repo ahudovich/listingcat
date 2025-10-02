@@ -13,5 +13,6 @@ declare module '@tanstack/react-table' {
   interface FilterFns {
     pricingModelFilter: FilterFn<unknown>
     linkAttributeFilter: FilterFn<unknown>
+    categoryFilter: FilterFn<unknown>
   }
 }
