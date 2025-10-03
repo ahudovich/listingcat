@@ -21,12 +21,6 @@ const pricingOptions = [
   { label: 'Paid', value: 'paid' },
 ]
 
-const linkAttributeOptions = [
-  { label: 'Link Attribute', value: null },
-  { label: 'Dofollow', value: 'dofollow' },
-  { label: 'Nofollow', value: 'nofollow' },
-]
-
 const categoryOptions = [
   { label: 'Category', value: null },
   { label: ProductCategories.Anything, value: ProductCategories.Anything },
@@ -35,6 +29,12 @@ const categoryOptions = [
   { label: ProductCategories.OpenSource, value: ProductCategories.OpenSource },
   { label: ProductCategories.DevTools, value: ProductCategories.DevTools },
   { label: ProductCategories.Boilerplates, value: ProductCategories.Boilerplates },
+]
+
+const linkAttributeOptions = [
+  { label: 'Link Attribute', value: null },
+  { label: 'Dofollow', value: 'dofollow' },
+  { label: 'Nofollow', value: 'nofollow' },
 ]
 
 export function DataTableFilters({
@@ -48,12 +48,12 @@ export function DataTableFilters({
 
   // Get current filter values from column filters state
   const pricingFilter = columnFilters.find(({ id }) => id === 'pricingModel')
-  const linkAttributeFilter = columnFilters.find(({ id }) => id === 'linkAttribute')
   const categoryFilter = columnFilters.find(({ id }) => id === 'category')
+  const linkAttributeFilter = columnFilters.find(({ id }) => id === 'linkAttribute')
 
   const pricing = (pricingFilter?.value as string) ?? null
-  const linkAttribute = (linkAttributeFilter?.value as string) ?? null
   const category = (categoryFilter?.value as string) ?? null
+  const linkAttribute = (linkAttributeFilter?.value as string) ?? null
 
   // Helper function to update column filters
   function updateColumnFilter(columnId: string, value: string | null) {
@@ -97,22 +97,6 @@ export function DataTableFilters({
       </BaseSelect>
 
       <BaseSelect
-        id={`${id}-link-attribute`}
-        className="w-36"
-        items={linkAttributeOptions}
-        modal={false}
-        size="xs"
-        value={linkAttribute}
-        onValueChange={(value) => updateColumnFilter('linkAttribute', value as string | null)}
-      >
-        {linkAttributeOptions.map((option) => (
-          <BaseSelectItem key={option.value} label={option.label} value={option.value}>
-            {option.label}
-          </BaseSelectItem>
-        ))}
-      </BaseSelect>
-
-      <BaseSelect
         id={`${id}-category`}
         className="w-36"
         items={categoryOptions}
@@ -122,6 +106,22 @@ export function DataTableFilters({
         onValueChange={(value) => updateColumnFilter('category', value as string | null)}
       >
         {categoryOptions.map((option) => (
+          <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+            {option.label}
+          </BaseSelectItem>
+        ))}
+      </BaseSelect>
+
+      <BaseSelect
+        id={`${id}-link-attribute`}
+        className="w-36"
+        items={linkAttributeOptions}
+        modal={false}
+        size="xs"
+        value={linkAttribute}
+        onValueChange={(value) => updateColumnFilter('linkAttribute', value as string | null)}
+      >
+        {linkAttributeOptions.map((option) => (
           <BaseSelectItem key={option.value} label={option.label} value={option.value}>
             {option.label}
           </BaseSelectItem>
