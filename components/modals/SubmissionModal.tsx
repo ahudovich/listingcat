@@ -41,11 +41,11 @@ export function SubmissionModal({
   const params = useParams()
   const projectSlug = params.projectSlug as string | undefined
 
-  const [state, formAction] = useActionState(editSubmissionAction, null)
+  const [state, formAction, isPending] = useActionState(editSubmissionAction, null)
 
   const form = useForm({
     // Even if `submissions` is an array, we only have one submission per resource
-    ...getEditSubmissionFormOptions(submissions[0]),
+    ...getEditSubmissionFormOptions(resourceId, projectSlug, kind, submissions[0]),
     validationLogic: revalidateLogic({
       mode: 'submit',
       modeAfterSubmission: 'change',
@@ -87,7 +87,7 @@ export function SubmissionModal({
         {state && state.success ? (
           // Success state
           <BaseAlert className="px-6 py-3 text-center" aria-live="polite">
-            <p className="mb-1 font-semibold text-green-800">Submission updated successfully!</p>
+            <p className="mb-2 font-semibold text-green-800">Submission updated successfully!</p>
             <BaseButton onClick={() => setIsOpen(false)}>Close</BaseButton>
           </BaseAlert>
         ) : (
@@ -97,12 +97,28 @@ export function SubmissionModal({
               name="resourceId"
               validators={{ onDynamic: editSubmissionSchema.shape.resourceId }}
             >
-              {(field) => <input type="hidden" name={field.name} value={resourceId} />}
+              {(field) => (
+                <input
+                  id={`${id}-${field.name}`}
+                  name={field.name}
+                  type="hidden"
+                  value={field.state.value}
+                  onChange={(event) => field.handleChange(event.target.value)}
+                />
+              )}
             </form.Field>
 
             {/* Kind (hidden field) */}
             <form.Field name="kind" validators={{ onDynamic: editSubmissionSchema.shape.kind }}>
-              {(field) => <input type="hidden" name={field.name} value={kind} />}
+              {(field) => (
+                <input
+                  id={`${id}-${field.name}`}
+                  name={field.name}
+                  type="hidden"
+                  value={field.state.value}
+                  onChange={(event) => field.handleChange(event.target.value as SubmissionKind)}
+                />
+              )}
             </form.Field>
 
             {/* Project slug (hidden field) */}
@@ -110,7 +126,15 @@ export function SubmissionModal({
               name="projectSlug"
               validators={{ onDynamic: editSubmissionSchema.shape.projectSlug }}
             >
-              {(field) => <input type="hidden" name={field.name} value={projectSlug} />}
+              {(field) => (
+                <input
+                  id={`${id}-${field.name}`}
+                  name={field.name}
+                  type="hidden"
+                  value={field.state.value}
+                  onChange={(event) => field.handleChange(event.target.value)}
+                />
+              )}
             </form.Field>
 
             {/* Status */}
@@ -162,13 +186,13 @@ export function SubmissionModal({
               </form.Field>
             </div>
 
-            <form.Subscribe selector={(formState) => [formState.canSubmit, formState.isSubmitting]}>
-              {([canSubmit, isSubmitting]) => (
+            <form.Subscribe selector={(state) => [state.canSubmit, state.isPristine]}>
+              {([canSubmit, isPristine]) => (
                 <BaseButton
                   className="w-full"
                   type="submit"
-                  disabled={!canSubmit}
-                  isLoading={isSubmitting}
+                  disabled={!canSubmit || isPristine}
+                  isLoading={isPending}
                 >
                   Update
                 </BaseButton>

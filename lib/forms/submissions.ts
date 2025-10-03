@@ -7,10 +7,13 @@ import type { LaunchPlatformSubmission } from '@/lib/db/schema/tables/launch-pla
 
 // Create Submission Form
 export const editSubmissionSchema = z.object({
-  resourceId: z.uuidv4(),
+  resourceId: z.uuidv4().min(1),
   kind: z.enum(SubmissionKind),
-  projectSlug: z.string(),
-  listingUrl: z.optional(z.url('Please enter a valid URL')),
+  projectSlug: z.string().min(1),
+  listingUrl: z
+    .string()
+    .transform((val) => (val === '' ? undefined : val))
+    .pipe(z.optional(z.url('Please enter a valid URL'))),
   status: z.enum(SubmissionState, {
     error: 'Please select a status',
   }),
@@ -19,11 +22,17 @@ export const editSubmissionSchema = z.object({
 export type EditSubmissionFormValues = z.infer<typeof editSubmissionSchema>
 
 export function getEditSubmissionFormOptions(
+  resourceId?: string,
+  projectSlug?: string,
+  kind?: SubmissionKind,
   submission?: DirectorySubmission | LaunchPlatformSubmission
 ) {
   return formOptions({
     defaultValues: {
-      listingUrl: submission?.listingUrl ?? undefined,
+      resourceId,
+      projectSlug,
+      kind,
+      listingUrl: submission?.listingUrl ?? '',
       status: submission?.status ?? null,
     } as EditSubmissionFormValues,
   })

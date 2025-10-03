@@ -11,7 +11,7 @@ const inputVariants = tv({
     label: 'inline-block mb-1.5 text-sm font-medium text-secondary cursor-pointer',
     icon: 'absolute top-1/2 -translate-y-1/2 size-4',
     input:
-      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-all placeholder:text-control-placeholder focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
+      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-colors placeholder:text-control-placeholder focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
   },
   variants: {
     iconPosition: {

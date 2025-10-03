@@ -14,7 +14,7 @@ import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/proje
 export function CreateProjectForm() {
   const id = useId()
 
-  const [state, formAction] = useActionState(createProjectAction, null)
+  const [state, formAction, isPending] = useActionState(createProjectAction, null)
 
   const form = useForm({
     ...createProjectFormOptions,
@@ -109,13 +109,13 @@ export function CreateProjectForm() {
             </form.Field>
           </div>
 
-          <form.Subscribe selector={(formState) => [formState.canSubmit, formState.isSubmitting]}>
-            {([canSubmit, isSubmitting]) => (
+          <form.Subscribe selector={(state) => [state.canSubmit, state.isPristine]}>
+            {([canSubmit, isPristine]) => (
               <BaseButton
                 className="w-full"
                 type="submit"
-                disabled={!canSubmit}
-                isLoading={isSubmitting}
+                disabled={!canSubmit || isPristine}
+                isLoading={isPending}
               >
                 Create
               </BaseButton>

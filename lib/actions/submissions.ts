@@ -43,9 +43,9 @@ export async function editSubmissionAction(
           .values({
             projectId: project.id,
             directoryId: validatedData.resourceId,
-            type: SubmissionType.User,
-            listingUrl: validatedData.listingUrl,
+            listingUrl: validatedData.listingUrl ?? null,
             status: validatedData.status,
+            type: SubmissionType.User,
           })
           .onConflictDoUpdate({
             target: [
@@ -53,9 +53,9 @@ export async function editSubmissionAction(
               tables.directorySubmissions.directoryId,
             ],
             set: {
-              type: SubmissionType.User,
-              listingUrl: validatedData.listingUrl,
+              listingUrl: validatedData.listingUrl ?? null,
               status: validatedData.status,
+              type: SubmissionType.User,
             },
           })
 
@@ -68,9 +68,9 @@ export async function editSubmissionAction(
           .values({
             projectId: project.id,
             launchPlatformId: validatedData.resourceId,
-            type: SubmissionType.User,
-            listingUrl: validatedData.listingUrl,
+            listingUrl: validatedData.listingUrl ?? null,
             status: validatedData.status,
+            type: SubmissionType.User,
           })
           .onConflictDoUpdate({
             target: [
@@ -78,9 +78,9 @@ export async function editSubmissionAction(
               tables.launchPlatformSubmissions.launchPlatformId,
             ],
             set: {
-              type: SubmissionType.User,
-              listingUrl: validatedData.listingUrl,
+              listingUrl: validatedData.listingUrl ?? null,
               status: validatedData.status,
+              type: SubmissionType.User,
             },
           })
 
