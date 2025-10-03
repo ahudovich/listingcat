@@ -9,7 +9,7 @@ import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseInput } from '@/components/ui/BaseInput'
 import { createProjectAction } from '@/lib/actions/projects'
-import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/options'
+import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/projects'
 
 export function CreateProjectForm() {
   const id = useId()

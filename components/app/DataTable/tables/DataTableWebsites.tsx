@@ -6,11 +6,11 @@ import DataTableHeaderCell from '@/components/app/DataTable/DataTableHeaderCell'
 import { DataTablePagination } from '@/components/app/DataTable/DataTablePagination'
 import BaseScrollArea from '@/components/ui/BaseScrollArea'
 import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
-import type { AccessorKeyColumnDef } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 
 interface DataTableWebsitesProps<T> {
   data: Array<T>
-  columns: Array<AccessorKeyColumnDef<T, any>>
+  columns: Array<ColumnDef<T, any>>
 }
 
 export default function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T>) {

@@ -6,7 +6,7 @@ import { createServerValidate, ServerValidateError } from '@tanstack/react-form/
 import slug from 'slug'
 import { verifySession } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
-import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/options'
+import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/projects'
 import { getZodErrorsAsArray } from '@/utils/validation'
 
 export type CreateProjectResult =

@@ -88,7 +88,8 @@
   --animate-spin-slow: spin 1.5s linear infinite;
 
   /* Z-indexes */
-  --z-index-popup: 10;
+  --z-index-modal: 1000;
+  --z-index-popup: 1001;
 
   /* App sizing */
   --height-app-header: 2.9375rem; /* 47px */

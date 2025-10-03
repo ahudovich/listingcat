@@ -13,7 +13,7 @@ import { COOKIE_PREFIX } from '@/enums/constants'
 import { PageSize } from '@/enums/data-table'
 import { LinkAttributes } from '@/enums/LinkAttributes.enum'
 import type {
-  AccessorKeyColumnDef,
+  ColumnDef,
   ColumnFiltersState,
   FilterFn,
   PaginationState,
@@ -24,7 +24,7 @@ const DEFAULT_PAGE_SIZE = PageSize.Medium
 
 interface UseWebsiteDataTableProps<T> {
   initialSorting: SortingState
-  columns: Array<AccessorKeyColumnDef<T, any>>
+  columns: Array<ColumnDef<T, any>>
   data: Array<T>
 }
 

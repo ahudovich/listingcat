@@ -2,6 +2,7 @@ import { Select } from '@base-ui-components/react/select'
 import { ArrowDown01Icon, Tick02Icon } from '@hugeicons/core-free-icons'
 import { tv } from 'tailwind-variants'
 import { BaseIcon } from '@/components/ui/BaseIcon'
+import { cn } from '@/utils/css'
 import type { VariantProps } from 'tailwind-variants'
 
 const selectVariants = tv({
@@ -44,6 +45,7 @@ export type SelectVariants = VariantProps<typeof selectVariants>
 
 interface BaseSelectProps extends React.ComponentProps<typeof Select.Root> {
   className?: string
+  error?: string
   label?: string
   size?: SelectVariants['size']
 }
@@ -51,6 +53,7 @@ interface BaseSelectProps extends React.ComponentProps<typeof Select.Root> {
 export function BaseSelect({
   id,
   className,
+  error,
   label,
   size,
   value,
@@ -68,7 +71,12 @@ export function BaseSelect({
       )}
 
       <Select.Root id={id} value={value} {...props}>
-        <Select.Trigger className={trigger({ className })}>
+        <Select.Trigger
+          className={cn(
+            trigger({ className }),
+            error && 'border-control-error ring-2 ring-control-error'
+          )}
+        >
           <Select.Value
             className={valueClasses({ className: !value && 'text-control-placeholder' })}
           />
@@ -93,6 +101,12 @@ export function BaseSelect({
           </Select.Positioner>
         </Select.Portal>
       </Select.Root>
+
+      {error && (
+        <p className="mt-1.5 text-xs text-control-error" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   )
 }

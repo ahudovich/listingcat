@@ -1,9 +1,8 @@
 import { cache } from 'react'
 import { headers } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
-import { and, eq } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
-import { getDB, tables } from '@/lib/drizzle'
+import { getDB } from '@/lib/drizzle'
 
 // DEPRECATED: use `verifySession` instead
 export const getSessionState = cache(async () => {
@@ -31,24 +30,47 @@ export const verifySession = cache(async () => {
 })
 
 export const getProjects = cache(async (userId: string) => {
-  const projects = await getDB()
-    .select()
-    .from(tables.projects)
-    .where(eq(tables.projects.userId, userId))
+  const projects = await getDB().query.projects.findMany({
+    where: (projects, { eq }) => eq(projects.userId, userId),
+  })
 
   return projects
 })
 
 export const getProject = cache(async (userId: string, projectSlug: string) => {
-  const project = await getDB()
-    .select()
-    .from(tables.projects)
-    .where(and(eq(tables.projects.userId, userId), eq(tables.projects.slug, projectSlug)))
+  const project = await getDB().query.projects.findFirst({
+    where: (projects, { and, eq }) =>
+      and(eq(projects.userId, userId), eq(projects.slug, projectSlug)),
+  })
 
   // Show 404 if project not found
-  if (!project[0]) {
+  if (!project) {
     notFound()
   }
 
-  return project[0]
+  return project
+})
+
+export const getLaunchPlatformsWithSubmissions = cache(async (projectId: string) => {
+  const launchPlatforms = await getDB().query.launchPlatforms.findMany({
+    with: {
+      submissions: {
+        where: (submissions, { eq }) => eq(submissions.projectId, projectId),
+      },
+    },
+  })
+
+  return launchPlatforms
+})
+
+export const getDirectoriesWithSubmissions = cache(async (projectId: string) => {
+  const directories = await getDB().query.directories.findMany({
+    with: {
+      submissions: {
+        where: (submissions, { eq }) => eq(submissions.projectId, projectId),
+      },
+    },
+  })
+
+  return directories
 })

@@ -3,6 +3,7 @@
 import { createColumnHelper } from '@tanstack/react-table'
 import CategoryBadge from '@/components/app/CategoryBadge'
 import DataTableCellAccount from '@/components/app/DataTable/DataTableCellAccount'
+import { DataTableCellActions } from '@/components/app/DataTable/DataTableCellActions'
 import DataTableCellDomainRating from '@/components/app/DataTable/DataTableCellDomainRating'
 import DataTableCellLink from '@/components/app/DataTable/DataTableCellLink'
 import DataTableCellLinkAttribute from '@/components/app/DataTable/DataTableCellLinkAttribute'
@@ -10,9 +11,10 @@ import DataTableCellName from '@/components/app/DataTable/DataTableCellName'
 import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricing'
 import { DataTableCellTraffic } from '@/components/app/DataTable/DataTableCellTraffic'
 import DataTableWebsites from '@/components/app/DataTable/tables/DataTableWebsites'
-import type { LaunchPlatform } from '@/lib/db/schema/tables/launch-platforms'
+import { SubmissionKind } from '@/enums/SubmissionKind.enum'
+import type { LaunchPlatformWithSubmissions } from '@/types/tables'
 
-const columnHelper = createColumnHelper<LaunchPlatform>()
+const columnHelper = createColumnHelper<LaunchPlatformWithSubmissions>()
 
 const columns = [
   columnHelper.accessor('name', {
@@ -102,8 +104,20 @@ const columns = [
       info.getValue() ? <DataTableCellLink value={info.getValue() as string} /> : '-',
     enableSorting: false,
   }),
+
+  columnHelper.display({
+    id: 'actions',
+    cell: (info) => (
+      <DataTableCellActions
+        kind={SubmissionKind.LaunchPlatform}
+        resourceId={info.row.original.id}
+        submissions={info.row.original.submissions}
+      />
+    ),
+    enableSorting: false,
+  }),
 ]
 
-export default function DataTableLaunchPlatforms({ data }: { data: Array<LaunchPlatform> }) {
+export function DataTableLaunchPlatforms({ data }: { data: Array<LaunchPlatformWithSubmissions> }) {
   return <DataTableWebsites data={data} columns={columns} />
 }

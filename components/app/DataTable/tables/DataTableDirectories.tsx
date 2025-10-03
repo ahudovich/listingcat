@@ -3,6 +3,7 @@
 import { createColumnHelper } from '@tanstack/react-table'
 import CategoryBadge from '@/components/app/CategoryBadge'
 import DataTableCellAccount from '@/components/app/DataTable/DataTableCellAccount'
+import { DataTableCellActions } from '@/components/app/DataTable/DataTableCellActions'
 import DataTableCellDomainRating from '@/components/app/DataTable/DataTableCellDomainRating'
 import DataTableCellLinkAttribute from '@/components/app/DataTable/DataTableCellLinkAttribute'
 import DataTableCellName from '@/components/app/DataTable/DataTableCellName'
@@ -10,10 +11,11 @@ import DataTableCellPricing from '@/components/app/DataTable/DataTableCellPricin
 import DataTableCellSubmission from '@/components/app/DataTable/DataTableCellSubmission'
 import { DataTableCellTraffic } from '@/components/app/DataTable/DataTableCellTraffic'
 import DataTableWebsites from '@/components/app/DataTable/tables/DataTableWebsites'
+import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { cn } from '@/utils/css'
-import type { Directory } from '@/lib/db/schema/tables/directories'
+import type { DirectoryWithSubmissions } from '@/types/tables'
 
-const columnHelper = createColumnHelper<Directory>()
+const columnHelper = createColumnHelper<DirectoryWithSubmissions>()
 
 const columns = [
   columnHelper.accessor('name', {
@@ -122,8 +124,20 @@ const columns = [
     ),
     enableSorting: false,
   }),
+
+  columnHelper.display({
+    id: 'actions',
+    cell: (info) => (
+      <DataTableCellActions
+        kind={SubmissionKind.Directory}
+        resourceId={info.row.original.id}
+        submissions={info.row.original.submissions}
+      />
+    ),
+    enableSorting: false,
+  }),
 ]
 
-export function DataTableDirectories({ data }: { data: Array<Directory> }) {
+export function DataTableDirectories({ data }: { data: Array<DirectoryWithSubmissions> }) {
   return <DataTableWebsites data={data} columns={columns} />
 }

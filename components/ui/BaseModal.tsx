@@ -4,7 +4,6 @@ import { Dialog } from '@base-ui-components/react/dialog'
 import { Cancel01Icon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock'
-import { zIndexes } from '@/utils/z-indexes'
 
 interface BaseModalProps extends React.ComponentProps<typeof Dialog.Root> {
   title: string
@@ -27,10 +26,7 @@ export function BaseModal({
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen} {...props}>
       <Dialog.Portal>
-        <Dialog.Backdrop
-          className="fixed inset-0 grid place-items-center overflow-y-auto px-4 py-12 bg-zinc-800/25 transition-all duration-150 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0"
-          style={{ zIndex: zIndexes.modal }}
-        >
+        <Dialog.Backdrop className="fixed inset-0 z-modal grid place-items-center overflow-y-auto px-4 py-12 bg-zinc-800/25 transition-all duration-150 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0">
           <Dialog.Popup
             className="relative max-w-110 w-full bg-white rounded-lg shadow-md outline-0"
             initialFocus={false}
