@@ -17,7 +17,7 @@ export default function BaseTooltip({
   return (
     <Tooltip.Provider>
       <Tooltip.Root delay={250}>
-        <Tooltip.Trigger>{children}</Tooltip.Trigger>
+        <Tooltip.Trigger render={<div />}>{children}</Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Positioner sideOffset={sideOffset}>
             <Tooltip.Popup
