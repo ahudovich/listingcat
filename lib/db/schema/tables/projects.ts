@@ -1,15 +1,12 @@
-import { createId } from '@paralleldrive/cuid2'
 import { relations } from 'drizzle-orm'
 import { pgTable, text, unique } from 'drizzle-orm/pg-core'
-import { timestamps } from '../helpers/columns'
+import { id, timestamps } from '../helpers/columns'
 import { users } from './auth'
 
 export const projects = pgTable(
   'projects',
   {
-    id: text()
-      .primaryKey()
-      .$defaultFn(() => createId()),
+    ...id,
     userId: text()
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),

@@ -1,6 +1,6 @@
 {
-  "id": "e125b77e-7bc8-470b-9a68-9228240dcf52",
-  "prevId": "68ae556b-a8c9-412d-8218-0a06d5ca13ff",
+  "id": "867c6b9a-770c-4433-8de7-b4f070abd9f2",
+  "prevId": "e125b77e-7bc8-470b-9a68-9228240dcf52",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -92,15 +92,15 @@
         "accounts_user_id_users_id_fk": {
           "name": "accounts_user_id_users_id_fk",
           "tableFrom": "accounts",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -167,25 +167,25 @@
         "sessions_user_id_users_id_fk": {
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "sessions_token_unique": {
           "name": "sessions_token_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "token"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       },
       "policies": {},
@@ -258,10 +258,10 @@
       "uniqueConstraints": {
         "users_email_unique": {
           "name": "users_email_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "email"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       },
       "policies": {},
@@ -455,31 +455,31 @@
       "uniqueConstraints": {
         "directories_name_unique": {
           "name": "directories_name_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "name"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "directories_websiteUrl_unique": {
           "name": "directories_websiteUrl_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "website_url"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "directories_webAnalyticsUrl_unique": {
           "name": "directories_webAnalyticsUrl_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "web_analytics_url"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "directories_submitUrl_unique": {
           "name": "directories_submitUrl_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "submit_url"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       },
       "policies": {},
@@ -598,31 +598,31 @@
       "uniqueConstraints": {
         "launch_platforms_name_unique": {
           "name": "launch_platforms_name_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "name"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "launch_platforms_websiteUrl_unique": {
           "name": "launch_platforms_websiteUrl_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "website_url"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "launch_platforms_webAnalyticsUrl_unique": {
           "name": "launch_platforms_webAnalyticsUrl_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "web_analytics_url"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "launch_platforms_submitUrl_unique": {
           "name": "launch_platforms_submitUrl_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "submit_url"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       },
       "policies": {},
@@ -635,9 +635,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "user_id": {
           "name": "user_id",
@@ -682,34 +683,34 @@
         "projects_user_id_users_id_fk": {
           "name": "projects_user_id_users_id_fk",
           "tableFrom": "projects",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "user_slug_unique": {
           "name": "user_slug_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "user_id",
             "slug"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "user_website_url_unique": {
           "name": "user_website_url_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "user_id",
             "website_url"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       },
       "policies": {},
@@ -726,15 +727,15 @@
           "primaryKey": true,
           "notNull": true,
           "identity": {
+            "type": "always",
             "name": "resource_requests_id_seq",
+            "schema": "public",
             "increment": "1",
+            "startWith": "1",
             "minValue": "1",
             "maxValue": "2147483647",
-            "startWith": "1",
             "cache": "1",
-            "cycle": false,
-            "schema": "public",
-            "type": "always"
+            "cycle": false
           }
         },
         "name": {
@@ -836,10 +837,10 @@
     }
   },
   "schemas": {},
-  "views": {},
   "sequences": {},
   "roles": {},
   "policies": {},
+  "views": {},
   "_meta": {
     "columns": {},
     "schemas": {},

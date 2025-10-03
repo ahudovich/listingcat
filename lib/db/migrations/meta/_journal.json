@@ -176,6 +176,13 @@
       "when": 1759426361655,
       "tag": "0024_rename_submissions_to_resource_requests",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1759483393552,
+      "tag": "0025_projects_change_id_column_type_to_uuid",
+      "breakpoints": true
     }
   ]
 }

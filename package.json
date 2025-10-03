@@ -42,7 +42,6 @@
     "@base-ui-components/react": "1.0.0-beta.4",
     "@hugeicons/core-free-icons": "^1.0.14",
     "@hugeicons/react": "^1.0.5",
-    "@paralleldrive/cuid2": "^2.2.2",
     "@react-email/components": "^0.3.2",
     "@sentry/nextjs": "^9.27.0",
     "@t3-oss/env-nextjs": "^0.13.8",
