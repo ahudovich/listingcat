@@ -7,7 +7,7 @@ import type { LaunchPlatformSubmission } from '@/lib/db/schema/tables/launch-pla
 
 // Create Submission Form
 export const editSubmissionSchema = z.object({
-  resourceId: z.uuidv4().min(1),
+  resourceId: z.uuidv4(),
   kind: z.enum(SubmissionKind),
   projectSlug: z.string().min(1),
   listingUrl: z

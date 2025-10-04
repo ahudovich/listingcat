@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useId } from 'react'
+import { useId, useState, useTransition } from 'react'
 import { useParams } from 'next/navigation'
 import { revalidateLogic, useForm } from '@tanstack/react-form'
 import { BaseAlert } from '@/components/ui/BaseAlert'
@@ -12,6 +12,7 @@ import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionState } from '@/enums/SubmissionState.enum'
 import { editSubmissionAction } from '@/lib/actions/submissions'
 import { editSubmissionSchema, getEditSubmissionFormOptions } from '@/lib/forms/submissions'
+import type { EditSubmissionResult } from '@/lib/actions/submissions'
 import type { DirectorySubmission } from '@/lib/db/schema/tables/directory-submissions'
 import type { LaunchPlatformSubmission } from '@/lib/db/schema/tables/launch-platform-submissions'
 
@@ -41,7 +42,8 @@ export function SubmissionModal({
   const params = useParams()
   const projectSlug = params.projectSlug as string | undefined
 
-  const [state, formAction, isPending] = useActionState(editSubmissionAction, null)
+  const [state, setState] = useState<EditSubmissionResult | null>(null)
+  const [isPending, startTransition] = useTransition()
 
   const form = useForm({
     // Even if `submissions` is an array, we only have one submission per resource
@@ -50,14 +52,26 @@ export function SubmissionModal({
       mode: 'submit',
       modeAfterSubmission: 'change',
     }),
+    validators: {
+      onDynamic: editSubmissionSchema,
+    },
   })
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    if (!form.state.canSubmit || form.state.isPristine) {
-      event.preventDefault()
-    }
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
 
-    form.handleSubmit()
+    // Trigger form validation
+    await form.handleSubmit()
+
+    // Only submit to server if form is valid
+    if (form.state.canSubmit && !form.state.isPristine && !form.state.isDefaultValue) {
+      startTransition(async () => {
+        const formData = new FormData(event.target as HTMLFormElement)
+        const response = await editSubmissionAction(formData)
+
+        setState(response)
+      })
+    }
   }
 
   return (
@@ -91,58 +105,46 @@ export function SubmissionModal({
             <BaseButton onClick={() => setIsOpen(false)}>Close</BaseButton>
           </BaseAlert>
         ) : (
-          <form action={formAction} onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             {/* Resource ID (hidden field) */}
-            <form.Field
-              name="resourceId"
-              validators={{ onDynamic: editSubmissionSchema.shape.resourceId }}
-            >
+            <form.Field name="resourceId">
               {(field) => (
                 <input
                   id={`${id}-${field.name}`}
                   name={field.name}
                   type="hidden"
                   value={field.state.value}
-                  onChange={(event) => field.handleChange(event.target.value)}
                 />
               )}
             </form.Field>
 
             {/* Kind (hidden field) */}
-            <form.Field name="kind" validators={{ onDynamic: editSubmissionSchema.shape.kind }}>
+            <form.Field name="kind">
               {(field) => (
                 <input
                   id={`${id}-${field.name}`}
                   name={field.name}
                   type="hidden"
                   value={field.state.value}
-                  onChange={(event) => field.handleChange(event.target.value as SubmissionKind)}
                 />
               )}
             </form.Field>
 
             {/* Project slug (hidden field) */}
-            <form.Field
-              name="projectSlug"
-              validators={{ onDynamic: editSubmissionSchema.shape.projectSlug }}
-            >
+            <form.Field name="projectSlug">
               {(field) => (
                 <input
                   id={`${id}-${field.name}`}
                   name={field.name}
                   type="hidden"
                   value={field.state.value}
-                  onChange={(event) => field.handleChange(event.target.value)}
                 />
               )}
             </form.Field>
 
             {/* Status */}
             <div className="mb-4">
-              <form.Field
-                name="status"
-                validators={{ onDynamic: editSubmissionSchema.shape.status }}
-              >
+              <form.Field name="status">
                 {(field) => (
                   <BaseSelect
                     id={`${id}-${field.name}`}
@@ -155,7 +157,7 @@ export function SubmissionModal({
                     onValueChange={(value) => field.handleChange(value as SubmissionState)}
                   >
                     {submissionStatusOptions.map((option) => (
-                      <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+                      <BaseSelectItem key={option.label} label={option.label} value={option.value}>
                         {option.label}
                       </BaseSelectItem>
                     ))}
@@ -166,10 +168,7 @@ export function SubmissionModal({
 
             {/* Listing URL */}
             <div className="mb-8">
-              <form.Field
-                name="listingUrl"
-                validators={{ onDynamic: editSubmissionSchema.shape.listingUrl }}
-              >
+              <form.Field name="listingUrl">
                 {(field) => (
                   <BaseInput
                     id={`${id}-${field.name}`}
@@ -186,12 +185,14 @@ export function SubmissionModal({
               </form.Field>
             </div>
 
-            <form.Subscribe selector={(state) => [state.canSubmit, state.isPristine]}>
-              {([canSubmit, isPristine]) => (
+            <form.Subscribe
+              selector={(state) => [state.canSubmit, state.isPristine, state.isDefaultValue]}
+            >
+              {([canSubmit, isPristine, isDefaultValue]) => (
                 <BaseButton
                   className="w-full"
                   type="submit"
-                  disabled={!canSubmit || isPristine}
+                  disabled={!canSubmit || isPristine || isDefaultValue}
                   isLoading={isPending}
                 >
                   Update

@@ -22,10 +22,7 @@ export const validateEditSubmissionForm = createServerValidate({
   onServerValidate: editSubmissionSchema,
 })
 
-export async function editSubmissionAction(
-  currentState: unknown,
-  formData: FormData
-): Promise<EditSubmissionResult> {
+export async function editSubmissionAction(formData: FormData): Promise<EditSubmissionResult> {
   const { session } = await verifySession()
 
   try {
@@ -35,28 +32,35 @@ export async function editSubmissionAction(
     // Get the project
     const project = await getProject(session.user.id, validatedData.projectSlug)
 
+    const newSubmission = {
+      projectId: project.id,
+      // Empty string must be converted to null
+      listingUrl: validatedData.listingUrl ?? null,
+      status: validatedData.status,
+      type: SubmissionType.User,
+    }
+
+    const updatedSubmission = {
+      listingUrl: validatedData.listingUrl ?? null,
+      status: validatedData.status,
+      type: SubmissionType.User,
+    }
+
     // Save to database
     switch (validatedData.kind) {
       case SubmissionKind.Directory: {
         await getDB()
           .insert(tables.directorySubmissions)
           .values({
-            projectId: project.id,
+            ...newSubmission,
             directoryId: validatedData.resourceId,
-            listingUrl: validatedData.listingUrl ?? null,
-            status: validatedData.status,
-            type: SubmissionType.User,
           })
           .onConflictDoUpdate({
             target: [
               tables.directorySubmissions.projectId,
               tables.directorySubmissions.directoryId,
             ],
-            set: {
-              listingUrl: validatedData.listingUrl ?? null,
-              status: validatedData.status,
-              type: SubmissionType.User,
-            },
+            set: updatedSubmission,
           })
 
         break
@@ -66,22 +70,15 @@ export async function editSubmissionAction(
         await getDB()
           .insert(tables.launchPlatformSubmissions)
           .values({
-            projectId: project.id,
+            ...newSubmission,
             launchPlatformId: validatedData.resourceId,
-            listingUrl: validatedData.listingUrl ?? null,
-            status: validatedData.status,
-            type: SubmissionType.User,
           })
           .onConflictDoUpdate({
             target: [
               tables.launchPlatformSubmissions.projectId,
               tables.launchPlatformSubmissions.launchPlatformId,
             ],
-            set: {
-              listingUrl: validatedData.listingUrl ?? null,
-              status: validatedData.status,
-              type: SubmissionType.User,
-            },
+            set: updatedSubmission,
           })
 
         break
