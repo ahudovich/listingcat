@@ -62,7 +62,10 @@ export function SubmissionModal({
   function onSubmit(data: EditSubmissionFormSchema) {
     startTransition(async () => {
       const response = await editSubmissionAction(data)
-      setState(response)
+
+      startTransition(() => {
+        setState(response)
+      })
     })
   }
 

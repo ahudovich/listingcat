@@ -31,7 +31,10 @@ export function CreateProjectForm() {
   function onSubmit(data: CreateProjectFormSchema) {
     startTransition(async () => {
       const response = await createProjectAction(data)
-      setState(response)
+
+      startTransition(() => {
+        setState(response)
+      })
     })
   }
 
