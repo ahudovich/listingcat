@@ -67,8 +67,8 @@ export function CreateProjectForm() {
               control={form.control}
               render={({ field }) => (
                 <BaseInput
-                  {...field.field}
-                  id={`${id}-${field.field.name}`}
+                  {...field}
+                  id={`${id}-${field.name}`}
                   label="Project name"
                   type="text"
                   placeholder="Tesla"
@@ -83,10 +83,10 @@ export function CreateProjectForm() {
             <Controller
               name="websiteUrl"
               control={form.control}
-              render={(field) => (
+              render={({ field }) => (
                 <BaseInput
-                  {...field.field}
-                  id={`${id}-${field.field.name}`}
+                  {...field}
+                  id={`${id}-${field.name}`}
                   label="Project website (full URL)"
                   type="text"
                   placeholder="https://tesla.com"

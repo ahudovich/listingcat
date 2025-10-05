@@ -98,17 +98,17 @@ export function SubmissionModal({
               <Controller
                 name="status"
                 control={form.control}
-                render={(field) => (
+                render={({ field }) => (
                   <BaseSelect
-                    ref={field.field.ref}
-                    id={`${id}-${field.field.name}`}
-                    name={field.field.name}
+                    ref={field.ref}
+                    id={`${id}-${field.name}`}
+                    name={field.name}
                     label="Status"
                     items={submissionStatusOptions}
                     modal={false}
                     error={form.formState.errors.status?.message}
-                    value={field.field.value}
-                    onValueChange={field.field.onChange}
+                    value={field.value}
+                    onValueChange={field.onChange}
                   >
                     {submissionStatusOptions.map((option) => (
                       <BaseSelectItem key={option.label} label={option.label} value={option.value}>
@@ -125,10 +125,10 @@ export function SubmissionModal({
               <Controller
                 name="listingUrl"
                 control={form.control}
-                render={(field) => (
+                render={({ field }) => (
                   <BaseInput
-                    {...field.field}
-                    id={`${id}-${field.field.name}`}
+                    {...field}
+                    id={`${id}-${field.name}`}
                     label="Listing URL"
                     type="text"
                     placeholder="https://openalternative.co/supabase"
