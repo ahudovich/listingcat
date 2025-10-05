@@ -9,7 +9,8 @@ const selectVariants = tv({
   slots: {
     label: 'inline-block mb-1.5 text-sm font-medium text-secondary cursor-pointer',
     trigger:
-      'relative flex items-center justify-between gap-x-2 px-3 w-full bg-control-default border border-control-default rounded-control outline-none appearance-none cursor-pointer select-none transition-colors focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
+      'relative flex items-center justify-between gap-x-2 px-3 w-full bg-control-default border border-control-default rounded-control outline-none appearance-none cursor-pointer select-none transition-colors' +
+      'focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
     value: 'font-medium text-control-default',
   },
   variants: {
@@ -44,6 +45,7 @@ const selectVariants = tv({
 export type SelectVariants = VariantProps<typeof selectVariants>
 
 interface BaseSelectProps extends React.ComponentProps<typeof Select.Root> {
+  ref?: React.Ref<HTMLInputElement>
   className?: string
   error?: string
   label?: string
@@ -51,6 +53,7 @@ interface BaseSelectProps extends React.ComponentProps<typeof Select.Root> {
 }
 
 export function BaseSelect({
+  ref,
   id,
   className,
   error,
@@ -70,11 +73,12 @@ export function BaseSelect({
         </label>
       )}
 
-      <Select.Root id={id} value={value} {...props}>
+      <Select.Root inputRef={ref} id={id} value={value} {...props}>
         <Select.Trigger
           className={cn(
             trigger({ className }),
-            error && 'border-control-error ring-2 ring-control-error'
+            error &&
+              'border-control-error ring-2 ring-control-error focus-visible:border-control-error focus-visible:ring-control-error'
           )}
         >
           <Select.Value

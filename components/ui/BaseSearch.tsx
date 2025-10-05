@@ -10,8 +10,6 @@ import type { ChangeEvent } from 'react'
 import type { InputVariants, NativeInputProps } from '@/components/ui/BaseInput'
 
 interface BaseSearchProps {
-  id: string
-  className?: string
   value: string
   onChange: (value: string) => void
   size?: InputVariants['size']
@@ -26,7 +24,7 @@ export function BaseSearch({
   onChange,
   debounceMs = 250,
   ...props
-}: NativeInputProps & BaseSearchProps) {
+}: BaseSearchProps & Omit<NativeInputProps, 'value' | 'onChange'>) {
   const [internalValue, setInternalValue] = useState(value ?? '')
   const [isClearing, setIsClearing] = useState(false)
 

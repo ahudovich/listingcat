@@ -1,7 +1,7 @@
 import { tv } from 'tailwind-variants'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { cn } from '@/utils/css'
-import type { ChangeEvent, ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import type { IconSvgElement } from '@hugeicons/react'
 import type { VariantProps } from 'tailwind-variants'
 
@@ -11,7 +11,9 @@ const inputVariants = tv({
     label: 'inline-block mb-1.5 text-sm font-medium text-secondary cursor-pointer',
     icon: 'absolute top-1/2 -translate-y-1/2 size-4',
     input:
-      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-colors placeholder:text-control-placeholder focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
+      'block w-full bg-control-default border border-control-default rounded-control outline-none font-medium text-control-default appearance-none transition-colors' +
+      'placeholder:text-control-placeholder' +
+      'focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
   },
   variants: {
     iconPosition: {
@@ -53,23 +55,19 @@ const inputVariants = tv({
 })
 
 export type InputVariants = VariantProps<typeof inputVariants>
-export type NativeInputProps = Omit<ComponentProps<'input'>, 'size' | 'value' | 'className'>
-export type NativeInputValue = ComponentProps<'input'>['value']
+export type NativeInputProps = Omit<ComponentProps<'input'>, 'size'>
 
 interface BaseInputProps {
-  id: string
-  className?: string
   error?: string
   icon?: IconSvgElement
   iconPosition?: InputVariants['iconPosition']
   rootClasses?: string
   label?: string
   size?: InputVariants['size']
-  value?: NativeInputValue
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 export function BaseInput({
+  ref,
   id,
   className,
   error,
@@ -99,10 +97,12 @@ export function BaseInput({
 
       <div className="relative">
         <input
+          ref={ref}
           id={id}
           className={cn(
             input({ className }),
-            error && 'border-control-error ring-2 ring-control-error'
+            error &&
+              'border-control-error ring-2 ring-control-error focus-visible:border-control-error focus-visible:ring-control-error'
           )}
           value={value}
           onChange={onChange}

@@ -2,58 +2,54 @@
 
 import { revalidatePath } from 'next/cache'
 import * as Sentry from '@sentry/nextjs'
-import { createServerValidate, ServerValidateError } from '@tanstack/react-form/nextjs'
+import z, { ZodError } from 'zod'
 import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionType } from '@/enums/SubmissionType.enum'
 import { getProject, verifySession } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
-import { editSubmissionSchema, getEditSubmissionFormOptions } from '@/lib/forms/submissions'
-import { getZodErrorsAsArray } from '@/utils/validation'
+import { editSubmissionFormSchema } from '@/lib/forms/submissions'
+import type { EditSubmissionFormSchema } from '@/lib/forms/submissions'
+import type { FormActionResult } from '@/types/validation'
 
-export type EditSubmissionResult =
-  | {
-      success: false
-      errors?: Array<string>
-    }
-  | { success: true }
+export type EditSubmissionFormResult = FormActionResult<EditSubmissionFormSchema>
 
-export const validateEditSubmissionForm = createServerValidate({
-  ...getEditSubmissionFormOptions(),
-  onServerValidate: editSubmissionSchema,
-})
-
-export async function editSubmissionAction(formData: FormData): Promise<EditSubmissionResult> {
+export async function editSubmissionAction(payload: unknown): Promise<EditSubmissionFormResult> {
   const { session } = await verifySession()
 
   try {
     // Validate form data
-    const validatedData = await validateEditSubmissionForm(formData)
+    const result = editSubmissionFormSchema.safeParse(payload)
+
+    if (!result.success) {
+      throw result.error
+    }
 
     // Get the project
-    const project = await getProject(session.user.id, validatedData.projectSlug)
+    const project = await getProject(session.user.id, result.data.projectSlug)
 
     const newSubmission = {
       projectId: project.id,
       // Empty string must be converted to null
-      listingUrl: validatedData.listingUrl ?? null,
-      status: validatedData.status,
+      listingUrl: result.data.listingUrl || null,
+      status: result.data.status,
       type: SubmissionType.User,
     }
 
     const updatedSubmission = {
-      listingUrl: validatedData.listingUrl ?? null,
-      status: validatedData.status,
+      // Empty string must be converted to null
+      listingUrl: result.data.listingUrl || null,
+      status: result.data.status,
       type: SubmissionType.User,
     }
 
     // Save to database
-    switch (validatedData.kind) {
+    switch (result.data.kind) {
       case SubmissionKind.Directory: {
         await getDB()
           .insert(tables.directorySubmissions)
           .values({
             ...newSubmission,
-            directoryId: validatedData.resourceId,
+            directoryId: result.data.resourceId,
           })
           .onConflictDoUpdate({
             target: [
@@ -71,7 +67,7 @@ export async function editSubmissionAction(formData: FormData): Promise<EditSubm
           .insert(tables.launchPlatformSubmissions)
           .values({
             ...newSubmission,
-            launchPlatformId: validatedData.resourceId,
+            launchPlatformId: result.data.resourceId,
           })
           .onConflictDoUpdate({
             target: [
@@ -86,24 +82,25 @@ export async function editSubmissionAction(formData: FormData): Promise<EditSubm
     }
 
     // Revalidate the page
-    revalidatePath(`/app/project/${validatedData.projectSlug}/${validatedData.kind}`)
+    revalidatePath(`/app/project/${result.data.projectSlug}/${result.data.kind}`)
 
-    return { success: true }
+    return { status: 'success' }
   } catch (error: unknown) {
-    Sentry.captureException(error)
-
-    // Form validation error
-    if (error instanceof ServerValidateError) {
+    // Validation errors
+    if (error instanceof ZodError) {
       return {
-        success: false,
-        errors: getZodErrorsAsArray(error.formState.errors) ?? [error.message],
+        status: 'error',
+        error: 'Form contains errors.',
+        validationErrors: z.flattenError(error).fieldErrors,
       }
     }
 
+    Sentry.captureException(error)
+
     // Other errors
     return {
-      success: false,
-      errors: ['Failed to update submission. Please try again.'],
+      status: 'error',
+      error: 'Failed to update submission. Please try again.',
     }
   }
 }
