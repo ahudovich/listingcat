@@ -1,54 +1,49 @@
 'use client'
 
-import { useActionState, useId } from 'react'
+import { useId, useState, useTransition } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight02Icon } from '@hugeicons/core-free-icons'
-import { revalidateLogic, useForm } from '@tanstack/react-form'
 import { BaseAlert } from '@/components/ui/BaseAlert'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseInput } from '@/components/ui/BaseInput'
 import { createProjectAction } from '@/lib/actions/projects'
-import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/projects'
+import { createProjectFormSchema } from '@/lib/forms/projects'
+import type { CreateProjectFormResult } from '@/lib/actions/projects'
+import type { CreateProjectFormSchema } from '@/lib/forms/projects'
 
 export function CreateProjectForm() {
   const id = useId()
 
-  const [state, formAction, isPending] = useActionState(createProjectAction, null)
+  const [state, setState] = useState<CreateProjectFormResult>({ status: 'idle' })
+  const [isPending, startTransition] = useTransition()
 
   const form = useForm({
-    ...createProjectFormOptions,
-    validationLogic: revalidateLogic({
-      mode: 'submit',
-      modeAfterSubmission: 'change',
-    }),
+    resolver: zodResolver(createProjectFormSchema),
+    defaultValues: {
+      name: '',
+      websiteUrl: '',
+    },
   })
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    if (!form.state.canSubmit || form.state.isPristine) {
-      event.preventDefault()
-    }
-
-    form.handleSubmit()
+  function onSubmit(data: CreateProjectFormSchema) {
+    startTransition(async () => {
+      const response = await createProjectAction(data)
+      setState(response)
+    })
   }
 
   return (
     <>
-      {state && !state.success && (
+      {state.status === 'error' && (
         <BaseAlert className="mb-4" variant="destructive" aria-live="polite">
-          {state.errors ? (
-            <ul className="space-y-0.5 pl-4 list-disc list-outside">
-              {state.errors.map((error) => (
-                <li key={error}>{error}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>Something went wrong. Please try again.</p>
-          )}
+          <p>{state.error}</p>
         </BaseAlert>
       )}
 
-      {state && state.success ? (
+      {state.status === 'success' ? (
         <BaseAlert className="px-6 py-3 text-center" aria-live="polite">
           <p className="mb-1 font-semibold text-green-800">Project created successfully!</p>
           <p className="mb-4 text-xs text-green-700 text-balance">
@@ -65,62 +60,55 @@ export function CreateProjectForm() {
           </BaseButton>
         </BaseAlert>
       ) : (
-        <form action={formAction} onSubmit={handleSubmit}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <form.Field name="name" validators={{ onDynamic: createProjectSchema.shape.name }}>
-              {(field) => (
-                <>
-                  <BaseInput
-                    id={`${id}-${field.name}`}
-                    name={field.name}
-                    label="Project name"
-                    type="text"
-                    placeholder="Tesla"
-                    autoComplete="off"
-                    error={field.state.meta.errors[0]?.message}
-                    value={field.state.value}
-                    onChange={(event) => field.handleChange(event.target.value)}
-                  />
-                </>
+            <Controller
+              name="name"
+              control={form.control}
+              render={({ field }) => (
+                <BaseInput
+                  {...field.field}
+                  id={`${id}-${field.field.name}`}
+                  label="Project name"
+                  type="text"
+                  placeholder="Tesla"
+                  autoComplete="off"
+                  error={form.formState.errors.name?.message}
+                />
               )}
-            </form.Field>
+            />
           </div>
 
           <div className="mb-8">
-            <form.Field
+            <Controller
               name="websiteUrl"
-              validators={{ onDynamic: createProjectSchema.shape.websiteUrl }}
-            >
-              {(field) => (
-                <>
-                  <BaseInput
-                    id={`${id}-${field.name}`}
-                    name={field.name}
-                    label="Project website (full URL)"
-                    type="text"
-                    placeholder="https://tesla.com"
-                    autoComplete="off"
-                    error={field.state.meta.errors[0]?.message}
-                    value={field.state.value}
-                    onChange={(event) => field.handleChange(event.target.value)}
-                  />
-                </>
+              control={form.control}
+              render={(field) => (
+                <BaseInput
+                  {...field.field}
+                  id={`${id}-${field.field.name}`}
+                  label="Project website (full URL)"
+                  type="text"
+                  placeholder="https://tesla.com"
+                  autoComplete="off"
+                  error={form.formState.errors.websiteUrl?.message}
+                />
               )}
-            </form.Field>
+            />
           </div>
 
-          <form.Subscribe selector={(state) => [state.canSubmit, state.isPristine]}>
-            {([canSubmit, isPristine]) => (
-              <BaseButton
-                className="w-full"
-                type="submit"
-                disabled={!canSubmit || isPristine}
-                isLoading={isPending}
-              >
-                Create
-              </BaseButton>
-            )}
-          </form.Subscribe>
+          <BaseButton
+            className="w-full"
+            type="submit"
+            disabled={
+              !form.formState.isDirty ||
+              (form.formState.isSubmitted && !form.formState.isValid) ||
+              isPending
+            }
+            isLoading={isPending}
+          >
+            Create
+          </BaseButton>
         </form>
       )}
     </>

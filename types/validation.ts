@@ -14,10 +14,12 @@ export type FormValidationErrors<TSchema> = Partial<Record<keyof TSchema, Array<
  * - `error`: the action failed, with a generic error message and/or field-level validation errors
  *
  * @template TSchema - Zod schema type
+ * @template TSuccess - Success object type
  */
-export type FormActionResult<TSchema> =
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type FormActionResult<TSchema, TSuccess extends object = {}> =
   | { status: 'idle' }
-  | { status: 'success' }
+  | ({ status: 'success' } & TSuccess)
   | {
       status: 'error'
       error: string

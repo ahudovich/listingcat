@@ -101,7 +101,7 @@ export function SubmissionModal({
                 render={(field) => (
                   <BaseSelect
                     ref={field.field.ref}
-                    id={`${id}-status`}
+                    id={`${id}-${field.field.name}`}
                     name={field.field.name}
                     label="Status"
                     items={submissionStatusOptions}
@@ -128,7 +128,7 @@ export function SubmissionModal({
                 render={(field) => (
                   <BaseInput
                     {...field.field}
-                    id={`${id}-listingUrl`}
+                    id={`${id}-${field.field.name}`}
                     label="Listing URL"
                     type="text"
                     placeholder="https://openalternative.co/supabase"

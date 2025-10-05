@@ -2,68 +2,61 @@
 
 import { revalidatePath } from 'next/cache'
 import * as Sentry from '@sentry/nextjs'
-import { createServerValidate, ServerValidateError } from '@tanstack/react-form/nextjs'
 import slug from 'slug'
+import z, { ZodError } from 'zod'
 import { verifySession } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
-import { createProjectFormOptions, createProjectSchema } from '@/lib/forms/projects'
-import { getZodErrorsAsArray } from '@/utils/validation'
+import { createProjectFormSchema } from '@/lib/forms/projects'
+import type { CreateProjectFormSchema } from '@/lib/forms/projects'
+import type { FormActionResult } from '@/types/validation'
 
-export type CreateProjectResult =
-  | {
-      success: false
-      errors?: Array<string>
-    }
-  | {
-      success: true
-      slug: string
-    }
+export type CreateProjectFormResult = FormActionResult<CreateProjectFormSchema, { slug: string }>
 
-export const validateCreateProjectForm = createServerValidate({
-  ...createProjectFormOptions,
-  onServerValidate: createProjectSchema,
-})
-
-export async function createProjectAction(
-  currentState: unknown,
-  formData: FormData
-): Promise<CreateProjectResult> {
+export async function createProjectAction(payload: unknown): Promise<CreateProjectFormResult> {
   const { session } = await verifySession()
 
   try {
     // Validate form data
-    const validatedData = await validateCreateProjectForm(formData)
+    const result = createProjectFormSchema.safeParse(payload)
+
+    if (!result.success) {
+      throw result.error
+    }
 
     // Generate URL-friendly slug
-    const projectSlug = slug(validatedData.name)
+    const projectSlug = slug(result.data.name)
 
     // Save to database
     await getDB().insert(tables.projects).values({
       userId: session.user.id,
-      name: validatedData.name.trim(),
+      name: result.data.name,
       slug: projectSlug,
-      websiteUrl: validatedData.websiteUrl.trim(),
+      websiteUrl: result.data.websiteUrl,
     })
 
-    // Revalidate the layout to refresh the sidebar
+    // Revalidate the layout (it's needed to refresh the sidebar)
     revalidatePath('/app', 'layout')
 
-    return { success: true, slug: projectSlug }
+    return {
+      status: 'success',
+      slug: projectSlug,
+    }
   } catch (error: unknown) {
-    Sentry.captureException(error)
-
-    // Form validation error
-    if (error instanceof ServerValidateError) {
+    // Validation errors
+    if (error instanceof ZodError) {
       return {
-        success: false,
-        errors: getZodErrorsAsArray(error.formState.errors) ?? [error.message],
+        status: 'error',
+        error: 'Form contains errors.',
+        validationErrors: z.flattenError(error).fieldErrors,
       }
     }
 
+    Sentry.captureException(error)
+
     // Other errors
     return {
-      success: false,
-      errors: ['Failed to create project. Please try again.'],
+      status: 'error',
+      error: 'Failed to create project. Please try again.',
     }
   }
 }
