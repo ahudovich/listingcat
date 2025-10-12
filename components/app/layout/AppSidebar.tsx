@@ -48,6 +48,7 @@ export function AppSidebar() {
   return (
     <motion.aside
       className="flex flex-col justify-between gap-2 px-2 py-2.5 h-full bg-zinc-50 border-r border-layout-separator"
+      initial={false}
       animate={{ width: isCollapsed ? '3.625rem' : '15rem' }}
     >
       <nav>

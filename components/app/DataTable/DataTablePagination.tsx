@@ -2,6 +2,7 @@ import { useId } from 'react'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseSelect, BaseSelectItem } from '@/components/ui/BaseSelect'
 import { PageSize } from '@/enums/data-table'
+import { cn } from '@/utils/css'
 import type { Table } from '@tanstack/react-table'
 
 const pageSizeOptions = Object.values(PageSize).map((size) => ({
@@ -21,6 +22,8 @@ export function DataTablePagination<T>({ table }: DataTablePaginationProps<T>) {
   const pageIndex = table.getState().pagination.pageIndex
   const pageCount = table.getPageCount()
   const currentPage = pageIndex + 1
+
+  const totalSelected = Object.keys(table.getState().rowSelection).length
 
   return (
     <div className="relative flex flex-wrap items-center justify-between gap-4 px-4 py-3 before:absolute before:-top-px before:inset-x-0 before:h-px before:bg-layout-separator">
@@ -46,6 +49,15 @@ export function DataTablePagination<T>({ table }: DataTablePaginationProps<T>) {
             ))}
           </BaseSelect>
         )}
+
+        <div
+          className={cn(
+            'invisible text-xs opacity-0 transition-opacity',
+            totalSelected > 0 && 'visible opacity-100'
+          )}
+        >
+          <span className="font-semibold">{totalSelected}</span> selected
+        </div>
       </div>
 
       <div className="flex items-center gap-4">

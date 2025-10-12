@@ -18,6 +18,7 @@ import type {
   ColumnFiltersState,
   FilterFn,
   PaginationState,
+  RowSelectionState,
   SortingState,
 } from '@tanstack/react-table'
 
@@ -41,6 +42,7 @@ export function useWebsiteDataTable<T>({
   const [globalFilter, setGlobalFilter] = useState<string>('')
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>(initialSorting)
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: storedPageSize ?? DEFAULT_PAGE_SIZE,
@@ -56,8 +58,12 @@ export function useWebsiteDataTable<T>({
       globalFilter,
       columnFilters,
       sorting,
+      rowSelection,
       pagination,
     },
+
+    // Row ID is required for row selection
+    getRowId: (row) => row.id as string,
 
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -70,6 +76,8 @@ export function useWebsiteDataTable<T>({
 
     enableMultiSort: false,
     onSortingChange: setSorting,
+
+    onRowSelectionChange: setRowSelection,
 
     onPaginationChange: (updater) => {
       const newPagination = typeof updater === 'function' ? updater(pagination) : updater

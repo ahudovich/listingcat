@@ -2,9 +2,10 @@ import { ArrowDown02Icon, ArrowUp02Icon, HelpCircleIcon } from '@hugeicons/core-
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseTooltip } from '@/components/ui/BaseTooltip'
 import { cn } from '@/utils/css'
-import type { SortDirection } from '@tanstack/react-table'
+import type { Column, SortDirection } from '@tanstack/react-table'
 
 interface DataTableHeaderCellProps {
+  column: Column<any, unknown>
   children: React.ReactNode
   isSortable: boolean
   sortingDirection: SortDirection | false
@@ -14,6 +15,7 @@ interface DataTableHeaderCellProps {
 }
 
 export function DataTableHeaderCell({
+  column,
   children,
   isSortable,
   sortingDirection,
@@ -32,7 +34,12 @@ export function DataTableHeaderCell({
 
   return (
     <th className="p-0" style={{ width: size && `${size / 16}rem` }}>
-      <div className="relative flex items-center gap-1 px-4 h-10.5 w-full bg-zinc-100 border-b border-b-zinc-200">
+      <div
+        className={cn(
+          'relative flex items-center gap-1 px-4 h-10.5 w-full bg-zinc-100 border-b border-b-zinc-200',
+          column.id === 'name' && 'pl-0'
+        )}
+      >
         <Component
           className={cn(
             'flex items-center gap-1 font-medium text-xs whitespace-nowrap select-none',

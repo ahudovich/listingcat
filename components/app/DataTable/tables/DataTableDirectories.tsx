@@ -12,6 +12,7 @@ import { DataTableCellSubmission } from '@/components/app/DataTable/DataTableCel
 import { DataTableCellTraffic } from '@/components/app/DataTable/DataTableCellTraffic'
 import { DataTableWebsites } from '@/components/app/DataTable/tables/DataTableWebsites'
 import { SubmissionStatusBadge } from '@/components/app/SubmissionStatusBadge'
+import { BaseCheckbox } from '@/components/ui/BaseCheckbox'
 import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 import { cn } from '@/utils/css'
@@ -20,7 +21,29 @@ import type { DirectoryWithSubmissions } from '@/types/tables'
 const columnHelper = createColumnHelper<DirectoryWithSubmissions>()
 
 const columns = [
+  columnHelper.display({
+    id: 'select',
+    header: ({ table }) => (
+      <BaseCheckbox
+        checked={table.getIsAllRowsSelected()}
+        indeterminate={table.getIsSomeRowsSelected()}
+        onCheckedChange={(checked) => table.toggleAllRowsSelected(!!checked)}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="flex items-center">
+        <BaseCheckbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(checked) => row.toggleSelected(!!checked)}
+        />
+      </div>
+    ),
+    size: 18,
+    enableSorting: false,
+  }),
+
   columnHelper.accessor('name', {
+    id: 'name',
     header: 'Name',
     cell: (info) => (
       <DataTableCellName name={info.getValue()} websiteUrl={info.row.original.websiteUrl} />
@@ -31,7 +54,11 @@ const columns = [
   columnHelper.accessor((row) => row.submissions[0]?.status, {
     id: 'submissionStatus',
     header: 'Status',
-    cell: (info) => <SubmissionStatusBadge status={info.getValue() ?? SubmissionStatus.Pending} />,
+    cell: (info) => (
+      <div className="flex items-center">
+        <SubmissionStatusBadge status={info.getValue() ?? SubmissionStatus.Pending} />
+      </div>
+    ),
     sortingFn: 'alphanumeric',
     filterFn: 'submissionStatusFilter',
   }),
@@ -92,7 +119,11 @@ const columns = [
 
   columnHelper.accessor('category', {
     header: 'Category',
-    cell: (info) => <CategoryBadge category={info.getValue()} />,
+    cell: (info) => (
+      <div className="flex items-center">
+        <CategoryBadge category={info.getValue()} />
+      </div>
+    ),
     sortingFn: 'alphanumeric',
     filterFn: 'categoryFilter',
     meta: {

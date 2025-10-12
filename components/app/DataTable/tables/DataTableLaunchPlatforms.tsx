@@ -12,6 +12,7 @@ import { DataTableCellPricing } from '@/components/app/DataTable/DataTableCellPr
 import { DataTableCellTraffic } from '@/components/app/DataTable/DataTableCellTraffic'
 import { DataTableWebsites } from '@/components/app/DataTable/tables/DataTableWebsites'
 import { SubmissionStatusBadge } from '@/components/app/SubmissionStatusBadge'
+import { BaseCheckbox } from '@/components/ui/BaseCheckbox'
 import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 import type { LaunchPlatformWithSubmissions } from '@/types/tables'
@@ -19,6 +20,27 @@ import type { LaunchPlatformWithSubmissions } from '@/types/tables'
 const columnHelper = createColumnHelper<LaunchPlatformWithSubmissions>()
 
 const columns = [
+  columnHelper.display({
+    id: 'select',
+    header: ({ table }) => (
+      <BaseCheckbox
+        checked={table.getIsAllRowsSelected()}
+        indeterminate={table.getIsSomeRowsSelected()}
+        onCheckedChange={table.getToggleAllRowsSelectedHandler()}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="flex items-center">
+        <BaseCheckbox
+          checked={row.getIsSelected()}
+          onCheckedChange={row.getToggleSelectedHandler()}
+        />
+      </div>
+    ),
+    size: 18,
+    enableSorting: false,
+  }),
+
   columnHelper.accessor('name', {
     header: 'Name',
     cell: (info) => (
@@ -30,7 +52,11 @@ const columns = [
   columnHelper.accessor((row) => row.submissions[0]?.status, {
     id: 'submissionStatus',
     header: 'Status',
-    cell: (info) => <SubmissionStatusBadge status={info.getValue() ?? SubmissionStatus.Pending} />,
+    cell: (info) => (
+      <div className="flex items-center">
+        <SubmissionStatusBadge status={info.getValue() ?? SubmissionStatus.Pending} />
+      </div>
+    ),
     sortingFn: 'alphanumeric',
     filterFn: 'submissionStatusFilter',
   }),
@@ -76,7 +102,11 @@ const columns = [
 
   columnHelper.accessor('category', {
     header: 'Category',
-    cell: (info) => <CategoryBadge category={info.getValue()} />,
+    cell: (info) => (
+      <div className="flex items-center">
+        <CategoryBadge category={info.getValue()} />
+      </div>
+    ),
     sortingFn: 'alphanumeric',
     filterFn: 'categoryFilter',
     meta: {

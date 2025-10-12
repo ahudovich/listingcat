@@ -6,6 +6,7 @@ import { DataTableHeaderCell } from '@/components/app/DataTable/DataTableHeaderC
 import { DataTablePagination } from '@/components/app/DataTable/DataTablePagination'
 import { BaseScrollArea } from '@/components/ui/BaseScrollArea'
 import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
+import { cn } from '@/utils/css'
 import type { ColumnDef } from '@tanstack/react-table'
 
 interface DataTableWebsitesProps<T> {
@@ -39,6 +40,7 @@ export function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T
                 {headers.map((header) => (
                   <DataTableHeaderCell
                     key={header.id}
+                    column={header.column}
                     isSortable={header.column.getCanSort()}
                     sortingDirection={header.column.getIsSorted()}
                     size={header.column.columnDef.size}
@@ -54,11 +56,14 @@ export function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T
 
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr className="group transition-colors hover:bg-zinc-100" key={row.id}>
+              <tr key={row.id} className="group transition-colors hover:bg-zinc-100">
                 {row.getVisibleCells().map((cell) => (
                   <td
-                    className="px-4 py-3 border-y border-y-layout-separator font-medium text-xs group-first:border-t-0"
                     key={cell.id}
+                    className={cn(
+                      'align-middle px-4 py-3 border-y border-y-layout-separator font-medium text-xs group-first:border-t-0',
+                      cell.column.id === 'name' && 'pl-0'
+                    )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
