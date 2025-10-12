@@ -3,11 +3,12 @@ import { useRender } from '@base-ui-components/react/use-render'
 import { Loading03Icon } from '@hugeicons/core-free-icons'
 import { tv } from 'tailwind-variants'
 import { BaseIcon } from '@/components/ui/BaseIcon'
+import { cn } from '@/utils/css'
 import type { ReactNode } from 'react'
 import type { VariantProps } from 'tailwind-variants'
 
 const buttonVariants = tv({
-  base: 'group inline-flex justify-center items-center gap-1.5 rounded-full outline-none font-semibold whitespace-nowrap transition-colors cursor-pointer focus:ring-2 focus:ring-control-default disabled:opacity-50 disabled:cursor-default [&>svg]:shrink-0 [&>svg]:fill-current',
+  base: 'group inline-flex justify-center items-center gap-1.5 rounded-full outline-none font-semibold whitespace-nowrap transition-all cursor-pointer focus:ring-2 focus:ring-control-default disabled:opacity-50 disabled:cursor-default [&>svg]:shrink-0 [&>svg]:fill-current',
   variants: {
     size: {
       xs: 'px-4 h-control-xs text-xs [&_svg]:!size-3.5',
@@ -18,7 +19,8 @@ const buttonVariants = tv({
     variant: {
       primary: 'bg-accent text-contrast',
       secondary: 'bg-control-default border border-control-default text-primary',
-      ghost: 'bg-transparent text-primary',
+      outline: 'bg-control-default border border-control-default hover:bg-zinc-100',
+      ghost: 'bg-transparent text-primary hover:bg-zinc-100',
     },
   },
   defaultVariants: {
@@ -47,7 +49,7 @@ export function BaseButton({
   ...props
 }: BaseButtonProps) {
   const defaultProps: useRender.ElementProps<'button'> = {
-    className: buttonVariants({ size, variant, className }),
+    className: cn(buttonVariants({ size, variant }), className),
     children: isLoading ? (
       <BaseIcon className="animate-spin-slow" icon={Loading03Icon} />
     ) : (

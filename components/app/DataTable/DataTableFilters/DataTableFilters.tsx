@@ -1,6 +1,11 @@
 'use client'
 
-import { useId } from 'react'
+import { useId, useState } from 'react'
+import { Toggle } from '@base-ui-components/react/toggle'
+import { FilterIcon } from '@hugeicons/core-free-icons'
+import { AnimatePresence, motion } from 'motion/react'
+import { BaseButton } from '@/components/ui/BaseButton'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseSearch } from '@/components/ui/BaseSearch'
 import { BaseSelect, BaseSelectItem } from '@/components/ui/BaseSelect'
 import { ProductCategories } from '@/enums/ProductCategories.enum'
@@ -55,6 +60,8 @@ export function DataTableFilters({
 }: DataTableFiltersProps) {
   const id = useId()
 
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+
   // Get current filter values from column filters state
   const submissionStatusFilter = columnFilters.find(({ id }) => id === 'submissionStatus')
   const pricingFilter = columnFilters.find(({ id }) => id === 'pricingModel')
@@ -81,91 +88,124 @@ export function DataTableFilters({
   }
 
   return (
-    <div className={cn('flex items-center gap-3 overflow-x-auto', className)}>
-      <BaseSearch
-        id={`${id}-search`}
-        className="w-66"
-        placeholder="Search by name or website url"
-        size="xs"
-        value={globalFilter}
-        onChange={(value) => setGlobalFilter(String(value))}
-      />
+    <div className={cn('overflow-x-auto', className)}>
+      <div className="flex items-center gap-3">
+        <BaseSearch
+          id={`${id}-search`}
+          className="w-66"
+          placeholder="Search by name or website url"
+          size="xs"
+          value={globalFilter}
+          onChange={(value) => setGlobalFilter(String(value))}
+        />
 
-      <BaseSelect
-        id={`${id}-submission-status`}
-        className="w-32"
-        items={submissionStatusOptions}
-        modal={false}
-        size="xs"
-        value={submissionStatus}
-        onValueChange={(value) =>
-          updateColumnFilter('submissionStatus', value as SubmissionStatus | null)
-        }
-      >
-        {submissionStatusOptions.map((option) => (
-          <BaseSelectItem key={option.value} label={option.label} value={option.value}>
-            {option.label}
-          </BaseSelectItem>
-        ))}
-      </BaseSelect>
+        <Toggle
+          pressed={isFiltersOpen}
+          onPressedChange={setIsFiltersOpen}
+          aria-label="Filters"
+          render={(props, state) => (
+            <BaseButton
+              className={cn('px-2 !rounded-control', state.pressed && 'bg-zinc-100')}
+              size="xs"
+              variant="outline"
+              {...props}
+            >
+              <BaseIcon icon={FilterIcon} strokeWidth={2.5} />
+            </BaseButton>
+          )}
+        />
 
-      <BaseSelect
-        id={`${id}-pricing`}
-        className="w-32"
-        items={pricingOptions}
-        modal={false}
-        size="xs"
-        value={pricing}
-        onValueChange={(value) => updateColumnFilter('pricingModel', value as string | null)}
-      >
-        {pricingOptions.map((option) => (
-          <BaseSelectItem key={option.value} label={option.label} value={option.value}>
-            {option.label}
-          </BaseSelectItem>
-        ))}
-      </BaseSelect>
+        <BaseButton
+          className={cn(
+            'ml-auto invisible opacity-0 font-medium text-control-default',
+            (globalFilter || columnFilters.length > 0) && 'visible opacity-100'
+          )}
+          size="xs"
+          variant="ghost"
+          onClick={resetFilters}
+        >
+          Reset
+        </BaseButton>
+      </div>
 
-      <BaseSelect
-        id={`${id}-category`}
-        className="w-36"
-        items={categoryOptions}
-        modal={false}
-        size="xs"
-        value={category}
-        onValueChange={(value) => updateColumnFilter('category', value as string | null)}
-      >
-        {categoryOptions.map((option) => (
-          <BaseSelectItem key={option.value} label={option.label} value={option.value}>
-            {option.label}
-          </BaseSelectItem>
-        ))}
-      </BaseSelect>
+      <AnimatePresence>
+        {isFiltersOpen && (
+          <motion.div
+            key="filters"
+            className="flex items-center gap-3 mt-3"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            <BaseSelect
+              id={`${id}-submission-status`}
+              className="w-32"
+              items={submissionStatusOptions}
+              modal={false}
+              size="xs"
+              value={submissionStatus}
+              onValueChange={(value) =>
+                updateColumnFilter('submissionStatus', value as SubmissionStatus | null)
+              }
+            >
+              {submissionStatusOptions.map((option) => (
+                <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+                  {option.label}
+                </BaseSelectItem>
+              ))}
+            </BaseSelect>
 
-      <BaseSelect
-        id={`${id}-link-attribute`}
-        className="w-36"
-        items={linkAttributeOptions}
-        modal={false}
-        size="xs"
-        value={linkAttribute}
-        onValueChange={(value) => updateColumnFilter('linkAttribute', value as string | null)}
-      >
-        {linkAttributeOptions.map((option) => (
-          <BaseSelectItem key={option.value} label={option.label} value={option.value}>
-            {option.label}
-          </BaseSelectItem>
-        ))}
-      </BaseSelect>
+            <BaseSelect
+              id={`${id}-pricing`}
+              className="w-32"
+              items={pricingOptions}
+              modal={false}
+              size="xs"
+              value={pricing}
+              onValueChange={(value) => updateColumnFilter('pricingModel', value as string | null)}
+            >
+              {pricingOptions.map((option) => (
+                <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+                  {option.label}
+                </BaseSelectItem>
+              ))}
+            </BaseSelect>
 
-      <button
-        className={cn(
-          'invisible px-3 h-control-xs rounded-control opacity-0 outline-none font-medium text-xs text-control-default cursor-pointer select-none transition-all focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
-          (globalFilter || columnFilters.length > 0) && 'visible opacity-100'
+            <BaseSelect
+              id={`${id}-category`}
+              className="w-36"
+              items={categoryOptions}
+              modal={false}
+              size="xs"
+              value={category}
+              onValueChange={(value) => updateColumnFilter('category', value as string | null)}
+            >
+              {categoryOptions.map((option) => (
+                <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+                  {option.label}
+                </BaseSelectItem>
+              ))}
+            </BaseSelect>
+
+            <BaseSelect
+              id={`${id}-link-attribute`}
+              className="w-36"
+              items={linkAttributeOptions}
+              modal={false}
+              size="xs"
+              value={linkAttribute}
+              onValueChange={(value) => updateColumnFilter('linkAttribute', value as string | null)}
+            >
+              {linkAttributeOptions.map((option) => (
+                <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+                  {option.label}
+                </BaseSelectItem>
+              ))}
+            </BaseSelect>
+          </motion.div>
         )}
-        onClick={resetFilters}
-      >
-        Reset
-      </button>
+      </AnimatePresence>
     </div>
   )
 }
