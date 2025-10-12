@@ -91,13 +91,13 @@ export function SubmissionModal({
           </BaseAlert>
         ) : (
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            {/* Hidden fields to pass to the server */}
-            <input {...form.register('resourceId')} type="hidden" value={resourceId} />
-            <input {...form.register('kind')} type="hidden" value={kind} />
-            <input {...form.register('projectSlug')} type="hidden" value={projectSlug} />
+            <div className="grid gap-4 mb-8">
+              {/* Hidden fields to pass to the server */}
+              <input {...form.register('resourceId')} type="hidden" value={resourceId} />
+              <input {...form.register('kind')} type="hidden" value={kind} />
+              <input {...form.register('projectSlug')} type="hidden" value={projectSlug} />
 
-            {/* Status */}
-            <div className="mb-4">
+              {/* Status */}
               <Controller
                 name="status"
                 control={form.control}
@@ -121,25 +121,25 @@ export function SubmissionModal({
                   </BaseSelect>
                 )}
               />
-            </div>
 
-            {/* Listing URL */}
-            <div className="mb-8">
-              <Controller
-                name="listingUrl"
-                control={form.control}
-                render={({ field }) => (
-                  <BaseInput
-                    {...field}
-                    id={`${id}-${field.name}`}
-                    label="Listing URL"
-                    type="text"
-                    placeholder="https://openalternative.co/supabase"
-                    autoComplete="off"
-                    error={form.formState.errors.listingUrl?.message}
-                  />
-                )}
-              />
+              {/* Listing URL */}
+              {form.watch('status') === SubmissionState.Approved && (
+                <Controller
+                  name="listingUrl"
+                  control={form.control}
+                  render={({ field }) => (
+                    <BaseInput
+                      {...field}
+                      id={`${id}-${field.name}`}
+                      label="Listing URL"
+                      type="text"
+                      placeholder="https://openalternative.co/supabase"
+                      autoComplete="off"
+                      error={form.formState.errors.listingUrl?.message}
+                    />
+                  )}
+                />
+              )}
             </div>
 
             <BaseButton
