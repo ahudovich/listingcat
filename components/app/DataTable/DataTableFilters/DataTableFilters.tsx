@@ -4,6 +4,7 @@ import { useId } from 'react'
 import { BaseSearch } from '@/components/ui/BaseSearch'
 import { BaseSelect, BaseSelectItem } from '@/components/ui/BaseSelect'
 import { ProductCategories } from '@/enums/ProductCategories.enum'
+import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 import { cn } from '@/utils/css'
 import type { ColumnFiltersState } from '@tanstack/react-table'
 
@@ -14,6 +15,14 @@ interface DataTableFiltersProps {
   columnFilters: ColumnFiltersState
   setColumnFilters: (filters: ColumnFiltersState) => void
 }
+
+const submissionStatusOptions = [
+  { label: 'Status', value: null },
+  { label: 'Pending', value: SubmissionStatus.Pending },
+  { label: 'Submitted', value: SubmissionStatus.Submitted },
+  { label: 'Rejected', value: SubmissionStatus.Rejected },
+  { label: 'Approved', value: SubmissionStatus.Approved },
+]
 
 const pricingOptions = [
   { label: 'Pricing', value: null },
@@ -47,12 +56,14 @@ export function DataTableFilters({
   const id = useId()
 
   // Get current filter values from column filters state
+  const submissionStatusFilter = columnFilters.find(({ id }) => id === 'submissionStatus')
   const pricingFilter = columnFilters.find(({ id }) => id === 'pricingModel')
   const categoryFilter = columnFilters.find(({ id }) => id === 'category')
   const linkAttributeFilter = columnFilters.find(({ id }) => id === 'linkAttribute')
 
+  const submissionStatus = (submissionStatusFilter?.value as SubmissionStatus) ?? null
   const pricing = (pricingFilter?.value as string) ?? null
-  const category = (categoryFilter?.value as string) ?? null
+  const category = (categoryFilter?.value as ProductCategories) ?? null
   const linkAttribute = (linkAttributeFilter?.value as string) ?? null
 
   // Helper function to update column filters
@@ -79,6 +90,24 @@ export function DataTableFilters({
         value={globalFilter}
         onChange={(value) => setGlobalFilter(String(value))}
       />
+
+      <BaseSelect
+        id={`${id}-submission-status`}
+        className="w-32"
+        items={submissionStatusOptions}
+        modal={false}
+        size="xs"
+        value={submissionStatus}
+        onValueChange={(value) =>
+          updateColumnFilter('submissionStatus', value as SubmissionStatus | null)
+        }
+      >
+        {submissionStatusOptions.map((option) => (
+          <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+            {option.label}
+          </BaseSelectItem>
+        ))}
+      </BaseSelect>
 
       <BaseSelect
         id={`${id}-pricing`}

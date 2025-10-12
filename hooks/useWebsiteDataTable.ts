@@ -12,6 +12,7 @@ import { env } from '@/env'
 import { COOKIE_PREFIX } from '@/enums/constants'
 import { PageSize } from '@/enums/data-table'
 import { LinkAttributes } from '@/enums/LinkAttributes.enum'
+import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -84,6 +85,7 @@ export function useWebsiteDataTable<T>({
     },
 
     filterFns: {
+      submissionStatusFilter,
       pricingModelFilter,
       linkAttributeFilter,
       categoryFilter,
@@ -121,6 +123,19 @@ const fuzzySearch: FilterFn<any> = (row, columnId, filterValue) => {
   const itemRank = rankItem(searchText, filterValue)
 
   return itemRank.passed
+}
+
+// Custom filter function for submission status
+const submissionStatusFilter: FilterFn<any> = (row, columnId, filterValue) => {
+  if (!filterValue) return true
+
+  if (filterValue === SubmissionStatus.Pending) {
+    return row.getValue(columnId) === undefined
+  }
+
+  const submissionStatus = row.getValue(columnId) as SubmissionStatus
+
+  return submissionStatus === filterValue
 }
 
 // Custom filter function for pricing model

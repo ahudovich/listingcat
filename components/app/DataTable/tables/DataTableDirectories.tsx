@@ -33,6 +33,7 @@ const columns = [
     header: 'Status',
     cell: (info) => <SubmissionStatusBadge status={info.getValue() ?? SubmissionStatus.Pending} />,
     sortingFn: 'alphanumeric',
+    filterFn: 'submissionStatusFilter',
   }),
 
   columnHelper.accessor('dr', {
