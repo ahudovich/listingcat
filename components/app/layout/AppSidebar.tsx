@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import {
@@ -7,8 +8,11 @@ import {
   FolderLibraryIcon,
   Rocket01Icon,
   Settings01Icon,
+  SidebarRightIcon,
 } from '@hugeicons/core-free-icons'
+import { AnimatePresence, motion } from 'motion/react'
 import { BaseIcon } from '@/components/ui/BaseIcon'
+import { BaseTooltip } from '@/components/ui/BaseTooltip'
 import { cn } from '@/utils/css'
 import type { IconSvgElement } from '@hugeicons/react'
 
@@ -28,11 +32,8 @@ const mainNavLinks = [
     path: 'directories',
     icon: FolderLibraryIcon,
   },
-]
-
-const secondaryNavLinks = [
   {
-    label: 'Project Settings',
+    label: 'Settings',
     path: 'settings',
     icon: Settings01Icon,
   },
@@ -42,50 +43,49 @@ export function AppSidebar() {
   const params = useParams<{ projectSlug: string | undefined }>()
   const projectSlug = params.projectSlug
 
-  return (
-    <aside className="w-64 h-full bg-zinc-50 border-r border-layout-separator">
-      <nav className="flex flex-col justify-between p-2 h-full">
-        {projectSlug && (
-          <>
-            <ul className="grid gap-1">
-              {mainNavLinks.map((link) => (
-                <li key={link.label}>
-                  <AppSidebarLink
-                    icon={link.icon}
-                    label={link.label}
-                    path={
-                      link.path === '.'
-                        ? `/app/project/${projectSlug}`
-                        : `/app/project/${projectSlug}/${link.path}`
-                    }
-                  />
-                </li>
-              ))}
-            </ul>
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
-            <ul className="grid gap-1">
-              {secondaryNavLinks.map((link) => (
-                <li key={link.label}>
-                  <AppSidebarLink
-                    icon={link.icon}
-                    label={link.label}
-                    path={`/app/project/${projectSlug}/${link.path}`}
-                  />
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+  return (
+    <motion.aside
+      className="flex flex-col justify-between gap-2 px-2 py-2.5 h-full bg-zinc-50 border-r border-layout-separator"
+      animate={{ width: isCollapsed ? '3.625rem' : '15rem' }}
+    >
+      <nav>
+        <ul className="grid gap-0.5">
+          {mainNavLinks.map((link) => (
+            <li key={link.label}>
+              <AppSidebarLink
+                isCollapsed={isCollapsed}
+                icon={link.icon}
+                label={link.label}
+                path={
+                  link.path === '.'
+                    ? `/app/project/${projectSlug}`
+                    : `/app/project/${projectSlug}/${link.path}`
+                }
+              />
+            </li>
+          ))}
+        </ul>
       </nav>
-    </aside>
+
+      <button
+        className="self-start flex items-center gap-3 px-3 h-9 rounded-lg transition-colors cursor-pointer hover:bg-zinc-100"
+        onClick={() => setIsCollapsed(!isCollapsed)}
+      >
+        <BaseIcon className="size-4.5 text-tertiary" icon={SidebarRightIcon} />
+      </button>
+    </motion.aside>
   )
 }
 
 function AppSidebarLink({
+  isCollapsed,
   icon,
   label,
   path,
 }: {
+  isCollapsed: boolean
   icon: IconSvgElement
   label: string
   path: string
@@ -93,16 +93,28 @@ function AppSidebarLink({
   const pathname = usePathname()
 
   return (
-    <Link
-      className={cn(
-        'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-zinc-100 [&>svg]:text-tertiary',
-        pathname === path &&
-          'bg-zinc-200 [&>svg]:text-secondary hover:bg-zinc-200 hover:[&>svg]:text-tertiary'
-      )}
-      href={path}
-    >
-      <BaseIcon className="shrink-0 size-4.5 transition-colors" icon={icon} />
-      <span className="font-medium text-xs text-secondary">{label}</span>
-    </Link>
+    <BaseTooltip delay={400} disabled={!isCollapsed} side="right" sideOffset={4} text={label}>
+      <Link
+        className={cn(
+          'flex items-center gap-3 px-3 h-9 rounded-lg transition-all duration-300 hover:bg-zinc-100 [&>svg]:text-tertiary',
+          pathname === path &&
+            'bg-zinc-200 [&>svg]:text-secondary hover:bg-zinc-200 hover:[&>svg]:text-tertiary'
+        )}
+        href={path}
+      >
+        <BaseIcon className="shrink-0 size-4.5 transition-colors" icon={icon} />
+        <AnimatePresence>
+          {!isCollapsed && (
+            <motion.span
+              key={label}
+              className="font-medium text-xs text-secondary whitespace-nowrap"
+              exit={{ opacity: 0 }}
+            >
+              {label}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </Link>
+    </BaseTooltip>
   )
 }
