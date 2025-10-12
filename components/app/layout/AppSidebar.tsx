@@ -1,13 +1,16 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import Link from 'next/link'
+import { useParams, usePathname } from 'next/navigation'
 import {
   DashboardSquare01Icon,
   FolderLibraryIcon,
   Rocket01Icon,
   Settings01Icon,
 } from '@hugeicons/core-free-icons'
-import { SidebarLink } from '@/components/app/Sidebar/SidebarLink'
+import { BaseIcon } from '@/components/ui/BaseIcon'
+import { cn } from '@/utils/css'
+import type { IconSvgElement } from '@hugeicons/react'
 
 const mainNavLinks = [
   {
@@ -35,9 +38,9 @@ const secondaryNavLinks = [
   },
 ]
 
-export function Sidebar() {
-  const params = useParams()
-  const projectSlug = params.projectSlug as string | undefined
+export function AppSidebar() {
+  const params = useParams<{ projectSlug: string | undefined }>()
+  const projectSlug = params.projectSlug
 
   return (
     <aside className="w-64 h-full bg-zinc-50 border-r border-layout-separator">
@@ -47,7 +50,7 @@ export function Sidebar() {
             <ul className="grid gap-1">
               {mainNavLinks.map((link) => (
                 <li key={link.label}>
-                  <SidebarLink
+                  <AppSidebarLink
                     icon={link.icon}
                     label={link.label}
                     path={
@@ -63,7 +66,7 @@ export function Sidebar() {
             <ul className="grid gap-1">
               {secondaryNavLinks.map((link) => (
                 <li key={link.label}>
-                  <SidebarLink
+                  <AppSidebarLink
                     icon={link.icon}
                     label={link.label}
                     path={`/app/project/${projectSlug}/${link.path}`}
@@ -75,5 +78,31 @@ export function Sidebar() {
         )}
       </nav>
     </aside>
+  )
+}
+
+function AppSidebarLink({
+  icon,
+  label,
+  path,
+}: {
+  icon: IconSvgElement
+  label: string
+  path: string
+}) {
+  const pathname = usePathname()
+
+  return (
+    <Link
+      className={cn(
+        'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-zinc-100 [&>svg]:text-tertiary',
+        pathname === path &&
+          'bg-zinc-200 [&>svg]:text-secondary hover:bg-zinc-200 hover:[&>svg]:text-tertiary'
+      )}
+      href={path}
+    >
+      <BaseIcon className="shrink-0 size-4.5 transition-colors" icon={icon} />
+      <span className="font-medium text-xs text-secondary">{label}</span>
+    </Link>
   )
 }
