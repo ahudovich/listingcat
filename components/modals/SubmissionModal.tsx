@@ -10,7 +10,7 @@ import { BaseInput } from '@/components/ui/BaseInput'
 import { BaseModal } from '@/components/ui/BaseModal'
 import { BaseSelect, BaseSelectItem } from '@/components/ui/BaseSelect'
 import { SubmissionKind } from '@/enums/SubmissionKind.enum'
-import { SubmissionState } from '@/enums/SubmissionState.enum'
+import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 import { editSubmissionAction } from '@/lib/actions/submissions'
 import { editSubmissionFormSchema } from '@/lib/forms/submissions'
 import type { EditSubmissionFormResult } from '@/lib/actions/submissions'
@@ -20,9 +20,9 @@ import type { EditSubmissionFormSchema } from '@/lib/forms/submissions'
 
 const submissionStatusOptions = [
   { label: 'Select status', value: null },
-  { label: 'Submitted', value: SubmissionState.Submitted },
-  { label: 'Rejected', value: SubmissionState.Rejected },
-  { label: 'Approved', value: SubmissionState.Approved },
+  { label: 'Submitted', value: SubmissionStatus.Submitted },
+  { label: 'Rejected', value: SubmissionStatus.Rejected },
+  { label: 'Approved', value: SubmissionStatus.Approved },
 ]
 
 interface SubmissionModalProps {
@@ -123,7 +123,7 @@ export function SubmissionModal({
               />
 
               {/* Listing URL */}
-              {form.watch('status') === SubmissionState.Approved && (
+              {form.watch('status') === SubmissionStatus.Approved && (
                 <Controller
                   name="listingUrl"
                   control={form.control}

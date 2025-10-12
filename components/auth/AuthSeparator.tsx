@@ -1,7 +1,7 @@
 import { Separator } from '@base-ui-components/react/separator'
 import { cn } from '@/utils/css'
 
-export default function AuthSeparator({ className }: { className?: string }) {
+export function AuthSeparator({ className }: { className?: string }) {
   return (
     <Separator
       className={cn(

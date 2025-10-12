@@ -1,4 +1,4 @@
-export enum SubmissionState {
+export enum SubmissionStatus {
   Pending = 'pending',
   Submitted = 'submitted',
   Rejected = 'rejected',

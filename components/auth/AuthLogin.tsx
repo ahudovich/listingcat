@@ -4,11 +4,11 @@ import { useId, useState, useTransition } from 'react'
 import { flushSync } from 'react-dom'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import AuthCard from '@/components/auth/AuthCard'
-import AuthSeparator from '@/components/auth/AuthSeparator'
-import IconBrandsGoogle from '@/components/icons/IconBrandsGoogle'
-import IconBrandsMicrosoft from '@/components/icons/IconBrandsMicrosoft'
-import BaseBadge from '@/components/ui/BaseBadge'
+import { AuthCard } from '@/components/auth/AuthCard'
+import { AuthSeparator } from '@/components/auth/AuthSeparator'
+import { IconBrandsGoogle } from '@/components/icons/IconBrandsGoogle'
+import { IconBrandsMicrosoft } from '@/components/icons/IconBrandsMicrosoft'
+import { BaseBadge } from '@/components/ui/BaseBadge'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseInput } from '@/components/ui/BaseInput'
 import { APP_REDIRECT_URL } from '@/enums/constants'
@@ -28,7 +28,7 @@ const socialProviders = [
   },
 ] as const
 
-export default function AuthLogin() {
+export function AuthLogin() {
   const id = useId()
   const router = useRouter()
 

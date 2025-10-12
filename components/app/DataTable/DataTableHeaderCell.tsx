@@ -1,6 +1,6 @@
 import { ArrowDown02Icon, ArrowUp02Icon, HelpCircleIcon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseTooltip from '@/components/ui/BaseTooltip'
+import { BaseTooltip } from '@/components/ui/BaseTooltip'
 import { cn } from '@/utils/css'
 import type { SortDirection } from '@tanstack/react-table'
 
@@ -13,7 +13,7 @@ interface DataTableHeaderCellProps {
   onClick?: (event: unknown) => void
 }
 
-export default function DataTableHeaderCell({
+export function DataTableHeaderCell({
   children,
   isSortable,
   sortingDirection,

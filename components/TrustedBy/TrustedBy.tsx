@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { cn } from '@/utils/css'
-import TrustedByPopover from './TrustedByPopover'
+import { TrustedByPopover } from './TrustedByPopover'
 
 const trustedBy = [
   {

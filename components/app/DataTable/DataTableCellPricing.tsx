@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseTooltip from '@/components/ui/BaseTooltip'
+import { BaseTooltip } from '@/components/ui/BaseTooltip'
 import { cn } from '@/utils/css'
 
-export default function DataTableCellPricing({
+export function DataTableCellPricing({
   value,
   pricingInfo,
   pricingUrl,

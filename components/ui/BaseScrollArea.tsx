@@ -1,7 +1,7 @@
 import { ScrollArea } from '@base-ui-components/react/scroll-area'
 import { cn } from '@/utils/css'
 
-export default function BaseScrollArea({
+export function BaseScrollArea({
   children,
   className,
   ...props

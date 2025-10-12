@@ -4,7 +4,7 @@ import { BaseLogo } from '@/components/ui/BaseLogo'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { getSessionState } from '@/lib/cached-functions'
 
-export default async function Header() {
+export async function Header() {
   const { isLoggedIn } = await getSessionState()
 
   return (

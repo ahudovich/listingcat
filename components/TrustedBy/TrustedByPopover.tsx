@@ -2,7 +2,7 @@ import { Popover } from '@base-ui-components/react/popover'
 import { cn } from '@/utils/css'
 import { zIndexes } from '@/utils/z-indexes'
 
-export default function TrustedByPopover({
+export function TrustedByPopover({
   className,
   name,
   title,

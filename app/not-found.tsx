@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import Footer from '@/components/layout/Footer/Footer'
-import Header from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer/Footer'
+import { Header } from '@/components/layout/Header'
 import { BaseButton } from '@/components/ui/BaseButton'
 
 export default function NotFound() {

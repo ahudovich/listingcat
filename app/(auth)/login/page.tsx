@@ -1,4 +1,4 @@
-import AuthLogin from '@/components/auth/AuthLogin'
+import { AuthLogin } from '@/components/auth/AuthLogin'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {

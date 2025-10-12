@@ -4,11 +4,7 @@ interface BaseDonutProgressProps {
   strokeWidth?: number
 }
 
-export default function BaseDonutProgress({
-  value,
-  size = 16,
-  strokeWidth = 3,
-}: BaseDonutProgressProps) {
+export function BaseDonutProgress({ value, size = 16, strokeWidth = 3 }: BaseDonutProgressProps) {
   const clampedValue = Math.max(0, Math.min(100, value)) // 0–100
   const innerRadius = size / 2 - strokeWidth
   const remainingValue = 100 - clampedValue

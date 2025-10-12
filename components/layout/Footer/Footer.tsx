@@ -79,7 +79,7 @@ const toolLinks = [
   },
 ]
 
-export default function Footer() {
+export function Footer() {
   return (
     <footer className="sticky top-[100vh] bg-gray-100 border-t border-zinc-200">
       <div className="container py-10 lg:flex">

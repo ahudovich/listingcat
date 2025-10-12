@@ -24,7 +24,7 @@ interface BaseBadgeProps {
   variant?: BadgeVariants['variant']
 }
 
-export default function BaseBadge({
+export function BaseBadge({
   children,
   className,
   variant,

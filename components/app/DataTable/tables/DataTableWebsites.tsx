@@ -2,9 +2,9 @@
 
 import { flexRender } from '@tanstack/react-table'
 import { DataTableFilters } from '@/components/app/DataTable/DataTableFilters/DataTableFilters'
-import DataTableHeaderCell from '@/components/app/DataTable/DataTableHeaderCell'
+import { DataTableHeaderCell } from '@/components/app/DataTable/DataTableHeaderCell'
 import { DataTablePagination } from '@/components/app/DataTable/DataTablePagination'
-import BaseScrollArea from '@/components/ui/BaseScrollArea'
+import { BaseScrollArea } from '@/components/ui/BaseScrollArea'
 import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
 import type { ColumnDef } from '@tanstack/react-table'
 
@@ -13,7 +13,7 @@ interface DataTableWebsitesProps<T> {
   columns: Array<ColumnDef<T, any>>
 }
 
-export default function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T>) {
+export function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T>) {
   const { table, globalFilter, setGlobalFilter, columnFilters, setColumnFilters } =
     useWebsiteDataTable<T>({
       initialSorting: [{ id: 'dr', desc: true }],

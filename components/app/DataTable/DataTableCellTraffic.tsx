@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseTooltip from '@/components/ui/BaseTooltip'
+import { BaseTooltip } from '@/components/ui/BaseTooltip'
 import { formatNumber } from '@/utils/formatters'
 
 export function DataTableCellTraffic({

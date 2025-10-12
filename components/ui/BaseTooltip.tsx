@@ -2,7 +2,7 @@ import { Tooltip } from '@base-ui-components/react/tooltip'
 import { cn } from '@/utils/css'
 import { zIndexes } from '@/utils/z-indexes'
 
-export default function BaseTooltip({
+export function BaseTooltip({
   className,
   children,
   sideOffset = 4,

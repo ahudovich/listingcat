@@ -3,7 +3,7 @@ import { Benefits } from '../../../../enums/Benefits.enum'
 import { DirectoryType } from '../../../../enums/DirectoryType.enum'
 import { LinkAttributes } from '../../../../enums/LinkAttributes.enum'
 import { ProductCategories } from '../../../../enums/ProductCategories.enum'
-import { SubmissionState } from '../../../../enums/SubmissionState.enum'
+import { SubmissionStatus } from '../../../../enums/SubmissionStatus.enum'
 import { SubmissionType } from '../../../../enums/SubmissionType.enum'
 
 export const DB_ENUM_NAME_BENEFIT = 'benefit'
@@ -46,10 +46,10 @@ export const linkAttributeEnum = pgEnum('link_attribute', [
 export const pricingModelEnum = pgEnum('pricing_model', ['free', 'paid', 'mixed'])
 
 export const submissionStatusEnum = pgEnum('submission_status', [
-  SubmissionState.Pending,
-  SubmissionState.Submitted,
-  SubmissionState.Rejected,
-  SubmissionState.Approved,
+  SubmissionStatus.Pending,
+  SubmissionStatus.Submitted,
+  SubmissionStatus.Rejected,
+  SubmissionStatus.Approved,
 ])
 
 export const submissionTypeEnum = pgEnum('submission_type', [SubmissionType.User])

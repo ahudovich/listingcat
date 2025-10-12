@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Body, Head, Html, Link, Text } from '@react-email/components'
 import { EMAILS } from '@/data/emails'
 
-export default function WelcomeEmail() {
+export function WelcomeEmail() {
   return (
     <Html>
       <Head />
