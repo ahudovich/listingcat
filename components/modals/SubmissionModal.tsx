@@ -64,7 +64,11 @@ export function SubmissionModal({
       const response = await editSubmissionAction(data)
 
       startTransition(() => {
-        setState(response)
+        if (response.status === 'success') {
+          setIsOpen(false)
+        } else {
+          setState(response)
+        }
       })
     })
   }
@@ -84,78 +88,71 @@ export function SubmissionModal({
           </BaseAlert>
         )}
 
-        {state.status === 'success' ? (
-          <BaseAlert className="px-6 py-3 text-center" aria-live="polite">
-            <p className="mb-2 font-semibold text-green-800">Submission updated successfully!</p>
-            <BaseButton onClick={() => setIsOpen(false)}>Close</BaseButton>
-          </BaseAlert>
-        ) : (
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid gap-4 mb-8">
-              {/* Hidden fields to pass to the server */}
-              <input {...form.register('resourceId')} type="hidden" value={resourceId} />
-              <input {...form.register('kind')} type="hidden" value={kind} />
-              <input {...form.register('projectSlug')} type="hidden" value={projectSlug} />
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="grid gap-4 mb-8">
+            {/* Hidden fields to pass to the server */}
+            <input {...form.register('resourceId')} type="hidden" value={resourceId} />
+            <input {...form.register('kind')} type="hidden" value={kind} />
+            <input {...form.register('projectSlug')} type="hidden" value={projectSlug} />
 
-              {/* Status */}
+            {/* Status */}
+            <Controller
+              name="status"
+              control={form.control}
+              render={({ field }) => (
+                <BaseSelect
+                  ref={field.ref}
+                  id={`${id}-${field.name}`}
+                  name={field.name}
+                  label="Status"
+                  items={submissionStatusOptions}
+                  modal={false}
+                  error={form.formState.errors.status?.message}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
+                  {submissionStatusOptions.map((option) => (
+                    <BaseSelectItem key={option.label} label={option.label} value={option.value}>
+                      {option.label}
+                    </BaseSelectItem>
+                  ))}
+                </BaseSelect>
+              )}
+            />
+
+            {/* Listing URL */}
+            {form.watch('status') === SubmissionStatus.Approved && (
               <Controller
-                name="status"
+                name="listingUrl"
                 control={form.control}
                 render={({ field }) => (
-                  <BaseSelect
-                    ref={field.ref}
+                  <BaseInput
+                    {...field}
                     id={`${id}-${field.name}`}
-                    name={field.name}
-                    label="Status"
-                    items={submissionStatusOptions}
-                    modal={false}
-                    error={form.formState.errors.status?.message}
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
-                    {submissionStatusOptions.map((option) => (
-                      <BaseSelectItem key={option.label} label={option.label} value={option.value}>
-                        {option.label}
-                      </BaseSelectItem>
-                    ))}
-                  </BaseSelect>
+                    label="Listing URL"
+                    type="text"
+                    placeholder="https://openalternative.co/supabase"
+                    autoComplete="off"
+                    error={form.formState.errors.listingUrl?.message}
+                  />
                 )}
               />
+            )}
+          </div>
 
-              {/* Listing URL */}
-              {form.watch('status') === SubmissionStatus.Approved && (
-                <Controller
-                  name="listingUrl"
-                  control={form.control}
-                  render={({ field }) => (
-                    <BaseInput
-                      {...field}
-                      id={`${id}-${field.name}`}
-                      label="Listing URL"
-                      type="text"
-                      placeholder="https://openalternative.co/supabase"
-                      autoComplete="off"
-                      error={form.formState.errors.listingUrl?.message}
-                    />
-                  )}
-                />
-              )}
-            </div>
-
-            <BaseButton
-              className="w-full"
-              type="submit"
-              disabled={
-                !form.formState.isDirty ||
-                (form.formState.isSubmitted && !form.formState.isValid) ||
-                isPending
-              }
-              isLoading={isPending}
-            >
-              Update
-            </BaseButton>
-          </form>
-        )}
+          <BaseButton
+            className="w-full"
+            type="submit"
+            disabled={
+              !form.formState.isDirty ||
+              (form.formState.isSubmitted && !form.formState.isValid) ||
+              isPending
+            }
+            isLoading={isPending}
+          >
+            Update
+          </BaseButton>
+        </form>
       </div>
     </BaseModal>
   )
