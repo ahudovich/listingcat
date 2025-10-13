@@ -52,7 +52,7 @@ export function AppSidebar() {
       animate={{ width: isCollapsed ? '3.625rem' : '15rem' }}
     >
       <nav>
-        <ul className="grid gap-0.5">
+        <ul className="overflow-hidden grid gap-0.5">
           {mainNavLinks.map((link) => (
             <li key={link.label}>
               <AppSidebarLink
