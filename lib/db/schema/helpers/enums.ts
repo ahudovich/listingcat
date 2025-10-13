@@ -11,7 +11,6 @@ export const DB_ENUM_NAME_BENEFIT = 'benefit'
 export const TABLE_NAMES = {
   LAUNCH_PLATFORMS: 'launch_platforms',
   DIRECTORIES: 'directories',
-  TABLE_UPDATES: 'table_updates',
   RESOURCE_REQUESTS: 'resource_requests',
 } as const
 

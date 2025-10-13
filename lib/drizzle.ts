@@ -20,7 +20,6 @@ import {
 import { launchPlatforms, launchPlatformsRelations } from '@/lib/db/schema/tables/launch-platforms'
 import { projects, projectsRelations } from '@/lib/db/schema/tables/projects'
 import { resourceRequests } from '@/lib/db/schema/tables/resource-requests'
-import { tableUpdates } from '@/lib/db/schema/tables/table-updates'
 
 export const tables = {
   accounts,
@@ -36,7 +35,6 @@ export const tables = {
   projectsRelations,
   sessions,
   resourceRequests,
-  tableUpdates,
   users,
   usersRelations,
   verifications,
