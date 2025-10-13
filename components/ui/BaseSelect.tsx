@@ -9,8 +9,7 @@ const selectVariants = tv({
   slots: {
     label: 'inline-block mb-1.5 text-sm font-medium text-secondary cursor-pointer',
     trigger:
-      'relative flex items-center justify-between gap-x-2 px-3 w-full bg-control-default border border-control-default rounded-control outline-none appearance-none cursor-pointer select-none transition-colors' +
-      'focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
+      'relative flex items-center justify-between gap-x-2 px-3 w-full bg-control-default border border-control-default rounded-control outline-none appearance-none cursor-pointer select-none transition-all focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active data-[disabled]:opacity-50',
     value: 'font-medium text-control-default',
   },
   variants: {
@@ -47,6 +46,7 @@ export type SelectVariants = VariantProps<typeof selectVariants>
 interface BaseSelectProps extends React.ComponentProps<typeof Select.Root> {
   ref?: React.Ref<HTMLInputElement>
   className?: string
+  disabled?: boolean
   error?: string
   label?: string
   size?: SelectVariants['size']
@@ -56,6 +56,7 @@ export function BaseSelect({
   ref,
   id,
   className,
+  disabled,
   error,
   label,
   size,
@@ -73,7 +74,7 @@ export function BaseSelect({
         </label>
       )}
 
-      <Select.Root inputRef={ref} id={id} value={value} {...props}>
+      <Select.Root inputRef={ref} id={id} disabled={disabled} value={value} {...props}>
         <Select.Trigger
           className={cn(
             trigger({ className }),

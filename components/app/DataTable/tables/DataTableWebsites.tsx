@@ -8,13 +8,15 @@ import { BaseScrollArea } from '@/components/ui/BaseScrollArea'
 import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
 import { cn } from '@/utils/css'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { SubmissionKind } from '@/enums/SubmissionKind.enum'
 
 interface DataTableWebsitesProps<T> {
-  data: Array<T>
   columns: Array<ColumnDef<T, any>>
+  data: Array<T>
+  kind: SubmissionKind
 }
 
-export function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T>) {
+export function DataTableWebsites<T>({ columns, data, kind }: DataTableWebsitesProps<T>) {
   const { table, globalFilter, setGlobalFilter, columnFilters, setColumnFilters } =
     useWebsiteDataTable<T>({
       initialSorting: [{ id: 'dr', desc: true }],
@@ -26,6 +28,8 @@ export function DataTableWebsites<T>({ data, columns }: DataTableWebsitesProps<T
     <div className="overflow-hidden grid grid-rows-[auto_1fr_auto]">
       <DataTableFilters
         className="px-4 py-3 border-b border-b-layout-separator"
+        kind={kind}
+        table={table}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         columnFilters={columnFilters}

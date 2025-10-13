@@ -1,6 +1,7 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useId, useState, useTransition } from 'react'
+import { useParams } from 'next/navigation'
 import { Toggle } from '@base-ui-components/react/toggle'
 import { FilterIcon } from '@hugeicons/core-free-icons'
 import { AnimatePresence, motion } from 'motion/react'
@@ -8,18 +9,31 @@ import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseSearch } from '@/components/ui/BaseSearch'
 import { BaseSelect, BaseSelectItem } from '@/components/ui/BaseSelect'
+import { BaseSpinner } from '@/components/ui/BaseSpinner'
+import { toastManager } from '@/components/ui/BaseToast'
 import { ProductCategories } from '@/enums/ProductCategories.enum'
 import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { bulkUpdateSubmissionStatusAction } from '@/lib/actions/submissions'
 import { cn } from '@/utils/css'
-import type { ColumnFiltersState } from '@tanstack/react-table'
+import type { ColumnFiltersState, Table } from '@tanstack/react-table'
+import type { SubmissionKind } from '@/enums/SubmissionKind.enum'
 
-interface DataTableFiltersProps {
+interface DataTableFiltersProps<T> {
   className?: string
+  table: Table<T>
+  kind: SubmissionKind
   globalFilter: string
   setGlobalFilter: (value: string) => void
   columnFilters: ColumnFiltersState
   setColumnFilters: (filters: ColumnFiltersState) => void
 }
+
+const bulkActionOptions = [
+  { label: 'Bulk Action', value: null },
+  { label: 'Submitted', value: SubmissionStatus.Submitted },
+  { label: 'Rejected', value: SubmissionStatus.Rejected },
+  { label: 'Approved', value: SubmissionStatus.Approved },
+]
 
 const submissionStatusOptions = [
   { label: 'Status', value: null },
@@ -51,16 +65,24 @@ const linkAttributeOptions = [
   { label: 'Nofollow', value: 'nofollow' },
 ]
 
-export function DataTableFilters({
+export function DataTableFilters<T>({
   className,
+  table,
+  kind,
   globalFilter,
   setGlobalFilter,
   columnFilters,
   setColumnFilters,
-}: DataTableFiltersProps) {
+}: DataTableFiltersProps<T>) {
   const id = useId()
 
+  const params = useParams<{ projectSlug: string }>()
+  const projectSlug = params.projectSlug
+
+  const [isBulkActionPending, startBulkActionTransition] = useTransition()
+
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const [bulkStatus, setBulkStatus] = useState<SubmissionStatus | null>(null)
 
   // Get current filter values from column filters state
   const submissionStatusFilter = columnFilters.find(({ id }) => id === 'submissionStatus')
@@ -85,6 +107,42 @@ export function DataTableFilters({
   function resetFilters() {
     setGlobalFilter('')
     setColumnFilters([])
+  }
+
+  function handleBulkAction(value: SubmissionStatus | null) {
+    setBulkStatus(value as SubmissionStatus | null)
+
+    if (value) {
+      startBulkActionTransition(async () => {
+        const response = await bulkUpdateSubmissionStatusAction({
+          itemsIds: table.getFilteredSelectedRowModel().rows.map((row) => row.id),
+          kind,
+          newStatus: value,
+          projectSlug,
+        })
+
+        startBulkActionTransition(() => {
+          if (response.status === 'success') {
+            setBulkStatus(null)
+            table.resetRowSelection()
+
+            toastManager.add({
+              type: 'success',
+              title: 'Done!',
+              description: 'The submission statuses have been updated successfully.',
+            })
+          }
+
+          if (response.status === 'error') {
+            toastManager.add({
+              type: 'error',
+              title: 'Oops!',
+              description: response.error,
+            })
+          }
+        })
+      })
+    }
   }
 
   return (
@@ -114,6 +172,31 @@ export function DataTableFilters({
             </BaseButton>
           )}
         />
+
+        <div className="flex items-center gap-3">
+          <BaseSelect
+            id={`${id}-bulk-action`}
+            className={cn(
+              'invisible w-32 opacity-0',
+              table.getFilteredSelectedRowModel().rows.length > 0 &&
+                'visible opacity-100 transition-all'
+            )}
+            items={bulkActionOptions}
+            modal={false}
+            size="xs"
+            disabled={isBulkActionPending}
+            value={bulkStatus}
+            onValueChange={(value) => handleBulkAction(value as SubmissionStatus | null)}
+          >
+            {bulkActionOptions.map((option) => (
+              <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+                {option.label}
+              </BaseSelectItem>
+            ))}
+          </BaseSelect>
+
+          {isBulkActionPending && <BaseSpinner />}
+        </div>
 
         <BaseButton
           className={cn(

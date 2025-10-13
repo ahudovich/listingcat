@@ -159,5 +159,5 @@ const columns = [
 ]
 
 export function DataTableLaunchPlatforms({ data }: { data: Array<LaunchPlatformWithSubmissions> }) {
-  return <DataTableWebsites data={data} columns={columns} />
+  return <DataTableWebsites kind={SubmissionKind.LaunchPlatform} data={data} columns={columns} />
 }

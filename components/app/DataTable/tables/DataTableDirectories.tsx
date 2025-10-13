@@ -180,5 +180,5 @@ const columns = [
 ]
 
 export function DataTableDirectories({ data }: { data: Array<DirectoryWithSubmissions> }) {
-  return <DataTableWebsites data={data} columns={columns} />
+  return <DataTableWebsites kind={SubmissionKind.Directory} data={data} columns={columns} />
 }

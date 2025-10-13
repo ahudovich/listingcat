@@ -52,8 +52,8 @@ export function DataTablePagination<T>({ table }: DataTablePaginationProps<T>) {
 
         <div
           className={cn(
-            'invisible text-xs opacity-0 transition-opacity',
-            totalSelected > 0 && 'visible opacity-100'
+            'invisible text-xs opacity-0',
+            totalSelected > 0 && 'visible opacity-100 transition-all'
           )}
         >
           <span className="font-semibold">{totalSelected}</span> selected

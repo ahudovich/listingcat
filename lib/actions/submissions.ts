@@ -2,12 +2,14 @@
 
 import { revalidatePath } from 'next/cache'
 import * as Sentry from '@sentry/nextjs'
+import { sql } from 'drizzle-orm'
 import z, { ZodError } from 'zod'
 import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionType } from '@/enums/SubmissionType.enum'
 import { getProject, verifySession } from '@/lib/cached-functions'
 import { getDB, tables } from '@/lib/drizzle'
 import { editSubmissionFormSchema } from '@/lib/forms/submissions'
+import type { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 import type { EditSubmissionFormSchema } from '@/lib/forms/submissions'
 import type { FormActionResult } from '@/types/validation'
 
@@ -101,6 +103,90 @@ export async function editSubmissionAction(payload: unknown): Promise<EditSubmis
     return {
       status: 'error',
       error: 'Failed to update submission. Please try again.',
+    }
+  }
+}
+
+export async function bulkUpdateSubmissionStatusAction(payload: {
+  itemsIds: Array<string>
+  kind: SubmissionKind
+  newStatus: SubmissionStatus
+  projectSlug: string
+}): Promise<EditSubmissionFormResult> {
+  const { session } = await verifySession()
+
+  try {
+    // Get the project
+    const project = await getProject(session.user.id, payload.projectSlug)
+
+    // Save to database
+    switch (payload.kind) {
+      case SubmissionKind.Directory: {
+        const newSubmissions = payload.itemsIds.map((directoryId) => ({
+          directoryId,
+          projectId: project.id,
+          status: payload.newStatus,
+          type: SubmissionType.User,
+        }))
+
+        await getDB().transaction(async (tx) => {
+          return tx
+            .insert(tables.directorySubmissions)
+            .values(newSubmissions)
+            .onConflictDoUpdate({
+              target: [
+                tables.directorySubmissions.projectId,
+                tables.directorySubmissions.directoryId,
+              ],
+              set: {
+                status: sql`excluded.status`,
+                type: sql`excluded.type`,
+              },
+            })
+        })
+
+        break
+      }
+
+      case SubmissionKind.LaunchPlatform: {
+        const newSubmissions = payload.itemsIds.map((launchPlatformId) => ({
+          launchPlatformId,
+          projectId: project.id,
+          status: payload.newStatus,
+          type: SubmissionType.User,
+        }))
+
+        await getDB().transaction(async (tx) => {
+          return tx
+            .insert(tables.launchPlatformSubmissions)
+            .values(newSubmissions)
+            .onConflictDoUpdate({
+              target: [
+                tables.launchPlatformSubmissions.projectId,
+                tables.launchPlatformSubmissions.launchPlatformId,
+              ],
+              set: {
+                status: sql`excluded.status`,
+                type: sql`excluded.type`,
+              },
+            })
+        })
+
+        break
+      }
+    }
+
+    // Revalidate the page
+    revalidatePath(`/app/project/${payload.projectSlug}/${payload.kind}`)
+
+    return { status: 'success' }
+  } catch (error: unknown) {
+    Sentry.captureException(error)
+
+    // Other errors
+    return {
+      status: 'error',
+      error: 'Failed to update submissions. Please try again.',
     }
   }
 }
