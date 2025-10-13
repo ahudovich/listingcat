@@ -8,14 +8,6 @@ import { SubmissionType } from '../../../../enums/SubmissionType.enum'
 
 export const DB_ENUM_NAME_BENEFIT = 'benefit'
 
-export const TABLE_NAMES = {
-  LAUNCH_PLATFORMS: 'launch_platforms',
-  DIRECTORIES: 'directories',
-  RESOURCE_REQUESTS: 'resource_requests',
-} as const
-
-export type TableName = (typeof TABLE_NAMES)[keyof typeof TABLE_NAMES]
-
 export const benefitEnum = pgEnum(DB_ENUM_NAME_BENEFIT, [Benefits.ProAccess])
 
 export const directoryTypeEnum = pgEnum('directory_type', [

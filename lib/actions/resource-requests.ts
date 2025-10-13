@@ -2,8 +2,9 @@
 
 import * as Sentry from '@sentry/nextjs'
 import { z } from 'zod'
+import { resourceRequests } from '@/lib/db/schema/tables/resource-requests'
 import { sendDiscordNotification } from '@/lib/discord'
-import { getDB, tables } from '@/lib/drizzle'
+import { db } from '@/lib/drizzle'
 
 const schema = z.object({
   name: z.string(),
@@ -38,7 +39,7 @@ export async function submitResource(
     const { name, websiteUrl } = validationResult.data
 
     // Save to database
-    await getDB().insert(tables.resourceRequests).values({
+    await db.insert(resourceRequests).values({
       name: name.trim(),
       websiteUrl: websiteUrl.trim(),
     })

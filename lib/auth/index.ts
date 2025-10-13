@@ -8,7 +8,7 @@ import { COOKIE_PREFIX } from '../../enums/constants'
 import { PostHogEvents } from '../../enums/PostHogEvents.enum'
 import { env } from '../../env'
 import { sendDiscordNotification } from '../discord'
-import { getDB } from '../drizzle'
+import { db } from '../drizzle'
 import { generatePlainTextOtpVerificationEmail, resend, sendWelcomeEmail } from '../email'
 import { capturePosthogEvent } from '../posthog'
 
@@ -16,7 +16,7 @@ export const auth = betterAuth({
   baseURL: env.NEXT_PUBLIC_WEBSITE_BASE_URL,
   secret: env.BETTER_AUTH_SECRET,
 
-  database: drizzleAdapter(getDB(), {
+  database: drizzleAdapter(db, {
     provider: 'pg',
     usePlural: true,
   }),

@@ -5,7 +5,8 @@ import * as Sentry from '@sentry/nextjs'
 import slug from 'slug'
 import z, { ZodError } from 'zod'
 import { verifySession } from '@/lib/cached-functions'
-import { getDB, tables } from '@/lib/drizzle'
+import { projects } from '@/lib/db/schema/tables/projects'
+import { db } from '@/lib/drizzle'
 import { createProjectFormSchema } from '@/lib/forms/projects'
 import type { CreateProjectFormSchema } from '@/lib/forms/projects'
 import type { FormActionResult } from '@/types/validation'
@@ -27,7 +28,7 @@ export async function createProjectAction(payload: unknown): Promise<CreateProje
     const projectSlug = slug(result.data.name)
 
     // Save to database
-    await getDB().insert(tables.projects).values({
+    await db.insert(projects).values({
       userId: session.user.id,
       name: result.data.name,
       slug: projectSlug,

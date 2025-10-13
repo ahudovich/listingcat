@@ -7,7 +7,9 @@ import z, { ZodError } from 'zod'
 import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionType } from '@/enums/SubmissionType.enum'
 import { getProject, verifySession } from '@/lib/cached-functions'
-import { getDB, tables } from '@/lib/drizzle'
+import { directorySubmissions } from '@/lib/db/schema/tables/directory-submissions'
+import { launchPlatformSubmissions } from '@/lib/db/schema/tables/launch-platform-submissions'
+import { db } from '@/lib/drizzle'
 import { editSubmissionFormSchema } from '@/lib/forms/submissions'
 import type { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 import type { EditSubmissionFormSchema } from '@/lib/forms/submissions'
@@ -47,17 +49,14 @@ export async function editSubmissionAction(payload: unknown): Promise<EditSubmis
     // Save to database
     switch (result.data.kind) {
       case SubmissionKind.Directory: {
-        await getDB()
-          .insert(tables.directorySubmissions)
+        await db
+          .insert(directorySubmissions)
           .values({
             ...newSubmission,
             directoryId: result.data.resourceId,
           })
           .onConflictDoUpdate({
-            target: [
-              tables.directorySubmissions.projectId,
-              tables.directorySubmissions.directoryId,
-            ],
+            target: [directorySubmissions.projectId, directorySubmissions.directoryId],
             set: updatedSubmission,
           })
 
@@ -65,16 +64,16 @@ export async function editSubmissionAction(payload: unknown): Promise<EditSubmis
       }
 
       case SubmissionKind.LaunchPlatform: {
-        await getDB()
-          .insert(tables.launchPlatformSubmissions)
+        await db
+          .insert(launchPlatformSubmissions)
           .values({
             ...newSubmission,
             launchPlatformId: result.data.resourceId,
           })
           .onConflictDoUpdate({
             target: [
-              tables.launchPlatformSubmissions.projectId,
-              tables.launchPlatformSubmissions.launchPlatformId,
+              launchPlatformSubmissions.projectId,
+              launchPlatformSubmissions.launchPlatformId,
             ],
             set: updatedSubmission,
           })
@@ -129,15 +128,12 @@ export async function bulkUpdateSubmissionStatusAction(payload: {
           type: SubmissionType.User,
         }))
 
-        await getDB().transaction(async (tx) => {
+        await db.transaction(async (tx) => {
           return tx
-            .insert(tables.directorySubmissions)
+            .insert(directorySubmissions)
             .values(newSubmissions)
             .onConflictDoUpdate({
-              target: [
-                tables.directorySubmissions.projectId,
-                tables.directorySubmissions.directoryId,
-              ],
+              target: [directorySubmissions.projectId, directorySubmissions.directoryId],
               set: {
                 status: sql`excluded.status`,
                 type: sql`excluded.type`,
@@ -156,14 +152,14 @@ export async function bulkUpdateSubmissionStatusAction(payload: {
           type: SubmissionType.User,
         }))
 
-        await getDB().transaction(async (tx) => {
+        await db.transaction(async (tx) => {
           return tx
-            .insert(tables.launchPlatformSubmissions)
+            .insert(launchPlatformSubmissions)
             .values(newSubmissions)
             .onConflictDoUpdate({
               target: [
-                tables.launchPlatformSubmissions.projectId,
-                tables.launchPlatformSubmissions.launchPlatformId,
+                launchPlatformSubmissions.projectId,
+                launchPlatformSubmissions.launchPlatformId,
               ],
               set: {
                 status: sql`excluded.status`,

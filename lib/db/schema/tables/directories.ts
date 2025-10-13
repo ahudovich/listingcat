@@ -2,10 +2,10 @@ import { relations } from 'drizzle-orm'
 import { boolean, integer, pgTable, smallint, text, uuid } from 'drizzle-orm/pg-core'
 import { DirectoryType } from '../../../../enums/DirectoryType.enum'
 import { domainRatings, linkAttributes, pricing, timestamps } from '../helpers/columns'
-import { directoryTypeEnum, productCategoryEnum, TABLE_NAMES } from '../helpers/enums'
+import { directoryTypeEnum, productCategoryEnum } from '../helpers/enums'
 import { directorySubmissions } from './directory-submissions'
 
-export const directories = pgTable(TABLE_NAMES.DIRECTORIES, {
+export const directories = pgTable('directories', {
   id: uuid().primaryKey().defaultRandom(),
   ...timestamps,
   name: text().unique().notNull(),

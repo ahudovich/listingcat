@@ -2,8 +2,9 @@ import { logger, schedules, wait } from '@trigger.dev/sdk/v3'
 import { sql } from 'drizzle-orm'
 import { ofetch } from 'ofetch'
 import { env } from '../env'
+import { directories } from '../lib/db/schema/tables/directories'
 import { sendDiscordNotification } from '../lib/discord'
-import { getDB, tables } from '../lib/drizzle'
+import { db } from '../lib/drizzle'
 
 interface MozApiResponse {
   domain_authority: string
@@ -16,10 +17,8 @@ interface MozApiResponse {
 // 1000 requests per hour
 const API_RATE_LIMIT_IN_SECONDS = 0.25
 
-const db = getDB()
-
 const TABLES_WITH_WEBSITE_URL = [
-  { table: tables.directories, name: 'Directories', sqlTableName: 'directories' },
+  { table: directories, name: 'Directories', sqlTableName: 'directories' },
 ] as const
 
 type TableWithWebsiteUrl = (typeof TABLES_WITH_WEBSITE_URL)[number]

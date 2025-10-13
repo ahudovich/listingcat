@@ -2,7 +2,7 @@ import { cache } from 'react'
 import { headers } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
-import { getDB } from '@/lib/drizzle'
+import { db } from '@/lib/drizzle'
 
 // DEPRECATED: use `verifySession` instead
 export const getSessionState = cache(async () => {
@@ -30,7 +30,7 @@ export const verifySession = cache(async () => {
 })
 
 export const getProjects = cache(async (userId: string) => {
-  const projects = await getDB().query.projects.findMany({
+  const projects = await db.query.projects.findMany({
     where: (projects, { eq }) => eq(projects.userId, userId),
   })
 
@@ -38,7 +38,7 @@ export const getProjects = cache(async (userId: string) => {
 })
 
 export const getProject = cache(async (userId: string, projectSlug: string) => {
-  const project = await getDB().query.projects.findFirst({
+  const project = await db.query.projects.findFirst({
     where: (projects, { and, eq }) =>
       and(eq(projects.userId, userId), eq(projects.slug, projectSlug)),
   })
@@ -52,7 +52,7 @@ export const getProject = cache(async (userId: string, projectSlug: string) => {
 })
 
 export const getLaunchPlatformsWithSubmissions = cache(async (projectId: string) => {
-  const launchPlatforms = await getDB().query.launchPlatforms.findMany({
+  const launchPlatforms = await db.query.launchPlatforms.findMany({
     with: {
       submissions: {
         where: (submissions, { eq }) => eq(submissions.projectId, projectId),
@@ -64,7 +64,7 @@ export const getLaunchPlatformsWithSubmissions = cache(async (projectId: string)
 })
 
 export const getDirectoriesWithSubmissions = cache(async (projectId: string) => {
-  const directories = await getDB().query.directories.findMany({
+  const directories = await db.query.directories.findMany({
     with: {
       submissions: {
         where: (submissions, { eq }) => eq(submissions.projectId, projectId),
