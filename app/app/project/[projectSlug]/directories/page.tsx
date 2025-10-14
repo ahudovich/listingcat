@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { DataTableDirectories } from '@/components/app/DataTable/tables/DataTableDirectories'
-import { PageHeader } from '@/components/app/PageHeader'
+import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
 import { getDirectoriesWithSubmissions, getProject, verifySession } from '@/lib/cached-functions'
 import { getInitialPageSize } from '@/lib/cookies/server'
 
@@ -21,7 +21,7 @@ export default async function DirectoriesPage(
 
   return (
     <>
-      <PageHeader title="Directories" />
+      <AppContentHeader title="Directories" />
       <DataTableDirectories initialPageSize={initialPageSize} data={data} />
     </>
   )

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
-import { PageHeader } from '@/components/app/PageHeader'
+import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
 import { SettingsProjectDelete } from '@/components/app/settings/SettingsProjectDelete'
 import { UpdateProjectDetailsForm } from '@/components/forms/UpdateProjectDetailsForm'
 import { getProject, verifySession } from '@/lib/cached-functions'
@@ -19,7 +19,7 @@ export default async function ProjectSettingsPage(
 
   return (
     <>
-      <PageHeader title="Project Settings" />
+      <AppContentHeader title="Project Settings" />
 
       <AppContentBody>
         <div className="grid gap-4">

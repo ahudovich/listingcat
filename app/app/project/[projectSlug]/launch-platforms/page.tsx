@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { DataTableLaunchPlatforms } from '@/components/app/DataTable/tables/DataTableLaunchPlatforms'
-import { PageHeader } from '@/components/app/PageHeader'
+import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
 import {
   getLaunchPlatformsWithSubmissions,
   getProject,
@@ -25,7 +25,7 @@ export default async function LaunchPlatformsPage(
 
   return (
     <>
-      <PageHeader title="Launch Platforms" />
+      <AppContentHeader title="Launch Platforms" />
       <DataTableLaunchPlatforms initialPageSize={initialPageSize} data={data} />
     </>
   )

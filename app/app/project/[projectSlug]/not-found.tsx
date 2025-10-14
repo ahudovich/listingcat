@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
-import { PageHeader } from '@/components/app/PageHeader'
+import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
 import { BaseButton } from '@/components/ui/BaseButton'
 
 export default function NotFound() {
   return (
     <>
-      <PageHeader
+      <AppContentHeader
         title="This project does not exist"
         description="Please check the URL and try again."
       />

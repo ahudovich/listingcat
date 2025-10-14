@@ -1,6 +1,6 @@
 import { cn } from '@/utils/css'
 
-export function PageHeader({
+export function AppContentHeader({
   className,
   title,
   description,
