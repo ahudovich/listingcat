@@ -6,11 +6,19 @@ import * as Sentry from '@sentry/nextjs'
 import { and, eq } from 'drizzle-orm'
 import slug from 'slug'
 import z, { ZodError } from 'zod'
-import { verifySession } from '@/lib/cached-functions'
+import { getProject, verifySession } from '@/lib/cached-functions'
 import { projects } from '@/lib/db/schema/tables/projects'
 import { db } from '@/lib/drizzle'
-import { createProjectFormSchema, updateProjectFormSchema } from '@/lib/forms/projects'
-import type { CreateProjectFormSchema, UpdateProjectFormSchema } from '@/lib/forms/projects'
+import {
+  createProjectFormSchema,
+  deleteProjectFormSchema,
+  updateProjectFormSchema,
+} from '@/lib/forms/projects'
+import type {
+  CreateProjectFormSchema,
+  DeleteProjectFormSchema,
+  UpdateProjectFormSchema,
+} from '@/lib/forms/projects'
 import type { FormActionResult } from '@/types/validation'
 
 export type CreateProjectFormResult = FormActionResult<CreateProjectFormSchema, { slug: string }>
@@ -121,5 +129,53 @@ export async function updateProjectAction(payload: unknown): Promise<UpdateProje
 
   return {
     status: 'success',
+  }
+}
+
+export type DeleteProjectFormResult = FormActionResult<DeleteProjectFormSchema>
+
+export async function deleteProjectAction(payload: unknown): Promise<DeleteProjectFormResult> {
+  const { session } = await verifySession()
+
+  try {
+    // Validate form data
+    const result = deleteProjectFormSchema.safeParse(payload)
+
+    if (!result.success) {
+      throw result.error
+    }
+
+    const project = await getProject(session.user.id, result.data.slug)
+
+    if (project.name !== result.data.name) {
+      return {
+        status: 'error',
+        error: 'Project name does not match.',
+      }
+    }
+
+    // Delete from database
+    await db
+      .delete(projects)
+      .where(and(eq(projects.userId, session.user.id), eq(projects.id, result.data.id)))
+
+    return { status: 'success' }
+  } catch (error: unknown) {
+    // Validation errors
+    if (error instanceof ZodError) {
+      return {
+        status: 'error',
+        error: 'Form contains errors.',
+        validationErrors: z.flattenError(error).fieldErrors,
+      }
+    }
+
+    Sentry.captureException(error)
+
+    // Other errors
+    return {
+      status: 'error',
+      error: 'Failed to delete project. Please try again.',
+    }
   }
 }

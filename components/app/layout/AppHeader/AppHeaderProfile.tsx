@@ -116,7 +116,9 @@ export function AppHeaderProfile({ className }: { className?: string }) {
         </Menu.Portal>
       </Menu.Root>
 
-      <SubmitResourceModal isOpen={isSubmitModalOpen} setIsOpen={setIsSubmitModalOpen} />
+      {isSubmitModalOpen && (
+        <SubmitResourceModal isOpen={isSubmitModalOpen} setIsOpen={setIsSubmitModalOpen} />
+      )}
     </>
   )
 }

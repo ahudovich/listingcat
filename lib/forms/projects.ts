@@ -23,3 +23,11 @@ export const updateProjectFormSchema = z.object({
 })
 
 export type UpdateProjectFormSchema = z.infer<typeof updateProjectFormSchema>
+
+export const deleteProjectFormSchema = z.object({
+  id: z.uuid(),
+  slug: projectSlugSchema,
+  name: projectNameSchema,
+})
+
+export type DeleteProjectFormSchema = z.infer<typeof deleteProjectFormSchema>

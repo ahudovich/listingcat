@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { PageHeader } from '@/components/app/PageHeader'
+import { SettingsProjectDelete } from '@/components/app/settings/SettingsProjectDelete'
 import { UpdateProjectDetailsForm } from '@/components/forms/UpdateProjectDetailsForm'
-import { BaseButton } from '@/components/ui/BaseButton'
 import { getProject, verifySession } from '@/lib/cached-functions'
 
 export const metadata: Metadata = {
@@ -40,9 +40,7 @@ export default async function ProjectSettingsPage(
             </div>
 
             <div className="pt-2">
-              <BaseButton className="min-w-24" size="sm" variant="destructive">
-                Delete project
-              </BaseButton>
+              <SettingsProjectDelete project={project} />
             </div>
           </div>
         </div>

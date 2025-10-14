@@ -38,10 +38,12 @@ export function ProjectList({ projects }: { projects: Array<Project> }) {
         ))}
       </div>
 
-      <CreateProjectModal
-        isOpen={isCreateProjectModalOpen}
-        setIsOpen={setIsCreateProjectModalOpen}
-      />
+      {isCreateProjectModalOpen && (
+        <CreateProjectModal
+          isOpen={isCreateProjectModalOpen}
+          setIsOpen={setIsCreateProjectModalOpen}
+        />
+      )}
     </>
   )
 }

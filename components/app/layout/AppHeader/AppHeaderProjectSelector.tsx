@@ -172,10 +172,12 @@ export function AppHeaderProjectSelector({
         </Combobox.Portal>
       </Combobox.Root>
 
-      <CreateProjectModal
-        isOpen={isCreateProjectModalOpen}
-        setIsOpen={setIsCreateProjectModalOpen}
-      />
+      {isCreateProjectModalOpen && (
+        <CreateProjectModal
+          isOpen={isCreateProjectModalOpen}
+          setIsOpen={setIsCreateProjectModalOpen}
+        />
+      )}
     </>
   )
 }

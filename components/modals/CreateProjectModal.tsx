@@ -104,12 +104,12 @@ export function CreateProjectModal({ isOpen, setIsOpen }: CreateProjectModalProp
           <BaseButton
             className="w-full"
             type="submit"
+            isLoading={isPending}
             disabled={
               !form.formState.isDirty ||
               (form.formState.isSubmitted && !form.formState.isValid) ||
               isPending
             }
-            isLoading={isPending}
           >
             Create
           </BaseButton>

@@ -21,10 +21,12 @@ export function ProjectsNoData() {
         Create project
       </BaseButton>
 
-      <CreateProjectModal
-        isOpen={isCreateProjectModalOpen}
-        setIsOpen={setIsCreateProjectModalOpen}
-      />
+      {isCreateProjectModalOpen && (
+        <CreateProjectModal
+          isOpen={isCreateProjectModalOpen}
+          setIsOpen={setIsCreateProjectModalOpen}
+        />
+      )}
     </div>
   )
 }
