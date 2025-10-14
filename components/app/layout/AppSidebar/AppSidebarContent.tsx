@@ -11,9 +11,11 @@ import {
   Settings01Icon,
   SidebarRightIcon,
 } from '@hugeicons/core-free-icons'
+import { setCookie } from 'cookies-next'
 import { AnimatePresence, motion } from 'motion/react'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseTooltip } from '@/components/ui/BaseTooltip'
+import { COOKIE_SIDEBAR_COLLAPSED } from '@/enums/constants'
 import { cn } from '@/utils/css'
 import type { IconSvgElement } from '@hugeicons/react'
 
@@ -48,13 +50,23 @@ const projectNavLinks = [
   },
 ]
 
-export function AppSidebar() {
+export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: boolean }) {
   const params = useParams<{ projectSlug: string | undefined }>()
   const projectSlug = params.projectSlug
 
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(initialCollapsed)
 
   const navLinks = projectSlug ? projectNavLinks : dashboardNavLinks
+
+  function toggleSidebar() {
+    const newIsCollapsed = !isCollapsed
+
+    setIsCollapsed(newIsCollapsed)
+    setCookie(COOKIE_SIDEBAR_COLLAPSED, String(newIsCollapsed), {
+      maxAge: 31536000, // 1 year
+      sameSite: 'lax',
+    })
+  }
 
   return (
     <motion.aside
@@ -87,7 +99,7 @@ export function AppSidebar() {
 
       <button
         className="self-start flex items-center gap-3 px-3 h-9 rounded-lg transition-colors cursor-pointer hover:bg-zinc-100"
-        onClick={() => setIsCollapsed(!isCollapsed)}
+        onClick={toggleSidebar}
       >
         <BaseIcon className="size-4.5 text-tertiary" icon={SidebarRightIcon} />
       </button>

@@ -1,5 +1,5 @@
 import { AppHeader } from '@/components/app/layout/AppHeader/AppHeader'
-import { AppSidebar } from '@/components/app/layout/AppSidebar'
+import { AppSidebar } from '@/components/app/layout/AppSidebar/AppSidebar'
 import { BaseToast } from '@/components/ui/BaseToast'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
