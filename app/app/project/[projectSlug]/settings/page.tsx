@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
 import { PageHeader } from '@/components/app/PageHeader'
 import { SettingsProjectDelete } from '@/components/app/settings/SettingsProjectDelete'
 import { UpdateProjectDetailsForm } from '@/components/forms/UpdateProjectDetailsForm'
@@ -20,8 +21,8 @@ export default async function ProjectSettingsPage(
     <>
       <PageHeader title="Project Settings" />
 
-      <div className="h-full overflow-y-auto">
-        <div className="grid gap-4 p-4">
+      <AppContentBody>
+        <div className="grid gap-4">
           <div className="grid grid-cols-[1fr_2fr] gap-6 p-4 bg-zinc-50/50 border border-layout-separator rounded-lg">
             <div>
               <h2 className="mb-2 font-display font-medium text-sm text-primary">General</h2>
@@ -44,7 +45,7 @@ export default async function ProjectSettingsPage(
             </div>
           </div>
         </div>
-      </div>
+      </AppContentBody>
     </>
   )
 }

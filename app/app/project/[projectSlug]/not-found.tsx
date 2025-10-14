@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
 import { PageHeader } from '@/components/app/PageHeader'
 import { BaseButton } from '@/components/ui/BaseButton'
 
@@ -10,11 +11,11 @@ export default function NotFound() {
         description="Please check the URL and try again."
       />
 
-      <div className="p-4">
+      <AppContentBody>
         <BaseButton className="place-self-center" render={<Link href="/app" />}>
           Return to projects
         </BaseButton>
-      </div>
+      </AppContentBody>
     </>
   )
 }

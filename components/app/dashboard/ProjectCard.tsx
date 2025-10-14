@@ -6,7 +6,7 @@ import type { Project } from '@/lib/db/schema/tables/projects'
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
-      className="group overflow-hidden p-4 bg-white border border-layout-separator rounded-lg outline-none cursor-pointer transition-all hover:bg-zinc-50 hover:border-zinc-300 focus-visible:ring-2 focus-visible:ring-control-default"
+      className="group overflow-hidden p-4 bg-zinc-50/50 border border-layout-separator rounded-lg outline-none cursor-pointer transition-all hover:bg-zinc-50 hover:border-zinc-300 focus-visible:ring-2 focus-visible:ring-control-default"
       href={`/app/project/${project.slug}`}
     >
       <div className="flex items-center gap-2.5 mb-2">

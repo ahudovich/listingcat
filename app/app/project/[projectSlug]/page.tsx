@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { CancelCircleIcon, CheckmarkCircle01Icon, SentIcon } from '@hugeicons/core-free-icons'
+import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
 import { PageHeader } from '@/components/app/PageHeader'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
@@ -41,12 +42,12 @@ export default async function ProjectPage(props: PageProps<'/app/project/[projec
     <>
       <PageHeader title={project.name} />
 
-      <div className="h-full overflow-y-auto">
-        <div className="grid gap-6 p-4">
+      <AppContentBody>
+        <div className="grid gap-6">
           <Section title="Launch Platforms" data={launchPlatforms} />
           <Section title="Directories" data={directories} />
         </div>
-      </div>
+      </AppContentBody>
     </>
   )
 }
