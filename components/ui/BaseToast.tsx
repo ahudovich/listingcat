@@ -46,7 +46,7 @@ function ToastList() {
     >
       <Toast.Content className="overflow-hidden text-xs transition-opacity duration-250 data-[behind]:pointer-events-none data-[behind]:opacity-0 data-[expanded]:pointer-events-auto data-[expanded]:opacity-100">
         <Toast.Title
-          className={cn('mb-1 font-medium text-primary', variants[toast.type as ToastType].title)}
+          className={cn('mb-1 font-semibold text-primary', variants[toast.type as ToastType].title)}
         />
         <Toast.Description />
         <Toast.Close

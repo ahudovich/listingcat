@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import {
+  DashboardCircleIcon,
   DashboardSquare01Icon,
   FolderLibraryIcon,
   Rocket01Icon,
@@ -16,7 +17,15 @@ import { BaseTooltip } from '@/components/ui/BaseTooltip'
 import { cn } from '@/utils/css'
 import type { IconSvgElement } from '@hugeicons/react'
 
-const mainNavLinks = [
+const dashboardNavLinks = [
+  {
+    label: 'Projects',
+    path: '.',
+    icon: DashboardCircleIcon,
+  },
+]
+
+const projectNavLinks = [
   {
     label: 'Dashboard',
     path: '.',
@@ -45,6 +54,8 @@ export function AppSidebar() {
 
   const [isCollapsed, setIsCollapsed] = useState(false)
 
+  const navLinks = projectSlug ? projectNavLinks : dashboardNavLinks
+
   return (
     <motion.aside
       className="flex flex-col justify-between gap-2 px-2 py-2.5 h-full bg-zinc-50 border-r border-layout-separator"
@@ -53,16 +64,20 @@ export function AppSidebar() {
     >
       <nav>
         <ul className="overflow-hidden grid gap-0.5">
-          {mainNavLinks.map((link) => (
+          {navLinks.map((link) => (
             <li key={link.label}>
               <AppSidebarLink
                 isCollapsed={isCollapsed}
                 icon={link.icon}
                 label={link.label}
                 path={
-                  link.path === '.'
-                    ? `/app/project/${projectSlug}`
-                    : `/app/project/${projectSlug}/${link.path}`
+                  projectSlug
+                    ? link.path === '.'
+                      ? `/app/project/${projectSlug}`
+                      : `/app/project/${projectSlug}/${link.path}`
+                    : link.path === '.'
+                      ? '/app'
+                      : `/app/${link.path}`
                 }
               />
             </li>
