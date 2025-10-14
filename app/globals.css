@@ -88,6 +88,8 @@
   --animate-spin-slow: spin 1.5s linear infinite;
 
   /* Z-indexes */
+  --z-index-popover: 100;
+  --z-index-tooltip: 101;
   --z-index-modal: 1000;
   --z-index-popup: 1001;
 

@@ -1,6 +1,5 @@
 import { Popover } from '@base-ui-components/react/popover'
 import { cn } from '@/utils/css'
-import { zIndexes } from '@/utils/z-indexes'
 
 export function TrustedByPopover({
   className,
@@ -24,10 +23,9 @@ export function TrustedByPopover({
         <Popover.Positioner side="top" sideOffset={4}>
           <Popover.Popup
             className={cn(
-              'relative overflow-hidden px-3 py-1.5 bg-white border border-layout-separator rounded-md shadow-lg text-xs text-secondary origin-[var(--transform-origin)] transition-[transform,scale,opacity] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
+              'relative z-popover overflow-hidden px-3 py-1.5 bg-white border border-layout-separator rounded-md shadow-lg text-xs text-secondary origin-[var(--transform-origin)] transition-[transform,scale,opacity] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
               className
             )}
-            style={{ zIndex: zIndexes.popover }}
           >
             <p className="mb-1 font-medium">
               <a
