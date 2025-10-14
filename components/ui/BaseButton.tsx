@@ -8,7 +8,7 @@ import type { ReactNode } from 'react'
 import type { VariantProps } from 'tailwind-variants'
 
 const buttonVariants = tv({
-  base: 'group inline-flex justify-center items-center gap-1.5 rounded-full outline-none font-semibold whitespace-nowrap transition-all cursor-pointer focus:ring-2 focus:ring-control-default disabled:opacity-50 disabled:cursor-default [&>svg]:shrink-0 [&>svg]:fill-current',
+  base: 'group inline-flex justify-center items-center gap-1.5 rounded-full outline-none font-semibold whitespace-nowrap transition-all cursor-pointer focus-visible:ring-2 disabled:opacity-50 disabled:cursor-default [&>svg]:shrink-0 [&>svg]:fill-current',
   variants: {
     size: {
       xs: 'px-4 h-control-xs text-xs [&_svg]:!size-3.5',
@@ -17,10 +17,13 @@ const buttonVariants = tv({
       lg: 'px-7 h-control-lg text-sm [&_svg]:!size-5',
     },
     variant: {
-      primary: 'bg-accent text-contrast',
-      secondary: 'bg-control-default border border-control-default text-primary',
-      outline: 'bg-control-default border border-control-default hover:bg-zinc-100',
-      ghost: 'bg-transparent text-primary hover:bg-zinc-100',
+      primary: 'bg-accent text-contrast focus-visible:ring-control-default',
+      secondary:
+        'bg-control-default border border-control-default text-primary focus-visible:ring-control-default',
+      outline:
+        'bg-control-default border border-control-default hover:bg-zinc-100 focus-visible:ring-control-default',
+      ghost: 'bg-transparent text-primary hover:bg-zinc-100 focus-visible:ring-control-default',
+      destructive: 'bg-red-600 text-contrast hover:bg-red-700 focus-visible:ring-control-error',
     },
   },
   defaultVariants: {

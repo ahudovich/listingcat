@@ -1,5 +1,5 @@
-import { relations } from 'drizzle-orm'
-import { pgTable, text, unique, uuid } from 'drizzle-orm/pg-core'
+import { relations, sql } from 'drizzle-orm'
+import { check, pgTable, text, unique, uuid } from 'drizzle-orm/pg-core'
 import { timestamps } from '../helpers/columns'
 import { users } from './auth'
 import { directorySubmissions } from './directory-submissions'
@@ -18,6 +18,8 @@ export const projects = pgTable(
     ...timestamps,
   },
   (table) => [
+    // Project names must be 60 characters or less
+    check('name_length', sql`LENGTH(name) <= 60`),
     // Project slugs must be unique for each user
     unique('user_slug_unique').on(table.userId, table.slug),
     // Project website URL must be unique for each user

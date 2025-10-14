@@ -41,7 +41,7 @@ export default async function ProjectPage(props: PageProps<'/app/project/[projec
     <>
       <PageHeader title={project.name} />
 
-      <div>
+      <div className="h-full overflow-y-auto">
         <div className="grid gap-6 p-4">
           <Section title="Launch Platforms" data={launchPlatforms} />
           <Section title="Directories" data={directories} />
@@ -124,7 +124,7 @@ function SectionCard({
   }
 
   return (
-    <div className="p-4 border border-layout-separator rounded-lg">
+    <div className="p-4 bg-zinc-50/50 border border-layout-separator rounded-lg">
       <h3 className="mb-2 flex items-center gap-2 font-display font-medium text-sm">
         {iconMap[variant] && (
           <BaseIcon
