@@ -16,6 +16,7 @@ import { BaseCheckbox } from '@/components/ui/BaseCheckbox'
 import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 import { cn } from '@/utils/css'
+import type { PageSizeType } from '@/enums/data-table'
 import type { DirectoryWithSubmissions } from '@/types/tables'
 
 const columnHelper = createColumnHelper<DirectoryWithSubmissions>()
@@ -179,6 +180,19 @@ const columns = [
   }),
 ]
 
-export function DataTableDirectories({ data }: { data: Array<DirectoryWithSubmissions> }) {
-  return <DataTableWebsites kind={SubmissionKind.Directory} data={data} columns={columns} />
+export function DataTableDirectories({
+  initialPageSize,
+  data,
+}: {
+  data: Array<DirectoryWithSubmissions>
+  initialPageSize: PageSizeType
+}) {
+  return (
+    <DataTableWebsites
+      initialPageSize={initialPageSize}
+      kind={SubmissionKind.Directory}
+      data={data}
+      columns={columns}
+    />
+  )
 }

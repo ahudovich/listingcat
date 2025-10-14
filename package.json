@@ -66,6 +66,7 @@
     "react-hook-form": "^7.64.0",
     "react-use": "^17.6.0",
     "resend": "^4.5.1",
+    "server-only": "^0.0.1",
     "slug": "^11.0.0",
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.1",

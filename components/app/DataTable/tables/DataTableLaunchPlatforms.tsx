@@ -15,6 +15,7 @@ import { SubmissionStatusBadge } from '@/components/app/SubmissionStatusBadge'
 import { BaseCheckbox } from '@/components/ui/BaseCheckbox'
 import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import type { PageSizeType } from '@/enums/data-table'
 import type { LaunchPlatformWithSubmissions } from '@/types/tables'
 
 const columnHelper = createColumnHelper<LaunchPlatformWithSubmissions>()
@@ -158,6 +159,19 @@ const columns = [
   }),
 ]
 
-export function DataTableLaunchPlatforms({ data }: { data: Array<LaunchPlatformWithSubmissions> }) {
-  return <DataTableWebsites kind={SubmissionKind.LaunchPlatform} data={data} columns={columns} />
+export function DataTableLaunchPlatforms({
+  initialPageSize,
+  data,
+}: {
+  initialPageSize: PageSizeType
+  data: Array<LaunchPlatformWithSubmissions>
+}) {
+  return (
+    <DataTableWebsites
+      initialPageSize={initialPageSize}
+      kind={SubmissionKind.LaunchPlatform}
+      data={data}
+      columns={columns}
+    />
+  )
 }

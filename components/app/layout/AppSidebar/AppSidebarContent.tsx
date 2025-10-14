@@ -11,11 +11,12 @@ import {
   Settings01Icon,
   SidebarRightIcon,
 } from '@hugeicons/core-free-icons'
-import { setCookie } from 'cookies-next'
+import { setCookie } from 'cookies-next/client'
 import { AnimatePresence, motion } from 'motion/react'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseTooltip } from '@/components/ui/BaseTooltip'
 import { COOKIE_SIDEBAR_COLLAPSED } from '@/enums/constants'
+import { cookieOptions } from '@/lib/cookies/client'
 import { cn } from '@/utils/css'
 import type { IconSvgElement } from '@hugeicons/react'
 
@@ -62,10 +63,7 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
     const newIsCollapsed = !isCollapsed
 
     setIsCollapsed(newIsCollapsed)
-    setCookie(COOKIE_SIDEBAR_COLLAPSED, String(newIsCollapsed), {
-      maxAge: 31536000, // 1 year
-      sameSite: 'lax',
-    })
+    setCookie(COOKIE_SIDEBAR_COLLAPSED, String(newIsCollapsed), cookieOptions)
   }
 
   return (

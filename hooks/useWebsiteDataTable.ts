@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useLocalStorage } from 'react-use'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import {
   getCoreRowModel,
@@ -8,11 +7,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { deleteCookie } from 'cookies-next'
+import { setCookie } from 'cookies-next/client'
 import { env } from '@/env'
-import { COOKIE_PREFIX } from '@/enums/constants'
-import { PageSize } from '@/enums/data-table'
+import { COOKIE_TABLE_PAGE_SIZE } from '@/enums/constants'
+import { DEFAULT_PAGE_SIZE } from '@/enums/data-table'
 import { LinkAttributes } from '@/enums/LinkAttributes.enum'
 import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { cookieOptions } from '@/lib/cookies/client'
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -21,31 +23,28 @@ import type {
   RowSelectionState,
   SortingState,
 } from '@tanstack/react-table'
-
-const DEFAULT_PAGE_SIZE = PageSize.Medium
+import type { PageSizeType } from '@/enums/data-table'
 
 interface UseWebsiteDataTableProps<T> {
+  initialPageSize: PageSizeType
   initialSorting: SortingState
   columns: Array<ColumnDef<T, any>>
   data: Array<T>
 }
 
 export function useWebsiteDataTable<T>({
+  initialPageSize,
   initialSorting,
   columns,
   data,
 }: UseWebsiteDataTableProps<T>) {
-  const [storedPageSize, setStoredPageSize, removeStoredPageSize] = useLocalStorage<number>(
-    `${COOKIE_PREFIX}-page-size`
-  )
-
   const [globalFilter, setGlobalFilter] = useState<string>('')
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>(initialSorting)
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: storedPageSize ?? DEFAULT_PAGE_SIZE,
+    pageSize: initialPageSize,
   })
 
   const table = useReactTable({
@@ -84,11 +83,10 @@ export function useWebsiteDataTable<T>({
 
       setPagination(newPagination)
 
-      // Handle localStorage logic for page size
       if (newPagination.pageSize !== DEFAULT_PAGE_SIZE) {
-        setStoredPageSize(newPagination.pageSize)
+        setCookie(COOKIE_TABLE_PAGE_SIZE, String(newPagination.pageSize), cookieOptions)
       } else {
-        removeStoredPageSize()
+        deleteCookie(COOKIE_TABLE_PAGE_SIZE)
       }
     },
 

@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { DataTableDirectories } from '@/components/app/DataTable/tables/DataTableDirectories'
 import { PageHeader } from '@/components/app/PageHeader'
 import { getDirectoriesWithSubmissions, getProject, verifySession } from '@/lib/cached-functions'
+import { getInitialPageSize } from '@/lib/cookies/server'
 
 export const metadata: Metadata = {
   title: 'Directories',
@@ -13,13 +14,15 @@ export default async function DirectoriesPage(
   const { session } = await verifySession()
   const { projectSlug } = await props.params
 
+  const initialPageSize = await getInitialPageSize()
+
   const project = await getProject(session.user.id, projectSlug)
   const data = await getDirectoriesWithSubmissions(project.id)
 
   return (
     <>
       <PageHeader title="Directories" />
-      <DataTableDirectories data={data} />
+      <DataTableDirectories initialPageSize={initialPageSize} data={data} />
     </>
   )
 }

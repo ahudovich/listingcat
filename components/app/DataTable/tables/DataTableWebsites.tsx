@@ -8,17 +8,25 @@ import { BaseScrollArea } from '@/components/ui/BaseScrollArea'
 import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
 import { cn } from '@/utils/css'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { PageSizeType } from '@/enums/data-table'
 import type { SubmissionKind } from '@/enums/SubmissionKind.enum'
 
 interface DataTableWebsitesProps<T> {
+  initialPageSize: PageSizeType
   columns: Array<ColumnDef<T, any>>
   data: Array<T>
   kind: SubmissionKind
 }
 
-export function DataTableWebsites<T>({ columns, data, kind }: DataTableWebsitesProps<T>) {
+export function DataTableWebsites<T>({
+  initialPageSize,
+  columns,
+  data,
+  kind,
+}: DataTableWebsitesProps<T>) {
   const { table, globalFilter, setGlobalFilter, columnFilters, setColumnFilters } =
     useWebsiteDataTable<T>({
+      initialPageSize,
       initialSorting: [{ id: 'dr', desc: true }],
       columns,
       data,
