@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import {
@@ -59,6 +60,10 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
 
   const navLinks = projectSlug ? projectNavLinks : dashboardNavLinks
 
+  useHotkeys('mod+b', () => {
+    toggleSidebar()
+  })
+
   function toggleSidebar() {
     const newIsCollapsed = !isCollapsed
 
@@ -97,6 +102,7 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
 
       <button
         className="self-start flex items-center gap-3 px-3 h-9 rounded-lg transition-colors cursor-pointer hover:bg-zinc-100"
+        aria-label="Toggle sidebar"
         onClick={toggleSidebar}
       >
         <BaseIcon className="size-4.5 text-tertiary" icon={SidebarRightIcon} />
