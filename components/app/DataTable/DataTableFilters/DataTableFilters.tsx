@@ -146,7 +146,7 @@ export function DataTableFilters<T>({
   }
 
   return (
-    <div className={cn('overflow-x-auto', className)}>
+    <div className={cn('grid gap-3', className)}>
       <div className="flex items-center gap-3">
         <BaseSearch
           id={`${id}-search`}
@@ -211,15 +211,15 @@ export function DataTableFilters<T>({
         </BaseButton>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isFiltersOpen && (
           <motion.div
             key="filters"
-            className="flex items-center gap-3 mt-3"
+            className="flex items-center gap-3"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
           >
             <BaseSelect
               id={`${id}-submission-status`}
