@@ -26,14 +26,14 @@ const columns = [
       <BaseCheckbox
         checked={table.getIsAllRowsSelected()}
         indeterminate={table.getIsSomeRowsSelected()}
-        onCheckedChange={table.getToggleAllRowsSelectedHandler()}
+        onCheckedChange={(checked) => table.toggleAllRowsSelected(!!checked)}
       />
     ),
     cell: ({ row }) => (
       <div className="flex items-center">
         <BaseCheckbox
           checked={row.getIsSelected()}
-          onCheckedChange={row.getToggleSelectedHandler()}
+          onCheckedChange={(checked) => row.toggleSelected(!!checked)}
         />
       </div>
     ),
