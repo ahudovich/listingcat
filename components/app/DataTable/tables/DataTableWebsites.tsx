@@ -4,7 +4,12 @@ import { flexRender } from '@tanstack/react-table'
 import { DataTableFilters } from '@/components/app/DataTable/DataTableFilters/DataTableFilters'
 import { DataTableHeaderCell } from '@/components/app/DataTable/DataTableHeaderCell'
 import { DataTablePagination } from '@/components/app/DataTable/DataTablePagination'
-import { BaseScrollArea } from '@/components/ui/BaseScrollArea'
+import {
+  BaseScrollArea,
+  BaseScrollAreaCorner,
+  BaseScrollAreaScrollbar,
+  BaseScrollAreaViewport,
+} from '@/components/ui/BaseScrollArea'
 import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
 import { cn } from '@/utils/css'
 import type { ColumnDef } from '@tanstack/react-table'
@@ -44,46 +49,52 @@ export function DataTableWebsites<T>({
         setColumnFilters={setColumnFilters}
       />
 
-      <BaseScrollArea className="pb-3 lg:pb-0">
-        <table className="w-full">
-          <thead className="sticky top-0 z-[1] bg-white">
-            {table.getHeaderGroups().map(({ id, headers }) => (
-              <tr key={id}>
-                {headers.map((header) => (
-                  <DataTableHeaderCell
-                    key={header.id}
-                    column={header.column}
-                    isSortable={header.column.getCanSort()}
-                    sortingDirection={header.column.getIsSorted()}
-                    size={header.column.columnDef.size}
-                    tooltip={header.column.columnDef.meta?.tooltip}
-                    onClick={header.column.getToggleSortingHandler()}
-                  >
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                  </DataTableHeaderCell>
-                ))}
-              </tr>
-            ))}
-          </thead>
+      <BaseScrollArea>
+        <BaseScrollAreaViewport>
+          <table className="w-full">
+            <thead className="sticky top-0 z-[1] bg-white">
+              {table.getHeaderGroups().map(({ id, headers }) => (
+                <tr key={id}>
+                  {headers.map((header) => (
+                    <DataTableHeaderCell
+                      key={header.id}
+                      column={header.column}
+                      isSortable={header.column.getCanSort()}
+                      sortingDirection={header.column.getIsSorted()}
+                      size={header.column.columnDef.size}
+                      tooltip={header.column.columnDef.meta?.tooltip}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                    </DataTableHeaderCell>
+                  ))}
+                </tr>
+              ))}
+            </thead>
 
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="group transition-colors hover:bg-zinc-100">
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={cn(
-                      'align-middle px-4 py-3 border-y border-y-layout-separator font-medium text-xs group-first:border-t-0',
-                      cell.column.id === 'name' && 'pl-0'
-                    )}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id} className="group transition-colors hover:bg-zinc-100">
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className={cn(
+                        'align-middle px-4 py-3 border-y border-y-layout-separator font-medium text-xs group-first:border-t-0',
+                        cell.column.id === 'name' && 'pl-0'
+                      )}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </BaseScrollAreaViewport>
+
+        <BaseScrollAreaScrollbar className="!top-10.5 w-3.5" orientation="vertical" />
+        <BaseScrollAreaScrollbar className="h-3.5" orientation="horizontal" />
+        <BaseScrollAreaCorner />
       </BaseScrollArea>
 
       <DataTablePagination table={table} />

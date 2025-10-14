@@ -4,17 +4,27 @@ import { cn } from '@/utils/css'
 export function BaseScrollArea({ className, children, ...props }: ScrollArea.Root.Props) {
   return (
     <ScrollArea.Root className={cn('relative overflow-hidden', className)} {...props}>
-      <ScrollArea.Viewport className="overscroll-contain size-full [&>div]:h-full">
-        {children}
-      </ScrollArea.Viewport>
-
-      <BaseScrollAreaScrollbar className="w-3.5" orientation="vertical" />
-      <BaseScrollAreaScrollbar className="h-3.5" orientation="horizontal" />
+      {children}
     </ScrollArea.Root>
   )
 }
 
-function BaseScrollAreaScrollbar({ className, ...props }: ScrollArea.Scrollbar.Props) {
+export function BaseScrollAreaViewport({
+  className,
+  children,
+  ...props
+}: ScrollArea.Viewport.Props) {
+  return (
+    <ScrollArea.Viewport
+      className={cn('overscroll-contain size-full [&>div]:h-full', className)}
+      {...props}
+    >
+      {children}
+    </ScrollArea.Viewport>
+  )
+}
+
+export function BaseScrollAreaScrollbar({ className, ...props }: ScrollArea.Scrollbar.Props) {
   return (
     <ScrollArea.Scrollbar
       className={cn(
@@ -26,4 +36,8 @@ function BaseScrollAreaScrollbar({ className, ...props }: ScrollArea.Scrollbar.P
       <ScrollArea.Thumb className="flex-1 bg-zinc-400/70 rounded-full transition-colors hover:bg-zinc-400" />
     </ScrollArea.Scrollbar>
   )
+}
+
+export function BaseScrollAreaCorner({ className, ...props }: ScrollArea.Corner.Props) {
+  return <ScrollArea.Corner className={cn('bg-zinc-100', className)} {...props} />
 }
