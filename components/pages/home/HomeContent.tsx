@@ -20,13 +20,13 @@ export async function HomeContent() {
           <div className="mb-4">
             <a
               className="group inline-flex items-center gap-2 px-4 py-1.25 bg-emerald-600 rounded-full font-medium text-xs text-white"
-              href={LINKS.PARTNERS.SUBMISSION_SERVICE}
+              href={LINKS.PARTNERS.OUTRANK}
               rel="sponsored"
               target="_blank"
             >
               <span>
-                Submit your startup to <span className="hidden xs:inline-flex">100+</span>{' '}
-                directories
+                Get <span className="hidden xs:inline">more</span> traffic with SEO-optimized
+                content
               </span>
               <BaseIcon
                 className="shrink-0 size-4 fill-current group-hover:translate-x-0.5 transition-transform"
