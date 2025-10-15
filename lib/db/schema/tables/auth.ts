@@ -1,11 +1,8 @@
 import { relations } from 'drizzle-orm'
-import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
-import { uuidv7 } from 'uuidv7'
+import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { projects } from './projects'
 
-const id = uuid()
-  .primaryKey()
-  .$defaultFn(() => uuidv7())
+const id = text().primaryKey()
 
 const timestamps = {
   createdAt: timestamp().notNull().defaultNow(),
@@ -34,7 +31,7 @@ export const sessions = pgTable('sessions', {
   token: text().notNull().unique(),
   ipAddress: text(),
   userAgent: text(),
-  userId: uuid()
+  userId: text()
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   ...timestamps,
@@ -44,7 +41,7 @@ export const accounts = pgTable('accounts', {
   id,
   accountId: text().notNull(),
   providerId: text().notNull(),
-  userId: uuid()
+  userId: text()
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   accessToken: text(),

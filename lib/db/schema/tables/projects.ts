@@ -12,7 +12,7 @@ export const projects = pgTable(
     id: uuid()
       .primaryKey()
       .$defaultFn(() => uuidv7()),
-    userId: uuid()
+    userId: text()
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     name: text().notNull(),

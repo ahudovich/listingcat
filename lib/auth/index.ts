@@ -44,9 +44,6 @@ export const auth = betterAuth({
 
   advanced: {
     cookiePrefix: COOKIE_PREFIX,
-    database: {
-      generateId: false,
-    },
   },
 
   databaseHooks: {
