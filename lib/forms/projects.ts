@@ -16,7 +16,7 @@ export const createProjectFormSchema = z.object({
 export type CreateProjectFormSchema = z.infer<typeof createProjectFormSchema>
 
 export const updateProjectFormSchema = z.object({
-  id: z.uuid(),
+  id: z.uuidv7(),
   name: projectNameSchema,
   slug: projectSlugSchema,
   websiteUrl: projectWebsiteUrlSchema,
@@ -25,7 +25,7 @@ export const updateProjectFormSchema = z.object({
 export type UpdateProjectFormSchema = z.infer<typeof updateProjectFormSchema>
 
 export const deleteProjectFormSchema = z.object({
-  id: z.uuid(),
+  id: z.uuidv7(),
   slug: projectSlugSchema,
   name: projectNameSchema,
 })

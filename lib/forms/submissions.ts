@@ -3,7 +3,7 @@ import { SubmissionKind } from '@/enums/SubmissionKind.enum'
 import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
 
 export const editSubmissionFormSchema = z.object({
-  resourceId: z.uuidv4(),
+  resourceId: z.uuidv7(),
   kind: z.enum(SubmissionKind),
   projectSlug: z.string().min(1),
   listingUrl: z.union([z.httpUrl('Please enter a valid URL').toLowerCase().trim(), z.literal('')]),
