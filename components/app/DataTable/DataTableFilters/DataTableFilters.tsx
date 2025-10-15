@@ -95,6 +95,8 @@ export function DataTableFilters<T>({
   const category = (categoryFilter?.value as ProductCategories) ?? null
   const linkAttribute = (linkAttributeFilter?.value as string) ?? null
 
+  const hasActiveFilters = columnFilters.length > 0
+
   // Helper function to update column filters
   function updateColumnFilter(columnId: string, value: string | null) {
     setColumnFilters(
@@ -157,21 +159,30 @@ export function DataTableFilters<T>({
           onChange={(value) => setGlobalFilter(String(value))}
         />
 
-        <Toggle
-          pressed={isFiltersOpen}
-          onPressedChange={setIsFiltersOpen}
-          aria-label="Filters"
-          render={(props, state) => (
-            <BaseButton
-              className={cn('px-2 !rounded-control', state.pressed && 'bg-zinc-100')}
-              size="xs"
-              variant="outline"
-              {...props}
-            >
-              <BaseIcon icon={FilterIcon} strokeWidth={2.5} />
-            </BaseButton>
-          )}
-        />
+        <div className="relative">
+          <Toggle
+            pressed={isFiltersOpen}
+            onPressedChange={setIsFiltersOpen}
+            aria-label="Filters"
+            render={(props, state) => (
+              <BaseButton
+                className={cn('px-2 !rounded-control', state.pressed && 'bg-zinc-100')}
+                size="xs"
+                variant="outline"
+                {...props}
+              >
+                <BaseIcon icon={FilterIcon} strokeWidth={2.5} />
+                <span
+                  className={cn(
+                    'invisible opacity-0 absolute top-1.75 right-1.75 size-1.75 bg-emerald-600 rounded-full transition-all',
+                    hasActiveFilters && 'visible opacity-100'
+                  )}
+                  aria-label="There are active filters"
+                />
+              </BaseButton>
+            )}
+          />
+        </div>
 
         <div className="flex items-center gap-3">
           <BaseSelect
