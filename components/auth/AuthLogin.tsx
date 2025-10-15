@@ -3,7 +3,6 @@
 import { useId, useState, useTransition } from 'react'
 import { flushSync } from 'react-dom'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { AuthCard } from '@/components/auth/AuthCard'
 import { AuthSeparator } from '@/components/auth/AuthSeparator'
 import { IconBrandsGoogle } from '@/components/icons/IconBrandsGoogle'
@@ -30,7 +29,6 @@ const socialProviders = [
 
 export function AuthLogin() {
   const id = useId()
-  const router = useRouter()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -48,13 +46,13 @@ export function AuthLogin() {
     startTransition(async () => {
       const { error } = await handleSignIn(email, password)
 
-      startTransition(() => {
-        if (error) {
+      if (error) {
+        startTransition(() => {
           setActionError(error)
-        } else {
-          router.replace(APP_REDIRECT_URL)
-        }
-      })
+        })
+      } else {
+        window.location.href = APP_REDIRECT_URL
+      }
     })
   }
 

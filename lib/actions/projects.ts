@@ -6,6 +6,7 @@ import * as Sentry from '@sentry/nextjs'
 import { and, eq } from 'drizzle-orm'
 import slug from 'slug'
 import z, { ZodError } from 'zod'
+import { APP_REDIRECT_URL } from '@/enums/constants'
 import { getProject, verifySession } from '@/lib/cached-functions'
 import { projects } from '@/lib/db/schema/tables/projects'
 import { db } from '@/lib/drizzle'
@@ -46,7 +47,7 @@ export async function createProjectAction(payload: unknown): Promise<CreateProje
     })
 
     // Revalidate the layout (it's needed to refresh the sidebar)
-    revalidatePath('/app', 'layout')
+    revalidatePath(APP_REDIRECT_URL, 'layout')
 
     return {
       status: 'success',
