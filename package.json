@@ -30,10 +30,10 @@
     "format:fix": "prettier --write .",
     "auth:generate": "doppler run -p lc-main -c dev -- pnpm dlx @better-auth/cli@latest generate --config ./auth.config.ts --output ./lib/db/schema/tables/auth.ts",
     "db:check": "doppler run -p lc-main -c dev -- drizzle-kit check",
+    "db:drop": "doppler run -p lc-main -c dev -- drizzle-kit drop",
     "db:generate": "doppler run -p lc-main -c dev -- drizzle-kit generate",
     "db:migrate": "doppler run -p lc-main -c dev -- drizzle-kit migrate",
     "db:migrate:prod": "doppler run -p lc-main -c prd -- drizzle-kit migrate",
-    "db:drop": "doppler run -p lc-main -c dev -- drizzle-kit drop",
     "trigger:dev": "doppler run -p lc-main -c dev -- pnpm dlx trigger.dev@latest dev",
     "trigger:deploy": "doppler run -p lc-main -c dev -- pnpm dlx trigger.dev@latest deploy",
     "email:dev": "email dev"
@@ -72,6 +72,7 @@
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.1",
     "tailwind-variants": "^3.1.1",
+    "uuidv7": "^1.0.2",
     "zod": "^4.1.9"
   },
   "devDependencies": {

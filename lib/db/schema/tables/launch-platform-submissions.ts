@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, text, unique, uuid } from 'drizzle-orm/pg-core'
+import { uuidv7 } from 'uuidv7'
 import { SubmissionStatus } from '../../../../enums/SubmissionStatus.enum'
 import { timestamps } from '../helpers/columns'
 import { submissionStatusEnum, submissionTypeEnum } from '../helpers/enums'
@@ -9,7 +10,9 @@ import { projects } from './projects'
 export const launchPlatformSubmissions = pgTable(
   'launch_platform_submissions',
   {
-    id: uuid().primaryKey().defaultRandom(),
+    id: uuid()
+      .primaryKey()
+      .$defaultFn(() => uuidv7()),
     listingUrl: text(),
     status: submissionStatusEnum().notNull().default(SubmissionStatus.Pending),
     type: submissionTypeEnum().notNull(),

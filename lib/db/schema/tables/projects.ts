@@ -1,5 +1,6 @@
 import { relations, sql } from 'drizzle-orm'
 import { check, pgTable, text, unique, uuid } from 'drizzle-orm/pg-core'
+import { uuidv7 } from 'uuidv7'
 import { timestamps } from '../helpers/columns'
 import { users } from './auth'
 import { directorySubmissions } from './directory-submissions'
@@ -8,8 +9,10 @@ import { launchPlatformSubmissions } from './launch-platform-submissions'
 export const projects = pgTable(
   'projects',
   {
-    id: uuid().primaryKey().defaultRandom(),
-    userId: text()
+    id: uuid()
+      .primaryKey()
+      .$defaultFn(() => uuidv7()),
+    userId: uuid()
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     name: text().notNull(),

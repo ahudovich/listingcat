@@ -1,11 +1,14 @@
 import { relations } from 'drizzle-orm'
 import { boolean, integer, pgTable, text, uuid } from 'drizzle-orm/pg-core'
+import { uuidv7 } from 'uuidv7'
 import { domainRatings, linkAttributes, pricing, timestamps } from '../helpers/columns'
 import { productCategoryEnum } from '../helpers/enums'
 import { launchPlatformSubmissions } from './launch-platform-submissions'
 
 export const launchPlatforms = pgTable('launch_platforms', {
-  id: uuid().primaryKey().defaultRandom(),
+  id: uuid()
+    .primaryKey()
+    .$defaultFn(() => uuidv7()),
   ...timestamps,
   name: text().unique().notNull(),
   websiteUrl: text().unique().notNull(),

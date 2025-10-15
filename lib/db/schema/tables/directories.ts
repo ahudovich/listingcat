@@ -1,12 +1,15 @@
 import { relations } from 'drizzle-orm'
 import { boolean, integer, pgTable, smallint, text, uuid } from 'drizzle-orm/pg-core'
+import { uuidv7 } from 'uuidv7'
 import { DirectoryType } from '../../../../enums/DirectoryType.enum'
 import { domainRatings, linkAttributes, pricing, timestamps } from '../helpers/columns'
 import { directoryTypeEnum, productCategoryEnum } from '../helpers/enums'
 import { directorySubmissions } from './directory-submissions'
 
 export const directories = pgTable('directories', {
-  id: uuid().primaryKey().defaultRandom(),
+  id: uuid()
+    .primaryKey()
+    .$defaultFn(() => uuidv7()),
   ...timestamps,
   name: text().unique().notNull(),
   websiteUrl: text().unique().notNull(),
