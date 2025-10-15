@@ -2,10 +2,10 @@ import Link from 'next/link'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseLogo } from '@/components/ui/BaseLogo'
 import { APP_REDIRECT_URL } from '@/enums/constants'
-import { verifySession } from '@/lib/cached-functions'
+import { getSessionState } from '@/lib/cached-functions'
 
 export async function Header() {
-  const { session } = await verifySession()
+  const { isLoggedIn } = await getSessionState()
 
   return (
     <header className="container">
@@ -15,7 +15,7 @@ export async function Header() {
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
-          {!session ? (
+          {!isLoggedIn ? (
             <>
               <BaseButton render={<Link href="/login" />} variant="ghost" size="sm">
                 Log in
