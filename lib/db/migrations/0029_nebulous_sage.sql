@@ -1,1 +1,0 @@
-ALTER TABLE "projects" ADD CONSTRAINT "name_length" CHECK (LENGTH(name) <= 60);

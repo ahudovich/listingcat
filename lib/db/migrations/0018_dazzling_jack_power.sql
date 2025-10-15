@@ -1,1 +1,0 @@
-ALTER TABLE "projects" ADD CONSTRAINT "user_slug_unique" UNIQUE("user_id","slug");
