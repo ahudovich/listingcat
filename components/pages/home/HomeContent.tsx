@@ -6,12 +6,12 @@ import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { LINKS } from '@/data/links'
 import { APP_REDIRECT_URL } from '@/enums/constants'
-import { getSessionState } from '@/lib/cached-functions'
+import { verifySession } from '@/lib/cached-functions'
 
 const heroFeatures = ['Always up-to-date', 'Curated by humans', 'Actively maintained']
 
 export async function HomeContent() {
-  const { isLoggedIn } = await getSessionState()
+  const { session } = await verifySession()
 
   return (
     <section className="relative mx-auto px-4 pt-10 max-w-[73.5rem] w-full sm:pt-12 md:px-6 md:pt-16 2xl:pt-18 before:absolute before:size-full before:opacity-70 before:bg-[radial-gradient(#e4e4e7_1px,transparent_1px)] before:bg-[length:0.8rem_0.8rem] before:[mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#fff_70%,transparent_100%)]">
@@ -67,7 +67,7 @@ export async function HomeContent() {
             <BaseButton
               className="group min-w-50"
               size="lg"
-              render={<Link href={isLoggedIn ? APP_REDIRECT_URL : '/create-account'} />}
+              render={<Link href={session ? APP_REDIRECT_URL : '/create-account'} />}
             >
               Get free access
               <BaseIcon

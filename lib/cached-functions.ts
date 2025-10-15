@@ -4,17 +4,6 @@ import { notFound, redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/drizzle'
 
-// DEPRECATED: use `verifySession` instead
-export const getSessionState = cache(async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-
-  return {
-    isLoggedIn: !!session,
-  }
-})
-
 export const verifySession = cache(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
