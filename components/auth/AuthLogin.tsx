@@ -46,13 +46,13 @@ export function AuthLogin() {
     startTransition(async () => {
       const { error } = await handleSignIn(email, password)
 
-      if (error) {
-        startTransition(() => {
+      startTransition(() => {
+        if (error) {
           setActionError(error)
-        })
-      } else {
-        window.location.href = APP_REDIRECT_URL
-      }
+        } else {
+          window.location.href = APP_REDIRECT_URL
+        }
+      })
     })
   }
 
