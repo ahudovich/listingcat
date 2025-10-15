@@ -4,7 +4,7 @@ import { ArrowRight02Icon, CheckmarkCircle03Icon } from '@hugeicons/core-free-ic
 import { TrustedBy } from '@/components/TrustedBy/TrustedBy'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import { LINKS } from '@/data/links'
+import { EMAILS } from '@/data/emails'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { getSessionState } from '@/lib/cached-functions'
 
@@ -20,14 +20,9 @@ export async function HomeContent() {
           <div className="mb-4">
             <a
               className="group inline-flex items-center gap-2 px-4 py-1.25 bg-emerald-600 rounded-full font-medium text-xs text-white"
-              href={LINKS.PARTNERS.OUTRANK}
-              rel="sponsored"
-              target="_blank"
+              href={`mailto:${EMAILS.FOUNDER}`}
             >
-              <span>
-                Get <span className="hidden xs:inline">more</span> traffic with SEO-optimized
-                content
-              </span>
+              This website is FOR SALE. Contact founder
               <BaseIcon
                 className="shrink-0 size-4 fill-current group-hover:translate-x-0.5 transition-transform"
                 icon={ArrowRight02Icon}
