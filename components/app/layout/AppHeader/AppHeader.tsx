@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { AppHeaderMenuButton } from '@/components/app/layout/AppHeader/AppHeaderMenuBtn'
 import { AppHeaderNav } from '@/components/app/layout/AppHeader/AppHeaderNav'
 import { AppHeaderProfile } from '@/components/app/layout/AppHeader/AppHeaderProfile'
 import { BaseLogo } from '@/components/ui/BaseLogo'
@@ -17,6 +18,7 @@ export async function AppHeader() {
         </Link>
         <AppHeaderNav projects={projects} />
         <AppHeaderProfile className="ml-auto" />
+        <AppHeaderMenuButton className="ml-1.5 lg:hidden" />
       </div>
     </header>
   )

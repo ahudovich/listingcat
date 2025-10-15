@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import {
+  Cancel01Icon,
   DashboardCircleIcon,
   DashboardSquare01Icon,
   FolderLibraryIcon,
@@ -15,10 +16,15 @@ import {
 import { setCookie } from 'cookies-next/client'
 import { AnimatePresence, motion } from 'motion/react'
 import { BaseIcon } from '@/components/ui/BaseIcon'
+import { BaseLogo } from '@/components/ui/BaseLogo'
 import { BaseTooltip } from '@/components/ui/BaseTooltip'
-import { COOKIE_SIDEBAR_COLLAPSED } from '@/enums/constants'
+import { useSidebar } from '@/contexts/sidebar'
+import { APP_REDIRECT_URL, COOKIE_SIDEBAR_COLLAPSED } from '@/enums/constants'
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock'
+import { useBreakpointLg } from '@/hooks/useBreakpoints'
 import { cookieOptions } from '@/lib/cookies/client'
 import { cn } from '@/utils/css'
+import type { RefObject } from 'react'
 import type { IconSvgElement } from '@hugeicons/react'
 
 const dashboardNavLinks = [
@@ -56,13 +62,29 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
   const params = useParams<{ projectSlug: string | undefined }>()
   const projectSlug = params.projectSlug
 
+  const pathname = usePathname()
+  const isBreakpointLg = useBreakpointLg()
+
+  const sidebarRef = useRef<HTMLDivElement>(null)
+
+  const { isSidebarOpen, setIsSidebarOpen } = useSidebar()
   const [isCollapsed, setIsCollapsed] = useState(initialCollapsed)
 
   const navLinks = projectSlug ? projectNavLinks : dashboardNavLinks
 
+  useBodyScrollLock({
+    isOpen: isSidebarOpen,
+    rootRef: sidebarRef as RefObject<HTMLDivElement>,
+  })
+
   useHotkeys('mod+b', () => {
     toggleSidebar()
   })
+
+  // Close sidebar when user navigates to a different page
+  useEffect(() => {
+    setIsSidebarOpen(false)
+  }, [pathname, setIsSidebarOpen])
 
   function toggleSidebar() {
     const newIsCollapsed = !isCollapsed
@@ -72,42 +94,78 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
   }
 
   return (
-    <motion.aside
-      className="flex flex-col justify-between gap-2 px-2 py-2.5 h-full bg-zinc-50 border-r border-layout-separator"
-      initial={false}
-      animate={{ width: isCollapsed ? '3.625rem' : '15rem' }}
-    >
-      <nav>
-        <ul className="overflow-hidden grid gap-0.5">
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              <AppSidebarLink
-                isCollapsed={isCollapsed}
-                icon={link.icon}
-                label={link.label}
-                path={
-                  projectSlug
-                    ? link.path === '.'
-                      ? `/app/project/${projectSlug}`
-                      : `/app/project/${projectSlug}/${link.path}`
-                    : link.path === '.'
-                      ? '/app'
-                      : `/app/${link.path}`
-                }
-              />
-            </li>
-          ))}
-        </ul>
-      </nav>
+    <>
+      {/* Mobile sidebar overlay */}
+      <div
+        className={cn(
+          'fixed inset-0 z-(--z-index-modal) invisible size-full bg-zinc-500/50 opacity-0 duration-300 transition-all lg:hidden',
+          isSidebarOpen && 'visible opacity-100'
+        )}
+        onClick={() => setIsSidebarOpen(false)}
+      />
 
-      <button
-        className="self-start flex items-center gap-3 px-3 h-9 rounded-lg transition-colors cursor-pointer hover:bg-zinc-100"
-        aria-label="Toggle sidebar"
-        onClick={toggleSidebar}
+      <div
+        className={cn(
+          'fixed left-0 inset-y-0 -translate-x-full z-[calc(var(--z-index-modal)_+_1)] h-full transition-all duration-300 lg:static lg:translate-x-0 lg:border-r lg:border-layout-separator lg:transition-none',
+          isSidebarOpen && 'translate-x-0'
+        )}
       >
-        <BaseIcon className="size-4.5 text-tertiary" icon={SidebarRightIcon} />
-      </button>
-    </motion.aside>
+        <motion.aside
+          ref={sidebarRef}
+          className="h-full bg-zinc-50"
+          initial={false}
+          animate={{ width: isBreakpointLg ? (isCollapsed ? '3.625rem' : '15rem') : '18rem' }}
+          transition={isBreakpointLg ? undefined : { duration: 0 }}
+        >
+          <div className="flex flex-col gap-2.5 pb-2.5 h-full lg:justify-between lg:px-2 lg:pt-2.5">
+            <div className="shrink-0 flex items-center justify-between px-2 h-[calc(var(--height-app-header)_+_1px)] border-b border-b-layout-separator lg:hidden">
+              <Link href={APP_REDIRECT_URL}>
+                <BaseLogo className="ml-2.5 size-5" isIconOnly={true} />
+              </Link>
+
+              <button
+                className="p-1 cursor-pointer"
+                type="button"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <BaseIcon className="size-5" icon={Cancel01Icon} />
+              </button>
+            </div>
+
+            <nav className="px-2 lg:px-0">
+              <ul className="overflow-hidden grid gap-0.5">
+                {navLinks.map((link) => (
+                  <li key={link.label}>
+                    <AppSidebarLink
+                      isCollapsed={isCollapsed}
+                      icon={link.icon}
+                      label={link.label}
+                      path={
+                        projectSlug
+                          ? link.path === '.'
+                            ? `/app/project/${projectSlug}`
+                            : `/app/project/${projectSlug}/${link.path}`
+                          : link.path === '.'
+                            ? '/app'
+                            : `/app/${link.path}`
+                      }
+                    />
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <button
+              className="hidden lg:flex self-start items-center gap-3 px-3 h-9 rounded-lg transition-colors cursor-pointer hover:bg-zinc-100"
+              aria-label="Toggle sidebar"
+              onClick={toggleSidebar}
+            >
+              <BaseIcon className="size-4.5 text-tertiary" icon={SidebarRightIcon} />
+            </button>
+          </div>
+        </motion.aside>
+      </div>
+    </>
   )
 }
 
@@ -123,6 +181,7 @@ function AppSidebarLink({
   path: string
 }) {
   const pathname = usePathname()
+  const isBreakpointLg = useBreakpointLg()
 
   return (
     <BaseTooltip delay={400} disabled={!isCollapsed} side="right" sideOffset={4} text={label}>
@@ -136,7 +195,7 @@ function AppSidebarLink({
       >
         <BaseIcon className="shrink-0 size-4.5 transition-colors" icon={icon} />
         <AnimatePresence>
-          {!isCollapsed && (
+          {(isBreakpointLg ? !isCollapsed : true) && (
             <motion.span
               key={label}
               className="font-medium text-xs text-secondary whitespace-nowrap"
