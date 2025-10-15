@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { BaseButton } from '@/components/ui/BaseButton'
-import BaseLogo from '@/components/ui/BaseLogo'
+import { BaseLogo } from '@/components/ui/BaseLogo'
 import { APP_REDIRECT_URL } from '@/enums/constants'
-import { getSessionState } from '@/lib/cached-functions'
+import { verifySession } from '@/lib/cached-functions'
 
-export default async function Header() {
-  const { isLoggedIn } = await getSessionState()
+export async function Header() {
+  const { session } = await verifySession()
 
   return (
     <header className="container">
@@ -15,22 +15,20 @@ export default async function Header() {
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
-          {!isLoggedIn ? (
+          {!session ? (
             <>
-              <BaseButton variant="ghost" size="sm" asChild>
-                <Link href="/login">Log in</Link>
+              <BaseButton render={<Link href="/login" />} variant="ghost" size="sm">
+                Log in
               </BaseButton>
 
-              <BaseButton size="sm" asChild>
-                <Link href="/create-account">
-                  <span className="hidden sm:inline">Create account</span>
-                  <span className="inline sm:hidden">Sign up</span>
-                </Link>
+              <BaseButton render={<Link href="/create-account" />} size="sm">
+                <span className="hidden sm:inline">Create account</span>
+                <span className="inline sm:hidden">Sign up</span>
               </BaseButton>
             </>
           ) : (
-            <BaseButton size="sm" asChild>
-              <Link href={APP_REDIRECT_URL}>Dashboard</Link>
+            <BaseButton render={<Link href={APP_REDIRECT_URL} />} size="sm">
+              Dashboard
             </BaseButton>
           )}
         </div>

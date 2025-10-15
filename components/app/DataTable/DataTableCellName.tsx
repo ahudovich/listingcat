@@ -2,13 +2,7 @@ import Link from 'next/link'
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 
-export default function DataTableCellName({
-  name,
-  websiteUrl,
-}: {
-  name: string
-  websiteUrl: string
-}) {
+export function DataTableCellName({ name, websiteUrl }: { name: string; websiteUrl: string }) {
   return (
     <div className="flex items-center">
       <Link
@@ -16,7 +10,6 @@ export default function DataTableCellName({
         href={websiteUrl}
         target="_blank"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="shrink-0 size-4"
           src={`https://www.google.com/s2/favicons?domain=${websiteUrl}&sz=32`}

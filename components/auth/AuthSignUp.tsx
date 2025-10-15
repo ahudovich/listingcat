@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import AuthCard from './AuthCard'
-import OtpVerificationForm from './forms/OtpVerificationForm/OtpVerificationForm'
-import SignUpForm from './forms/SignUpForm/SignUpForm'
+import { AuthCard } from '@/components/auth/AuthCard'
+import { OtpVerificationForm } from '@/components/auth/forms/OtpVerificationForm/OtpVerificationForm'
+import { SignUpForm } from '@/components/auth/forms/SignUpForm/SignUpForm'
 
-export default function AuthSignUp() {
+export function AuthSignUp() {
   const [currentStep, setCurrentStep] = useState<'sign-up' | 'verification'>('sign-up')
   const [email, setEmail] = useState('')
 

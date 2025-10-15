@@ -2,8 +2,10 @@ import { logger, schedules, wait } from '@trigger.dev/sdk/v3'
 import { sql } from 'drizzle-orm'
 import { ofetch } from 'ofetch'
 import { env } from '../env'
+import { directories } from '../lib/db/schema/tables/directories'
+import { launchPlatforms } from '../lib/db/schema/tables/launch-platforms'
 import { sendDiscordNotification } from '../lib/discord'
-import { getDB, tables } from '../lib/drizzle'
+import { db } from '../lib/drizzle'
 
 interface SeoApiResponse {
   success: boolean
@@ -23,14 +25,9 @@ interface SeoApiResponse {
 // 3 requests per second
 const API_RATE_LIMIT_IN_SECONDS = 0.35
 
-const db = getDB()
-
 const TABLES_WITH_WEBSITE_URL = [
-  { table: tables.directories, name: 'Directories', sqlTableName: 'directories' },
-  { table: tables.launchPlatforms, name: 'Launch Platforms', sqlTableName: 'launch_platforms' },
-  { table: tables.marketplaces, name: 'Marketplaces', sqlTableName: 'marketplaces' },
-  { table: tables.showcases, name: 'Showcases', sqlTableName: 'showcases' },
-  { table: tables.specials, name: 'Specials', sqlTableName: 'specials' },
+  { table: directories, name: 'Directories', sqlTableName: 'directories' },
+  { table: launchPlatforms, name: 'Launch Platforms', sqlTableName: 'launch_platforms' },
 ] as const
 
 type TableWithWebsiteUrl = (typeof TABLES_WITH_WEBSITE_URL)[number]

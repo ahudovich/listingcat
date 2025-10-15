@@ -15,7 +15,9 @@ export function FooterSubmitButton() {
         Submit resource
       </button>
 
-      <SubmitResourceModal isOpen={isSubmitModalOpen} setIsOpen={setIsSubmitModalOpen} />
+      {isSubmitModalOpen && (
+        <SubmitResourceModal isOpen={isSubmitModalOpen} setIsOpen={setIsSubmitModalOpen} />
+      )}
     </>
   )
 }

@@ -84,10 +84,17 @@
   --text-5xl: 2.75rem;
   --text-5xl--line-height: calc(3.5 / 2.75);
 
+  /* Animations */
   --animate-spin-slow: spin 1.5s linear infinite;
 
   /* Z-indexes */
-  --z-index-popup: 10;
+  --z-index-popover: 100;
+  --z-index-tooltip: 101;
+  --z-index-modal: 1000;
+  --z-index-popup: 1001;
+
+  /* App sizing */
+  --height-app-header: 2.9375rem; /* 47px */
 }
 
 @utility container {

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { cn } from '@/utils/css'
-import TrustedByPopover from './TrustedByPopover'
+import { TrustedByPopover } from './TrustedByPopover'
 
 const trustedBy = [
   {
@@ -85,7 +85,7 @@ export function TrustedBy({ className }: { className?: string }) {
           </li>
         ))}
       </ul>
-      Trusted by 950+ founders
+      Trusted by 1,000+ founders
     </div>
   )
 }

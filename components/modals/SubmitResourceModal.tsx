@@ -13,12 +13,11 @@ export function SubmitResourceModal({ isOpen, setIsOpen }: SubmitResourceModalPr
     <BaseModal
       title="Submit a Resource"
       description="You can submit anything related to marketing (directory, tool, service, course, book, etc)"
+      modal="trap-focus"
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     >
-      <div className="px-8 pb-10">
-        <SubmitResourceForm />
-      </div>
+      <SubmitResourceForm />
     </BaseModal>
   )
 }

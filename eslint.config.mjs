@@ -8,6 +8,7 @@ const eslintConfig = [
   ...compat.config({
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
     rules: {
+      '@next/next/no-img-element': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
     },
   }),

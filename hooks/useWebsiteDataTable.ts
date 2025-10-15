@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useLocalStorage } from 'react-use'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import {
   getCoreRowModel,
@@ -8,41 +7,44 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { deleteCookie } from 'cookies-next'
+import { setCookie } from 'cookies-next/client'
 import { env } from '@/env'
-import { COOKIE_PREFIX } from '@/enums/constants'
-import { PageSize } from '@/enums/data-table'
+import { COOKIE_TABLE_PAGE_SIZE } from '@/enums/constants'
+import { DEFAULT_PAGE_SIZE } from '@/enums/data-table'
 import { LinkAttributes } from '@/enums/LinkAttributes.enum'
+import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { cookieOptions } from '@/lib/cookies/client'
 import type {
-  AccessorKeyColumnDef,
+  ColumnDef,
   ColumnFiltersState,
   FilterFn,
   PaginationState,
+  RowSelectionState,
   SortingState,
 } from '@tanstack/react-table'
-
-const DEFAULT_PAGE_SIZE = PageSize.Medium
+import type { PageSizeType } from '@/enums/data-table'
 
 interface UseWebsiteDataTableProps<T> {
+  initialPageSize: PageSizeType
   initialSorting: SortingState
-  columns: Array<AccessorKeyColumnDef<T, any>>
+  columns: Array<ColumnDef<T, any>>
   data: Array<T>
 }
 
 export function useWebsiteDataTable<T>({
+  initialPageSize,
   initialSorting,
   columns,
   data,
 }: UseWebsiteDataTableProps<T>) {
-  const [storedPageSize, setStoredPageSize, removeStoredPageSize] = useLocalStorage<number>(
-    `${COOKIE_PREFIX}-page-size`
-  )
-
   const [globalFilter, setGlobalFilter] = useState<string>('')
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>(initialSorting)
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: storedPageSize ?? DEFAULT_PAGE_SIZE,
+    pageSize: initialPageSize,
   })
 
   const table = useReactTable({
@@ -55,8 +57,12 @@ export function useWebsiteDataTable<T>({
       globalFilter,
       columnFilters,
       sorting,
+      rowSelection,
       pagination,
     },
+
+    // Row ID is required for row selection
+    getRowId: (row) => row.id as string,
 
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -70,22 +76,25 @@ export function useWebsiteDataTable<T>({
     enableMultiSort: false,
     onSortingChange: setSorting,
 
+    onRowSelectionChange: setRowSelection,
+
     onPaginationChange: (updater) => {
       const newPagination = typeof updater === 'function' ? updater(pagination) : updater
 
       setPagination(newPagination)
 
-      // Handle localStorage logic for page size
       if (newPagination.pageSize !== DEFAULT_PAGE_SIZE) {
-        setStoredPageSize(newPagination.pageSize)
+        setCookie(COOKIE_TABLE_PAGE_SIZE, String(newPagination.pageSize), cookieOptions)
       } else {
-        removeStoredPageSize()
+        deleteCookie(COOKIE_TABLE_PAGE_SIZE)
       }
     },
 
     filterFns: {
+      submissionStatusFilter,
       pricingModelFilter,
       linkAttributeFilter,
+      categoryFilter,
     },
 
     // Reset default column sizes
@@ -122,6 +131,19 @@ const fuzzySearch: FilterFn<any> = (row, columnId, filterValue) => {
   return itemRank.passed
 }
 
+// Custom filter function for submission status
+const submissionStatusFilter: FilterFn<any> = (row, columnId, filterValue) => {
+  if (!filterValue) return true
+
+  if (filterValue === SubmissionStatus.Pending) {
+    return row.getValue(columnId) === undefined
+  }
+
+  const submissionStatus = row.getValue(columnId) as SubmissionStatus
+
+  return submissionStatus === filterValue
+}
+
 // Custom filter function for pricing model
 const pricingModelFilter: FilterFn<any> = (row, columnId, filterValue) => {
   if (!filterValue) return true
@@ -154,4 +176,13 @@ const linkAttributeFilter: FilterFn<any> = (row, columnId, filterValue) => {
   }
 
   return true
+}
+
+// Custom filter function for category
+const categoryFilter: FilterFn<any> = (row, columnId, filterValue) => {
+  if (!filterValue) return true
+
+  const category = row.getValue(columnId) as string
+
+  return category === filterValue
 }

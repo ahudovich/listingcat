@@ -11,7 +11,9 @@ declare module '@tanstack/react-table' {
 // Declare custom filter functions for TypeScript
 declare module '@tanstack/react-table' {
   interface FilterFns {
+    submissionStatusFilter: FilterFn<unknown>
     pricingModelFilter: FilterFn<unknown>
     linkAttributeFilter: FilterFn<unknown>
+    categoryFilter: FilterFn<unknown>
   }
 }

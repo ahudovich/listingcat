@@ -1,9 +1,9 @@
 import { InformationCircleIcon } from '@hugeicons/core-free-icons'
-import DataTableCellLink from '@/components/app/DataTable/DataTableCellLink'
+import { DataTableCellLink } from '@/components/app/DataTable/DataTableCellLink'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseTooltip from '@/components/ui/BaseTooltip'
+import { BaseTooltip } from '@/components/ui/BaseTooltip'
 
-export default function DataTableCellSubmission({
+export function DataTableCellSubmission({
   submitUrl,
   notes,
 }: {

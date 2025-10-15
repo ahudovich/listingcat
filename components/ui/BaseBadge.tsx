@@ -1,5 +1,4 @@
 import { tv } from 'tailwind-variants'
-import { cn } from '@/utils/css'
 import type { ComponentProps, ReactNode } from 'react'
 import type { VariantProps } from 'tailwind-variants'
 
@@ -25,14 +24,14 @@ interface BaseBadgeProps {
   variant?: BadgeVariants['variant']
 }
 
-export default function BaseBadge({
+export function BaseBadge({
   children,
   className,
   variant,
   ...props
 }: BaseBadgeProps & ComponentProps<'div'>) {
   return (
-    <span className={cn(badgeVariants({ className, variant }))} {...props}>
+    <span className={badgeVariants({ variant, className })} {...props}>
       {children}
     </span>
   )

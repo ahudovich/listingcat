@@ -1,38 +1,42 @@
-import { Tooltip } from 'radix-ui'
+import { Tooltip } from '@base-ui-components/react/tooltip'
 import { cn } from '@/utils/css'
-import { zIndexes } from '@/utils/z-indexes'
 
-export default function BaseTooltip({
+export function BaseTooltip({
   className,
   children,
+  delay = 250,
+  disabled,
+  side,
   sideOffset = 4,
   text,
   ...props
 }: {
   className?: string
   children: React.ReactNode
-  sideOffset?: number
+  delay?: React.ComponentProps<typeof Tooltip.Root>['delay']
+  disabled?: React.ComponentProps<typeof Tooltip.Root>['disabled']
+  side?: React.ComponentProps<typeof Tooltip.Positioner>['side']
+  sideOffset?: React.ComponentProps<typeof Tooltip.Positioner>['sideOffset']
   text: string
-}) {
+} & React.ComponentProps<typeof Tooltip.Root>) {
   return (
-    <Tooltip.TooltipProvider delayDuration={250}>
-      <Tooltip.Root>
-        <Tooltip.TooltipTrigger asChild>{children}</Tooltip.TooltipTrigger>
-
-        <Tooltip.TooltipPortal>
-          <Tooltip.TooltipContent
-            className={cn(
-              'overflow-hidden px-3 py-1.5 rounded-md bg-zinc-800 shadow-md text-[0.75rem] text-zinc-50 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
-              className
-            )}
-            sideOffset={sideOffset}
-            style={{ zIndex: zIndexes.tooltip }}
-            {...props}
-          >
-            {text}
-          </Tooltip.TooltipContent>
-        </Tooltip.TooltipPortal>
+    <Tooltip.Provider>
+      <Tooltip.Root delay={delay} disabled={disabled}>
+        <Tooltip.Trigger render={<div />}>{children}</Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Positioner side={side} sideOffset={sideOffset}>
+            <Tooltip.Popup
+              className={cn(
+                'z-tooltip overflow-hidden origin-[var(--transform-origin)] px-3 py-1.5 rounded-md bg-zinc-800 shadow-md text-[0.75rem] text-zinc-50 transition-[transform,scale,opacity] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[instant]:duration-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
+                className
+              )}
+              {...props}
+            >
+              {text}
+            </Tooltip.Popup>
+          </Tooltip.Positioner>
+        </Tooltip.Portal>
       </Tooltip.Root>
-    </Tooltip.TooltipProvider>
+    </Tooltip.Provider>
   )
 }

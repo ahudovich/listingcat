@@ -1,24 +1,15 @@
 import { pgEnum } from 'drizzle-orm/pg-core'
-import { Benefits } from '../../../../enums/Benefits.enum'
+import { DirectoryType } from '../../../../enums/DirectoryType.enum'
 import { LinkAttributes } from '../../../../enums/LinkAttributes.enum'
 import { ProductCategories } from '../../../../enums/ProductCategories.enum'
+import { SubmissionStatus } from '../../../../enums/SubmissionStatus.enum'
+import { SubmissionType } from '../../../../enums/SubmissionType.enum'
 
-export const DB_ENUM_NAME_BENEFIT = 'benefit'
-
-export const TABLE_NAMES = {
-  DIRECTORIES: 'directories',
-  LAUNCH_PLATFORMS: 'launch_platforms',
-  MARKETPLACES: 'marketplaces',
-  SHOWCASES: 'showcases',
-  SPECIALS: 'specials',
-  TABLE_UPDATES: 'table_updates',
-  SERVICES: 'services',
-  SUBMISSIONS: 'submissions',
-} as const
-
-export type TableName = (typeof TABLE_NAMES)[keyof typeof TABLE_NAMES]
-
-export const benefitEnum = pgEnum(DB_ENUM_NAME_BENEFIT, [Benefits.ProAccess])
+export const directoryTypeEnum = pgEnum('directory_type', [
+  DirectoryType.General,
+  DirectoryType.Showcase,
+  DirectoryType.Marketplace,
+])
 
 export const productCategoryEnum = pgEnum('product_category', [
   ProductCategories.AITools,
@@ -39,3 +30,12 @@ export const linkAttributeEnum = pgEnum('link_attribute', [
 ])
 
 export const pricingModelEnum = pgEnum('pricing_model', ['free', 'paid', 'mixed'])
+
+export const submissionStatusEnum = pgEnum('submission_status', [
+  SubmissionStatus.Pending,
+  SubmissionStatus.Submitted,
+  SubmissionStatus.Rejected,
+  SubmissionStatus.Approved,
+])
+
+export const submissionTypeEnum = pgEnum('submission_type', [SubmissionType.User])
