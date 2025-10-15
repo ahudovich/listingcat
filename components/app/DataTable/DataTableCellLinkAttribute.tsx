@@ -4,11 +4,11 @@ import {
   InformationCircleIcon,
 } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseTooltip from '@/components/ui/BaseTooltip'
+import { BaseTooltip } from '@/components/ui/BaseTooltip'
 import { LinkAttributes } from '@/enums/LinkAttributes.enum'
 import { cn } from '@/utils/css'
 
-export default function DataTableCellLinkAttribute({
+export function DataTableCellLinkAttribute({
   value,
   linkAttributeNotes,
 }: {

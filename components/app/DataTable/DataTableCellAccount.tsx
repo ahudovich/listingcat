@@ -2,7 +2,7 @@ import { Cancel01Icon, CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { cn } from '@/utils/css'
 
-export default function DataTableCellAccount({ value }: { value: boolean }) {
+export function DataTableCellAccount({ value }: { value: boolean }) {
   return (
     <div
       className={cn(

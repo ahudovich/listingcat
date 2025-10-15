@@ -1,7 +1,7 @@
 import { cn } from '@/utils/css'
 import type { ReactNode } from 'react'
 
-export default function AuthCard({
+export function AuthCard({
   title,
   children,
   description,

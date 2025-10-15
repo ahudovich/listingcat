@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { BlueskyIcon, NewTwitterIcon, ThreadsIcon } from '@hugeicons/core-free-icons'
 import { FooterSubmitButton } from '@/components/layout/Footer/FooterSubmitButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseLogo from '@/components/ui/BaseLogo'
+import { BaseLogo } from '@/components/ui/BaseLogo'
 import { EMAILS } from '@/data/emails'
 import { LINKS } from '@/data/links'
 
@@ -80,7 +80,7 @@ const toolLinks = [
   },
 ]
 
-export default function Footer() {
+export function Footer() {
   return (
     <footer className="sticky top-[100vh] bg-gray-100 border-t border-zinc-200">
       <div className="container py-10 lg:flex">

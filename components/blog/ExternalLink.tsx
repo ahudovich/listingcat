@@ -1,13 +1,7 @@
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
-import { BaseIcon } from '../ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/BaseIcon'
 
-export default function ExternalLink({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
+export function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <a
       className="group inline-flex items-center gap-1.5 font-medium"

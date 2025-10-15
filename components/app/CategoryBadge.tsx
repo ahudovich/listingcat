@@ -28,7 +28,7 @@ interface CategoryBadgeProps {
   category: CategoryBadgeVariants['category']
 }
 
-export default function CategoryBadge({
+export function CategoryBadge({
   className,
   category,
 }: CategoryBadgeProps & ComponentProps<'span'>) {

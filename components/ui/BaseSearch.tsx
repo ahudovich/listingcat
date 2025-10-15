@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { useDebounce } from 'react-use'
 import { Cancel01Icon, Search01Icon } from '@hugeicons/core-free-icons'
@@ -8,8 +10,6 @@ import type { ChangeEvent } from 'react'
 import type { InputVariants, NativeInputProps } from '@/components/ui/BaseInput'
 
 interface BaseSearchProps {
-  id: string
-  className?: string
   value: string
   onChange: (value: string) => void
   size?: InputVariants['size']
@@ -24,7 +24,7 @@ export function BaseSearch({
   onChange,
   debounceMs = 250,
   ...props
-}: NativeInputProps & BaseSearchProps) {
+}: BaseSearchProps & Omit<NativeInputProps, 'value' | 'onChange'>) {
   const [internalValue, setInternalValue] = useState(value ?? '')
   const [isClearing, setIsClearing] = useState(false)
 
@@ -76,9 +76,10 @@ export function BaseSearch({
         )}
         type="button"
         onClick={handleClear}
+        aria-label="Clear search"
       >
         <BaseIcon
-          className="shrink-0 size-2.5 text-tertiary transition-all group-hover:text-primary group-data-[state=open]:-rotate-180"
+          className="shrink-0 size-2.5 text-tertiary transition-all group-hover:text-primary"
           icon={Cancel01Icon}
           strokeWidth={3}
         />

@@ -3,7 +3,7 @@ import { ArrowRight02Icon } from '@hugeicons/core-free-icons'
 import { TrustedBy } from '@/components/TrustedBy/TrustedBy'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseLogo from '@/components/ui/BaseLogo'
+import { BaseLogo } from '@/components/ui/BaseLogo'
 
 export function BlogCTA() {
   return (
@@ -23,15 +23,13 @@ export function BlogCTA() {
         <TrustedBy className="mb-6" />
 
         <div className="flex justify-center">
-          <BaseButton className="group min-w-50" size="lg" asChild>
-            <Link href="/create-account">
-              Get free access
-              <BaseIcon
-                className="group-hover:translate-x-1 transition-transform"
-                icon={ArrowRight02Icon}
-                strokeWidth={2.5}
-              />
-            </Link>
+          <BaseButton className="group min-w-50" render={<Link href="/create-account" />} size="lg">
+            Get free access
+            <BaseIcon
+              className="group-hover:translate-x-1 transition-transform"
+              icon={ArrowRight02Icon}
+              strokeWidth={2.5}
+            />
           </BaseButton>
         </div>
 

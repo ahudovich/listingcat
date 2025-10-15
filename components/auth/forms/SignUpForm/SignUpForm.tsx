@@ -2,16 +2,16 @@
 
 import { useId, useState, useTransition } from 'react'
 import { flushSync } from 'react-dom'
-import AuthSeparator from '@/components/auth/AuthSeparator'
-import IconBrandsGoogle from '@/components/icons/IconBrandsGoogle'
-import IconBrandsMicrosoft from '@/components/icons/IconBrandsMicrosoft'
+import { AuthSeparator } from '@/components/auth/AuthSeparator'
+import { IconBrandsGoogle } from '@/components/icons/IconBrandsGoogle'
+import { IconBrandsMicrosoft } from '@/components/icons/IconBrandsMicrosoft'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseInput } from '@/components/ui/BaseInput'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { handleSignUp } from '@/lib/actions/auth'
 import { authClient } from '@/lib/auth/auth-client'
 
-export default function SignUpForm({
+export function SignUpForm({
   email,
   setEmail,
   setCurrentStep,

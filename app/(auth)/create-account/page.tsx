@@ -1,4 +1,4 @@
-import AuthSignUp from '@/components/auth/AuthSignUp'
+import { AuthSignUp } from '@/components/auth/AuthSignUp'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {

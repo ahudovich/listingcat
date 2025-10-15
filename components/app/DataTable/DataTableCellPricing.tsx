@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import BaseTooltip from '@/components/ui/BaseTooltip'
+import { BaseTooltip } from '@/components/ui/BaseTooltip'
+import { cn } from '@/utils/css'
 
-export default function DataTableCellPricing({
+export function DataTableCellPricing({
   value,
   pricingInfo,
   pricingUrl,
@@ -13,15 +14,15 @@ export default function DataTableCellPricing({
   pricingUrl: string | null
 }) {
   return (
-    <div className="flex items-center gap-1 capitalize">
+    <div className={cn('', pricingUrl && 'flex items-center gap-1 capitalize')}>
       {pricingInfo ? (
         <BaseTooltip className="max-w-56" text={pricingInfo}>
-          <span className="underline underline-offset-2 decoration-1.5 decoration-dotted decoration-gray-500 cursor-help">
+          <span className="underline underline-offset-2 decoration-1.5 decoration-dotted decoration-gray-500 capitalize cursor-help">
             {value}
           </span>
         </BaseTooltip>
       ) : (
-        <>{value}</>
+        <span className="capitalize">{value}</span>
       )}
 
       {pricingUrl && (

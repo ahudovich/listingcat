@@ -1,5 +1,5 @@
 {
-  "id": "f9ce6ce7-f9e8-4869-88e1-8f06b2fa74b8",
+  "id": "bb4198ce-cf85-4bd5-9324-2c1556ee1860",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,7 +10,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": true,
           "notNull": true
         },
@@ -28,7 +28,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -78,13 +78,15 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -115,7 +117,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": true,
           "notNull": true
         },
@@ -128,18 +130,6 @@
         "token": {
           "name": "token",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         },
@@ -157,9 +147,23 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -198,7 +202,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": true,
           "notNull": true
         },
@@ -218,7 +222,8 @@
           "name": "email_verified",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": false
         },
         "image": {
           "name": "image",
@@ -230,20 +235,15 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
-        },
-        "benefits": {
-          "name": "benefits",
-          "type": "benefit[]",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -268,7 +268,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": true,
           "notNull": true
         },
@@ -294,13 +294,15 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -319,8 +321,7 @@
           "name": "id",
           "type": "uuid",
           "primaryKey": true,
-          "notNull": true,
-          "default": "uuid_generate_v7()"
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -341,6 +342,20 @@
           "primaryKey": false,
           "notNull": true
         },
+        "website_url": {
+          "name": "website_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "directory_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'General'"
+        },
         "category": {
           "name": "category",
           "type": "product_category",
@@ -354,26 +369,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "website_url": {
-          "name": "website_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
         "dr": {
           "name": "dr",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "as": {
-          "name": "as",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "da": {
-          "name": "da",
           "type": "smallint",
           "primaryKey": false,
           "notNull": true
@@ -383,6 +380,12 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true
+        },
+        "spam_score": {
+          "name": "spam_score",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
         },
         "web_analytics_url": {
           "name": "web_analytics_url",
@@ -399,6 +402,12 @@
         },
         "pricing_info": {
           "name": "pricing_info",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pricing_url": {
+          "name": "pricing_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -424,6 +433,12 @@
         },
         "submit_url": {
           "name": "submit_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "submission_notes": {
+          "name": "submission_notes",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -466,6 +481,208 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.directory_submissions": {
+      "name": "directory_submissions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "listing_url": {
+          "name": "listing_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "submission_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "type": {
+          "name": "type",
+          "type": "submission_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "project_id": {
+          "name": "project_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "directory_id": {
+          "name": "directory_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "directory_submissions_project_id_projects_id_fk": {
+          "name": "directory_submissions_project_id_projects_id_fk",
+          "tableFrom": "directory_submissions",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "directory_submissions_directory_id_directories_id_fk": {
+          "name": "directory_submissions_directory_id_directories_id_fk",
+          "tableFrom": "directory_submissions",
+          "tableTo": "directories",
+          "columnsFrom": [
+            "directory_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "project_directory_unique": {
+          "name": "project_directory_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "project_id",
+            "directory_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.launch_platform_submissions": {
+      "name": "launch_platform_submissions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "listing_url": {
+          "name": "listing_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "submission_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "type": {
+          "name": "type",
+          "type": "submission_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "project_id": {
+          "name": "project_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "launch_platform_id": {
+          "name": "launch_platform_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "launch_platform_submissions_project_id_projects_id_fk": {
+          "name": "launch_platform_submissions_project_id_projects_id_fk",
+          "tableFrom": "launch_platform_submissions",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "launch_platform_submissions_launch_platform_id_launch_platforms_id_fk": {
+          "name": "launch_platform_submissions_launch_platform_id_launch_platforms_id_fk",
+          "tableFrom": "launch_platform_submissions",
+          "tableTo": "launch_platforms",
+          "columnsFrom": [
+            "launch_platform_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "project_launch_platform_unique": {
+          "name": "project_launch_platform_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "project_id",
+            "launch_platform_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.launch_platforms": {
       "name": "launch_platforms",
       "schema": "",
@@ -474,8 +691,7 @@
           "name": "id",
           "type": "uuid",
           "primaryKey": true,
-          "notNull": true,
-          "default": "uuid_generate_v7()"
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -496,6 +712,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "website_url": {
+          "name": "website_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "category": {
           "name": "category",
           "type": "product_category",
@@ -503,26 +725,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "website_url": {
-          "name": "website_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
         "dr": {
           "name": "dr",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "as": {
-          "name": "as",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "da": {
-          "name": "da",
           "type": "smallint",
           "primaryKey": false,
           "notNull": true
@@ -548,6 +752,12 @@
         },
         "pricing_info": {
           "name": "pricing_info",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pricing_url": {
+          "name": "pricing_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -615,16 +825,39 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.marketplaces": {
-      "name": "marketplaces",
+    "public.projects": {
+      "name": "projects",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "uuid",
           "primaryKey": true,
-          "notNull": true,
-          "default": "uuid_generate_v7()"
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "website_url": {
+          "name": "website_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -638,171 +871,75 @@
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category": {
-          "name": "category",
-          "type": "product_category",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "website_url": {
-          "name": "website_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "dr": {
-          "name": "dr",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "as": {
-          "name": "as",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "da": {
-          "name": "da",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "traffic": {
-          "name": "traffic",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "web_analytics_url": {
-          "name": "web_analytics_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "pricing_model": {
-          "name": "pricing_model",
-          "type": "pricing_model",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "pricing_info": {
-          "name": "pricing_info",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "link_attribute": {
-          "name": "link_attribute",
-          "type": "link_attribute",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "link_attribute_notes": {
-          "name": "link_attribute_notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "is_account_required": {
-          "name": "is_account_required",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "submit_url": {
-          "name": "submit_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "projects_user_id_users_id_fk": {
+          "name": "projects_user_id_users_id_fk",
+          "tableFrom": "projects",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "marketplaces_name_unique": {
-          "name": "marketplaces_name_unique",
+        "user_slug_unique": {
+          "name": "user_slug_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "name"
+            "user_id",
+            "slug"
           ]
         },
-        "marketplaces_websiteUrl_unique": {
-          "name": "marketplaces_websiteUrl_unique",
+        "user_website_url_unique": {
+          "name": "user_website_url_unique",
           "nullsNotDistinct": false,
           "columns": [
+            "user_id",
             "website_url"
-          ]
-        },
-        "marketplaces_webAnalyticsUrl_unique": {
-          "name": "marketplaces_webAnalyticsUrl_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "web_analytics_url"
-          ]
-        },
-        "marketplaces_submitUrl_unique": {
-          "name": "marketplaces_submitUrl_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "submit_url"
           ]
         }
       },
       "policies": {},
-      "checkConstraints": {},
+      "checkConstraints": {
+        "name_length": {
+          "name": "name_length",
+          "value": "LENGTH(name) <= 60"
+        }
+      },
       "isRLSEnabled": false
     },
-    "public.showcases": {
-      "name": "showcases",
+    "public.resource_requests": {
+      "name": "resource_requests",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
-          "default": "uuid_generate_v7()"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
+          "identity": {
+            "type": "always",
+            "name": "resource_requests_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
         },
         "name": {
           "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category": {
-          "name": "category",
-          "type": "product_category",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category_notes": {
-          "name": "category_notes",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -812,120 +949,25 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "dr": {
-          "name": "dr",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "as": {
-          "name": "as",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "da": {
-          "name": "da",
-          "type": "smallint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "traffic": {
-          "name": "traffic",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "web_analytics_url": {
-          "name": "web_analytics_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "pricing_model": {
-          "name": "pricing_model",
-          "type": "pricing_model",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "pricing_info": {
-          "name": "pricing_info",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "link_attribute": {
-          "name": "link_attribute",
-          "type": "link_attribute",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "link_attribute_notes": {
-          "name": "link_attribute_notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "is_account_required": {
-          "name": "is_account_required",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "submit_url": {
-          "name": "submit_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "showcases_name_unique": {
-          "name": "showcases_name_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "name"
-          ]
-        },
-        "showcases_websiteUrl_unique": {
-          "name": "showcases_websiteUrl_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "website_url"
-          ]
-        },
-        "showcases_webAnalyticsUrl_unique": {
-          "name": "showcases_webAnalyticsUrl_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "web_analytics_url"
-          ]
-        },
-        "showcases_submitUrl_unique": {
-          "name": "showcases_submitUrl_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "submit_url"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     }
   },
   "enums": {
-    "public.benefit": {
-      "name": "benefit",
+    "public.directory_type": {
+      "name": "directory_type",
       "schema": "public",
       "values": [
-        "database-access"
+        "General",
+        "Showcase",
+        "Marketplace"
       ]
     },
     "public.link_attribute": {
@@ -959,6 +1001,23 @@
         "Dev Tools",
         "Directories",
         "Open Source"
+      ]
+    },
+    "public.submission_status": {
+      "name": "submission_status",
+      "schema": "public",
+      "values": [
+        "pending",
+        "submitted",
+        "rejected",
+        "approved"
+      ]
+    },
+    "public.submission_type": {
+      "name": "submission_type",
+      "schema": "public",
+      "values": [
+        "user"
       ]
     }
   },

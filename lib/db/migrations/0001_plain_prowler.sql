@@ -1,1 +1,0 @@
-ALTER TABLE "users" ADD COLUMN "is_early_bird" boolean;

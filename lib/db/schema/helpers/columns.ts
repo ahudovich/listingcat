@@ -1,9 +1,5 @@
-import { smallint, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { smallint, text, timestamp } from 'drizzle-orm/pg-core'
 import { linkAttributeEnum, pricingModelEnum } from './enums'
-
-export const id = {
-  id: uuid().primaryKey().defaultRandom(),
-}
 
 export const timestamps = {
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),

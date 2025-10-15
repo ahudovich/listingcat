@@ -2,13 +2,14 @@ import { Select } from '@base-ui-components/react/select'
 import { ArrowDown01Icon, Tick02Icon } from '@hugeicons/core-free-icons'
 import { tv } from 'tailwind-variants'
 import { BaseIcon } from '@/components/ui/BaseIcon'
+import { cn } from '@/utils/css'
 import type { VariantProps } from 'tailwind-variants'
 
 const selectVariants = tv({
   slots: {
     label: 'inline-block mb-1.5 text-sm font-medium text-secondary cursor-pointer',
     trigger:
-      'relative flex items-center justify-between gap-x-2 px-3 w-full bg-control-default border border-control-default rounded-control outline-none appearance-none cursor-pointer select-none transition-colors focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active',
+      'relative flex items-center justify-between gap-x-2 px-3 w-full bg-control-default border border-control-default rounded-control outline-none appearance-none cursor-pointer select-none transition-all focus-visible:bg-control-active focus-visible:border-control-active focus-visible:ring-2 focus-visible:ring-control-default focus-visible:text-control-active data-[disabled]:opacity-50',
     value: 'font-medium text-control-default',
   },
   variants: {
@@ -42,21 +43,27 @@ const selectVariants = tv({
 
 export type SelectVariants = VariantProps<typeof selectVariants>
 
-interface BaseSelectProps {
+interface BaseSelectProps extends React.ComponentProps<typeof Select.Root> {
+  ref?: React.Ref<HTMLInputElement>
   className?: string
+  disabled?: boolean
+  error?: string
   label?: string
   size?: SelectVariants['size']
 }
 
 export function BaseSelect({
+  ref,
   id,
   className,
+  disabled,
+  error,
   label,
   size,
   value,
   children,
   ...props
-}: BaseSelectProps & React.ComponentProps<typeof Select.Root>) {
+}: BaseSelectProps) {
   const { label: labelClasses, trigger, value: valueClasses } = selectVariants({ size })
 
   return (
@@ -67,8 +74,14 @@ export function BaseSelect({
         </label>
       )}
 
-      <Select.Root id={id} value={value} {...props}>
-        <Select.Trigger className={trigger({ className })}>
+      <Select.Root inputRef={ref} id={id} disabled={disabled} value={value} {...props}>
+        <Select.Trigger
+          className={cn(
+            trigger({ className }),
+            error &&
+              'border-control-error ring-2 ring-control-error focus-visible:border-control-error focus-visible:ring-control-error'
+          )}
+        >
           <Select.Value
             className={valueClasses({ className: !value && 'text-control-placeholder' })}
           />
@@ -87,12 +100,18 @@ export function BaseSelect({
             alignItemWithTrigger={false}
             sideOffset={4}
           >
-            <Select.Popup className="overflow-hidden p-1 bg-white border border-zinc-200 rounded-lg shadow-lg transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
-              {children}
+            <Select.Popup className="overflow-hidden p-1 bg-white border border-zinc-200 rounded-lg shadow-lg origin-[var(--transform-origin)] transition-[transform,scale,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0">
+              <Select.List>{children}</Select.List>
             </Select.Popup>
           </Select.Positioner>
         </Select.Portal>
       </Select.Root>
+
+      {error && (
+        <p className="mt-1.5 text-xs text-control-error" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   )
 }

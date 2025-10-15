@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { LinkSquare02Icon, Mail01Icon } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 
-export default function DataTableCellLink({
+export function DataTableCellLink({
   value,
   type = 'link',
 }: {

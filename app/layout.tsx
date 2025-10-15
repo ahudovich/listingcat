@@ -1,8 +1,7 @@
 import '@/app/globals.css'
 import { Inter } from 'next/font/google'
 import { env } from '@/env'
-import PostHogProvider from '@/components/PostHogProvider'
-import { BaseToaster } from '@/components/ui/BaseToaster'
+import { PostHogProvider } from '@/components/PostHogProvider'
 import type { Metadata, Viewport } from 'next'
 
 const inter = Inter({
@@ -31,7 +30,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
          * https://base-ui.com/react/overview/quick-start#set-up-portals
          */}
         <div className="isolate h-full">{children}</div>
-        <BaseToaster />
       </body>
     </html>
   )

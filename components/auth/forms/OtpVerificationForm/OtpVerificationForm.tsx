@@ -8,7 +8,7 @@ import { BaseInput } from '@/components/ui/BaseInput'
 import { APP_REDIRECT_URL } from '@/enums/constants'
 import { handleOtpVerification } from '@/lib/actions/auth'
 
-export default function OtpVerificationForm({ email }: { email: string }) {
+export function OtpVerificationForm({ email }: { email: string }) {
   const id = useId()
   const router = useRouter()
 

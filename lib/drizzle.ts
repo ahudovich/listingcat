@@ -1,42 +1,15 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import { env } from '@/env'
-import { accounts, sessions, users, verifications } from '@/lib/db/schema/tables/auth'
-import { directories } from '@/lib/db/schema/tables/directories'
-import { launchPlatforms } from '@/lib/db/schema/tables/launch-platforms'
-import { marketplaces } from '@/lib/db/schema/tables/marketplaces'
-import { services } from '@/lib/db/schema/tables/services'
-import { showcases } from '@/lib/db/schema/tables/showcase'
-import { specials } from '@/lib/db/schema/tables/specials'
-import { submissions } from '@/lib/db/schema/tables/submissions'
-import { tableUpdates } from '@/lib/db/schema/tables/table-updates'
+import * as schema from '@/lib/db/schema/tables'
 
-export const tables = {
-  directories,
-  launchPlatforms,
-  marketplaces,
-  showcases,
-  specials,
-  tableUpdates,
-  submissions,
-  services,
-  users,
-  sessions,
-  accounts,
-  verifications,
-}
+const client = postgres(env.DATABASE_URL, {
+  prepare: false,
+})
 
-export function getDB() {
-  const client = postgres(env.DATABASE_URL, {
-    prepare: false,
-  })
-
-  return drizzle({
-    logger: env.NEXT_PUBLIC_ENV === 'development',
-    client,
-    casing: 'snake_case',
-    schema: {
-      ...tables,
-    },
-  })
-}
+export const db = drizzle({
+  logger: env.NEXT_PUBLIC_ENV === 'development',
+  casing: 'snake_case',
+  client,
+  schema,
+})
