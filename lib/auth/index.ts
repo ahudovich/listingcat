@@ -49,23 +49,6 @@ export const auth = betterAuth({
     },
   },
 
-  user: {
-    additionalFields: {
-      benefits: {
-        type: 'string[]', // TODO: Update to use enum when it will be implemented in BetterAuth
-        required: false,
-        defaultValue: [],
-        input: false,
-      },
-      isEarlyBird: {
-        type: 'boolean',
-        required: false,
-        defaultValue: true, // TODO: Make this false after the launch
-        input: false,
-      },
-    },
-  },
-
   databaseHooks: {
     user: {
       create: {
