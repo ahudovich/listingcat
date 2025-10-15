@@ -17,9 +17,7 @@ export function SubmitResourceModal({ isOpen, setIsOpen }: SubmitResourceModalPr
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     >
-      <div className="px-8 pb-10">
-        <SubmitResourceForm />
-      </div>
+      <SubmitResourceForm />
     </BaseModal>
   )
 }

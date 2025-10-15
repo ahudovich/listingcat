@@ -7,12 +7,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <SidebarProvider>
-        <div className="grid grid-rows-[auto_1fr] h-dvh">
+        <div className="lg:grid lg:grid-rows-[auto_1fr] lg:h-dvh">
           <AppHeader />
-          <main className="overflow-hidden lg:grid lg:grid-cols-[auto_1fr] lg:h-full">
+          <main className="lg:overflow-hidden lg:grid lg:grid-cols-[auto_1fr] lg:h-full">
             <AppSidebar />
 
-            <div className="overflow-hidden bg-white lg:grid lg:grid-rows-[auto_1fr] lg:h-full">
+            <div className="bg-white lg:overflow-hidden lg:grid lg:grid-rows-[auto_1fr] lg:h-full">
               {children}
             </div>
           </main>

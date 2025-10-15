@@ -63,7 +63,7 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
   const projectSlug = params.projectSlug
 
   const pathname = usePathname()
-  const isBreakpointLg = useBreakpointLg()
+  const isBreakpointLg = useBreakpointLg(initialCollapsed)
 
   const sidebarRef = useRef<HTMLDivElement>(null)
 
@@ -114,7 +114,7 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
           ref={sidebarRef}
           className="h-full bg-zinc-50"
           initial={false}
-          animate={{ width: isBreakpointLg ? (isCollapsed ? '3.625rem' : '15rem') : '18rem' }}
+          animate={{ width: isBreakpointLg ? (isCollapsed ? '3.625rem' : '15rem') : '15rem' }}
           transition={isBreakpointLg ? undefined : { duration: 0 }}
         >
           <div className="flex flex-col gap-2.5 pb-2.5 h-full lg:justify-between lg:px-2 lg:pt-2.5">
@@ -137,6 +137,7 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
                 {navLinks.map((link) => (
                   <li key={link.label}>
                     <AppSidebarLink
+                      initialCollapsed={initialCollapsed}
                       isCollapsed={isCollapsed}
                       icon={link.icon}
                       label={link.label}
@@ -170,18 +171,20 @@ export function AppSidebarContent({ initialCollapsed }: { initialCollapsed: bool
 }
 
 function AppSidebarLink({
+  initialCollapsed,
   isCollapsed,
   icon,
   label,
   path,
 }: {
+  initialCollapsed: boolean
   isCollapsed: boolean
   icon: IconSvgElement
   label: string
   path: string
 }) {
   const pathname = usePathname()
-  const isBreakpointLg = useBreakpointLg()
+  const isBreakpointLg = useBreakpointLg(initialCollapsed)
 
   return (
     <BaseTooltip delay={400} disabled={!isCollapsed} side="right" sideOffset={4} text={label}>

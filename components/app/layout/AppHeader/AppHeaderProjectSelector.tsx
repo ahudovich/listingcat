@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useId, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { notFound, useRouter } from 'next/navigation'
 import { Combobox } from '@base-ui-components/react/combobox'
 import {
   Add01Icon,
@@ -25,6 +25,10 @@ export function AppHeaderProjectSelector({
 
   // Project is guaranteed to be found
   const currentProject = projects.find((project) => project.slug === projectSlug)
+
+  if (!currentProject) {
+    notFound()
+  }
 
   const [value, setValue] = useState(currentProject)
   const [open, setOpen] = useState(false)
@@ -66,7 +70,7 @@ export function AppHeaderProjectSelector({
         itemToStringLabel={(project) => project.name}
         itemToStringValue={(project) => project.slug}
       >
-        <Combobox.Trigger className="flex items-center gap-2.5 px-2 py-1 max-w-72 bg-control-default rounded-control font-medium text-xs appearance-none cursor-pointer select-none">
+        <Combobox.Trigger className="flex items-center gap-2.5 px-2 py-1 max-w-42 bg-control-default rounded-control font-medium text-xs appearance-none cursor-pointer select-none xs:max-w-72">
           <Combobox.Value>
             {(selectedProject: Project) => (
               <>

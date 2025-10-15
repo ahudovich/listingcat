@@ -3,7 +3,7 @@
 import { useId, useState, useTransition } from 'react'
 import { useParams } from 'next/navigation'
 import { Toggle } from '@base-ui-components/react/toggle'
-import { FilterIcon } from '@hugeicons/core-free-icons'
+import { Cancel01Icon, FilterIcon } from '@hugeicons/core-free-icons'
 import { AnimatePresence, motion } from 'motion/react'
 import { BaseButton } from '@/components/ui/BaseButton'
 import { BaseIcon } from '@/components/ui/BaseIcon'
@@ -149,10 +149,10 @@ export function DataTableFilters<T>({
 
   return (
     <div className={cn('grid gap-3', className)}>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3 [&>*:first-child]:grow sm:flex-nowrap sm:[&>*:first-child]:grow-0">
         <BaseSearch
           id={`${id}-search`}
-          className="w-66"
+          className="sm:w-66"
           placeholder="Search by name or website url"
           size="xs"
           value={globalFilter}
@@ -184,49 +184,48 @@ export function DataTableFilters<T>({
           />
         </div>
 
-        <div className="flex items-center gap-3">
-          <BaseSelect
-            id={`${id}-bulk-action`}
-            className={cn(
-              'invisible w-32 opacity-0',
-              table.getFilteredSelectedRowModel().rows.length > 0 &&
-                'visible opacity-100 transition-all'
-            )}
-            items={bulkActionOptions}
-            modal={false}
-            size="xs"
-            disabled={isBulkActionPending}
-            value={bulkStatus}
-            onValueChange={(value) => handleBulkAction(value as SubmissionStatus | null)}
-          >
-            {bulkActionOptions.map((option) => (
-              <BaseSelectItem key={option.value} label={option.label} value={option.value}>
-                {option.label}
-              </BaseSelectItem>
-            ))}
-          </BaseSelect>
-
-          {isBulkActionPending && <BaseSpinner />}
-        </div>
-
         <BaseButton
           className={cn(
-            'ml-auto invisible opacity-0 font-medium text-control-default',
+            'invisible opacity-0 px-2 !rounded-control transition-all sm:order-last sm:ml-auto sm:px-3',
             (globalFilter || columnFilters.length > 0) && 'visible opacity-100'
           )}
           size="xs"
-          variant="ghost"
+          variant="outline"
           onClick={resetFilters}
         >
-          Reset
+          <BaseIcon className="text-red-700 sm:hidden" icon={Cancel01Icon} strokeWidth={2.5} />
+          <span className="hidden font-medium sm:inline">Reset</span>
         </BaseButton>
+
+        {table.getFilteredSelectedRowModel().rows.length > 0 && (
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <BaseSelect
+              id={`${id}-bulk-action`}
+              className="grow sm:w-32"
+              items={bulkActionOptions}
+              modal={false}
+              size="xs"
+              disabled={isBulkActionPending}
+              value={bulkStatus}
+              onValueChange={(value) => handleBulkAction(value as SubmissionStatus | null)}
+            >
+              {bulkActionOptions.map((option) => (
+                <BaseSelectItem key={option.value} label={option.label} value={option.value}>
+                  {option.label}
+                </BaseSelectItem>
+              ))}
+            </BaseSelect>
+
+            {isBulkActionPending && <BaseSpinner />}
+          </div>
+        )}
       </div>
 
       <AnimatePresence initial={false}>
         {isFiltersOpen && (
           <motion.div
             key="filters"
-            className="flex items-center gap-3"
+            className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:flex"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -234,7 +233,7 @@ export function DataTableFilters<T>({
           >
             <BaseSelect
               id={`${id}-submission-status`}
-              className="w-32"
+              className="md:w-32"
               items={submissionStatusOptions}
               modal={false}
               size="xs"
@@ -252,7 +251,7 @@ export function DataTableFilters<T>({
 
             <BaseSelect
               id={`${id}-pricing`}
-              className="w-32"
+              className="md:w-32"
               items={pricingOptions}
               modal={false}
               size="xs"
@@ -268,7 +267,7 @@ export function DataTableFilters<T>({
 
             <BaseSelect
               id={`${id}-category`}
-              className="w-36"
+              className="md:w-36"
               items={categoryOptions}
               modal={false}
               size="xs"
@@ -284,7 +283,7 @@ export function DataTableFilters<T>({
 
             <BaseSelect
               id={`${id}-link-attribute`}
-              className="w-36"
+              className="md:w-36"
               items={linkAttributeOptions}
               modal={false}
               size="xs"

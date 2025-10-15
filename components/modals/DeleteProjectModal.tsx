@@ -56,67 +56,65 @@ export function DeleteProjectModal({ isOpen, setIsOpen, project }: DeleteProject
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     >
-      <div className="px-8 pb-10">
-        {state.status === 'error' && (
-          <BaseAlert className="mb-4" variant="destructive" aria-live="polite">
-            <p>{state.error}</p>
-          </BaseAlert>
-        )}
+      {state.status === 'error' && (
+        <BaseAlert className="mb-4" variant="destructive" aria-live="polite">
+          <p>{state.error}</p>
+        </BaseAlert>
+      )}
 
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          {/* Hidden fields to pass to the server */}
-          <input {...form.register('id')} type="hidden" value={project.id} />
-          <input {...form.register('slug')} type="hidden" value={project.slug} />
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        {/* Hidden fields to pass to the server */}
+        <input {...form.register('id')} type="hidden" value={project.id} />
+        <input {...form.register('slug')} type="hidden" value={project.slug} />
 
-          <div className="mb-8">
-            <Controller
-              name="name"
-              control={form.control}
-              rules={{
-                validate: (value) => {
-                  if (value !== project.name) {
-                    return 'Project name does not match.'
-                  }
-                },
-              }}
-              render={({ field }) => (
-                <BaseInput
-                  {...field}
-                  id={`${id}-${field.name}`}
-                  label={`Type "${project.name}" to confirm deletion`}
-                  type="text"
-                  autoComplete="off"
-                  error={form.formState.errors.name?.message}
-                />
-              )}
-            />
-          </div>
+        <div className="mb-8">
+          <Controller
+            name="name"
+            control={form.control}
+            rules={{
+              validate: (value) => {
+                if (value !== project.name) {
+                  return 'Project name does not match.'
+                }
+              },
+            }}
+            render={({ field }) => (
+              <BaseInput
+                {...field}
+                id={`${id}-${field.name}`}
+                label={`Type "${project.name}" to confirm deletion`}
+                type="text"
+                autoComplete="off"
+                error={form.formState.errors.name?.message}
+              />
+            )}
+          />
+        </div>
 
-          <div className="flex justify-end gap-3">
-            <BaseButton
-              className="min-w-28"
-              variant="secondary"
-              type="button"
-              onClick={() => {
-                setIsOpen(false)
-                form.reset()
-              }}
-            >
-              Cancel
-            </BaseButton>
+        <div className="flex justify-end gap-3">
+          <BaseButton
+            className="min-w-28"
+            variant="secondary"
+            type="button"
+            onClick={() => {
+              setIsOpen(false)
+              form.reset()
+            }}
+          >
+            Cancel
+          </BaseButton>
 
-            <BaseButton
-              className="min-w-28"
-              type="submit"
-              variant="destructive"
-              isLoading={isPending}
-              disabled={!form.formState.isValid || isPending}
-            >
-              Delete
-            </BaseButton>
-          </div>
-        </form>
-      </div>
+          <BaseButton
+            className="min-w-28"
+            type="submit"
+            variant="destructive"
+            isLoading={isPending}
+            disabled={!form.formState.isValid || isPending}
+          >
+            Delete
+          </BaseButton>
+        </div>
+      </form>
     </BaseModal>
   )
 }

@@ -23,7 +23,7 @@ export default async function ProjectSettingsPage(
 
       <AppContentBody>
         <div className="grid gap-4">
-          <div className="grid grid-cols-[1fr_2fr] gap-6 p-4 bg-zinc-50/50 border border-layout-separator rounded-lg">
+          <div className="grid gap-6 p-4 bg-zinc-50/50 border border-layout-separator rounded-lg md:grid-cols-[1fr_2fr]">
             <div>
               <h2 className="mb-2 font-display font-medium text-sm text-primary">General</h2>
               <p className="text-xs text-tertiary">Update the project details</p>
@@ -34,7 +34,7 @@ export default async function ProjectSettingsPage(
             </div>
           </div>
 
-          <div className="grid grid-cols-[1fr_2fr] gap-6 p-4 bg-red-50/50 border border-red-200 rounded-lg">
+          <div className="grid gap-6 p-4 bg-red-50/50 border border-red-200 rounded-lg md:grid-cols-[1fr_2fr]">
             <div>
               <h2 className="mb-2 font-display font-medium text-sm text-red-800">Danger zone</h2>
               <p className="text-xs text-destructive">Permanently delete all project data.</p>

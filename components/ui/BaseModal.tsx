@@ -38,7 +38,7 @@ export function BaseModal({
               </Dialog.Description>
             </div>
 
-            {children}
+            <div className="px-6 pb-10 xs:px-8">{children}</div>
 
             <Dialog.Close className="absolute right-4 top-4 p-1 cursor-pointer" aria-label="Close">
               <BaseIcon

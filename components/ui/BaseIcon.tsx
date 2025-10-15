@@ -13,7 +13,7 @@ export function BaseIcon({ className, icon, label, strokeWidth = 2, ...props }: 
     <span className={cn('grid', className)}>
       {label && <span className="sr-only">{label}</span>}
       <HugeiconsIcon
-        className="size-full"
+        className="size-full transform-gpu"
         icon={icon}
         strokeWidth={strokeWidth}
         aria-hidden="true"

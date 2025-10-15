@@ -57,64 +57,62 @@ export function CreateProjectModal({ isOpen, setIsOpen }: CreateProjectModalProp
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     >
-      <div className="px-8 pb-10">
-        {state.status === 'error' && (
-          <BaseAlert className="mb-4" variant="destructive" aria-live="polite">
-            <p>{state.error}</p>
-          </BaseAlert>
-        )}
+      {state.status === 'error' && (
+        <BaseAlert className="mb-4" variant="destructive" aria-live="polite">
+          <p>{state.error}</p>
+        </BaseAlert>
+      )}
 
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <Controller
-              name="name"
-              control={form.control}
-              render={({ field }) => (
-                <BaseInput
-                  {...field}
-                  id={`${id}-${field.name}`}
-                  label="Project name"
-                  type="text"
-                  placeholder="Tesla"
-                  autoComplete="off"
-                  error={form.formState.errors.name?.message}
-                />
-              )}
-            />
-          </div>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="mb-4">
+          <Controller
+            name="name"
+            control={form.control}
+            render={({ field }) => (
+              <BaseInput
+                {...field}
+                id={`${id}-${field.name}`}
+                label="Project name"
+                type="text"
+                placeholder="Tesla"
+                autoComplete="off"
+                error={form.formState.errors.name?.message}
+              />
+            )}
+          />
+        </div>
 
-          <div className="mb-8">
-            <Controller
-              name="websiteUrl"
-              control={form.control}
-              render={({ field }) => (
-                <BaseInput
-                  {...field}
-                  id={`${id}-${field.name}`}
-                  label="Project website (full URL)"
-                  type="text"
-                  placeholder="https://tesla.com"
-                  autoComplete="off"
-                  error={form.formState.errors.websiteUrl?.message}
-                />
-              )}
-            />
-          </div>
+        <div className="mb-8">
+          <Controller
+            name="websiteUrl"
+            control={form.control}
+            render={({ field }) => (
+              <BaseInput
+                {...field}
+                id={`${id}-${field.name}`}
+                label="Project website (full URL)"
+                type="text"
+                placeholder="https://tesla.com"
+                autoComplete="off"
+                error={form.formState.errors.websiteUrl?.message}
+              />
+            )}
+          />
+        </div>
 
-          <BaseButton
-            className="w-full"
-            type="submit"
-            isLoading={isPending}
-            disabled={
-              !form.formState.isDirty ||
-              (form.formState.isSubmitted && !form.formState.isValid) ||
-              isPending
-            }
-          >
-            Create
-          </BaseButton>
-        </form>
-      </div>
+        <BaseButton
+          className="w-full"
+          type="submit"
+          isLoading={isPending}
+          disabled={
+            !form.formState.isDirty ||
+            (form.formState.isSubmitted && !form.formState.isValid) ||
+            isPending
+          }
+        >
+          Create
+        </BaseButton>
+      </form>
     </BaseModal>
   )
 }

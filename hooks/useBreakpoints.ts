@@ -1,31 +1,31 @@
 import { useMedia } from 'react-use'
 
-export function useBreakpointXs() {
-  const isBreakpointXs = useMedia('(min-width: 30rem)', false)
+export function useBreakpointXs(initialValue: boolean) {
+  const isBreakpointXs = useMedia('(min-width: 30rem)', initialValue)
   return isBreakpointXs
 }
 
-export function useBreakpointSm() {
-  const isBreakpointSm = useMedia('(min-width: 40rem)', false)
+export function useBreakpointSm(initialValue: boolean) {
+  const isBreakpointSm = useMedia('(min-width: 40rem)', initialValue)
   return isBreakpointSm
 }
 
-export function useBreakpointMd() {
-  const isBreakpointMd = useMedia('(min-width: 48rem)', false)
+export function useBreakpointMd(initialValue: boolean) {
+  const isBreakpointMd = useMedia('(min-width: 48rem)', initialValue)
   return isBreakpointMd
 }
 
-export function useBreakpointLg() {
-  const isBreakpointLg = useMedia('(min-width: 64rem)', false)
+export function useBreakpointLg(initialValue: boolean) {
+  const isBreakpointLg = useMedia('(min-width: 64rem)', initialValue)
   return isBreakpointLg
 }
 
-export function useBreakpointXl() {
-  const isBreakpointXl = useMedia('(min-width: 80rem)', false)
+export function useBreakpointXl(initialValue: boolean) {
+  const isBreakpointXl = useMedia('(min-width: 80rem)', initialValue)
   return isBreakpointXl
 }
 
-export function useBreakpoint2xl() {
-  const isBreakpoint2xl = useMedia('(min-width: 96rem)', false)
+export function useBreakpoint2xl(initialValue: boolean) {
+  const isBreakpoint2xl = useMedia('(min-width: 96rem)', initialValue)
   return isBreakpoint2xl
 }

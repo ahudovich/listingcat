@@ -87,7 +87,7 @@ function Section({
     <section>
       <h2 className="mb-3 font-display font-bold text-primary">{title}</h2>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         <SectionCard
           count={submittedCount}
           title="Submitted"
@@ -125,8 +125,8 @@ function SectionCard({
   }
 
   return (
-    <div className="p-4 bg-zinc-50/50 border border-layout-separator rounded-lg">
-      <h3 className="mb-2 flex items-center gap-2 font-display font-medium text-sm">
+    <div className="flex items-center justify-between gap-4 p-4 bg-zinc-50/50 border border-layout-separator rounded-lg sm:block">
+      <h3 className="flex items-center gap-2 font-display font-medium text-sm sm:mb-2">
         {iconMap[variant] && (
           <BaseIcon
             className={cn('shrink-0 size-4', iconMap[variant].className)}
