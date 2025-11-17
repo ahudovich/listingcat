@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import { DataTableDirectories } from '@/components/app/DataTable/tables/DataTableDirectories'
-import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
+import { DataTableDirectories } from '@/components/app/data-table/tables/directories'
+import { AppContentHeader } from '@/components/app/layout/content/header'
 import { getDirectoriesWithSubmissions, getProject, verifySession } from '@/lib/cached-functions'
 import { getInitialPageSize } from '@/lib/cookies/server'
 

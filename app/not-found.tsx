@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { Footer } from '@/components/layout/Footer/Footer'
-import { Header } from '@/components/layout/Header'
-import { BaseButton } from '@/components/ui/BaseButton'
+import { Footer } from '@/components/layout/footer/footer'
+import { Header } from '@/components/layout/header'
+import { BaseButton } from '@/components/ui/button'
 
 export default function NotFound() {
   return (

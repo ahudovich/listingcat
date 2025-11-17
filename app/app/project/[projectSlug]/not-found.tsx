@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
-import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
-import { BaseButton } from '@/components/ui/BaseButton'
+import { AppContentBody } from '@/components/app/layout/content/body'
+import { AppContentHeader } from '@/components/app/layout/content/header'
+import { BaseButton } from '@/components/ui/button'
 
 export default function NotFound() {
   return (

@@ -1,0 +1,23 @@
+'use client'
+
+import { useState } from 'react'
+import { SubmitResourceModal } from '@/components/modals/submit-resource'
+
+export function FooterSubmitButton() {
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false)
+
+  return (
+    <>
+      <button
+        className="cursor-pointer transition-colors hover:text-primary"
+        onClick={() => setIsSubmitModalOpen(true)}
+      >
+        Submit resource
+      </button>
+
+      {isSubmitModalOpen && (
+        <SubmitResourceModal isOpen={isSubmitModalOpen} setIsOpen={setIsSubmitModalOpen} />
+      )}
+    </>
+  )
+}

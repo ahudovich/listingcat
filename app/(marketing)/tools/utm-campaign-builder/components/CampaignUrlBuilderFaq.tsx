@@ -1,6 +1,6 @@
 import { Accordion } from '@base-ui-components/react/accordion'
 import { ArrowDown01Icon } from '@hugeicons/core-free-icons'
-import { BaseIcon } from '@/components/ui/BaseIcon'
+import { BaseIcon } from '@/components/ui/icon'
 
 const faqItems: Array<{ id: string; question: string; answer: string }> = [
   {

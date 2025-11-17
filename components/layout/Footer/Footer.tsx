@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { BlueskyIcon, NewTwitterIcon, ThreadsIcon } from '@hugeicons/core-free-icons'
-import { FooterSubmitButton } from '@/components/layout/Footer/FooterSubmitButton'
-import { BaseIcon } from '@/components/ui/BaseIcon'
-import { BaseLogo } from '@/components/ui/BaseLogo'
+import { FooterSubmitButton } from '@/components/layout/footer/submit-button'
+import { BaseIcon } from '@/components/ui/icon'
+import { BaseLogo } from '@/components/ui/logo'
 import { EMAILS } from '@/data/emails'
 import { LINKS } from '@/data/links'
 

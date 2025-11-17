@@ -1,4 +1,4 @@
-import { HomeContent } from '@/components/pages/home/HomeContent'
+import { HomeContent } from '@/components/pages/home/content'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
