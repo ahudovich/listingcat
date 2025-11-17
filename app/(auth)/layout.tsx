@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BaseLogo } from '@/components/ui/BaseLogo'
+import { BaseLogo } from '@/components/ui/logo'
 import { EMAILS } from '@/data/emails'
 import type { ReactNode } from 'react'
 

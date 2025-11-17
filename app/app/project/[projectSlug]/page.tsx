@@ -1,9 +1,9 @@
 import { Metadata } from 'next'
 import { CancelCircleIcon, CheckmarkCircle01Icon, SentIcon } from '@hugeicons/core-free-icons'
-import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
-import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
-import { BaseIcon } from '@/components/ui/BaseIcon'
-import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { AppContentBody } from '@/components/app/layout/content/body'
+import { AppContentHeader } from '@/components/app/layout/content/header'
+import { BaseIcon } from '@/components/ui/icon'
+import { SubmissionStatus } from '@/enums/submission'
 import {
   getDirectoriesWithSubmissions,
   getLaunchPlatformsWithSubmissions,
@@ -12,7 +12,7 @@ import {
 } from '@/lib/cached-functions'
 import { cn } from '@/utils/css'
 import type { IconSvgElement } from '@hugeicons/react'
-import type { DirectoryWithSubmissions, LaunchPlatformWithSubmissions } from '@/types/tables'
+import type { DirectoryWithSubmissions, LaunchPlatformWithSubmissions } from '@/types/table'
 
 export async function generateMetadata(
   props: PageProps<'/app/project/[projectSlug]'>

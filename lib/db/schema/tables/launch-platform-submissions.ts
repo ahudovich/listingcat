@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, text, unique, uuid } from 'drizzle-orm/pg-core'
 import { uuidv7 } from 'uuidv7'
-import { SubmissionStatus } from '../../../../enums/SubmissionStatus.enum'
+import { SubmissionStatus } from '../../../../enums/submission'
 import { timestamps } from '../helpers/columns'
 import { submissionStatusEnum, submissionTypeEnum } from '../helpers/enums'
 import { launchPlatforms } from './launch-platforms'

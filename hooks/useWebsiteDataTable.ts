@@ -12,8 +12,8 @@ import { setCookie } from 'cookies-next/client'
 import { env } from '@/env'
 import { COOKIE_TABLE_PAGE_SIZE } from '@/enums/constants'
 import { DEFAULT_PAGE_SIZE } from '@/enums/data-table'
-import { LinkAttributes } from '@/enums/LinkAttributes.enum'
-import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { LinkAttributes } from '@/enums/link'
+import { SubmissionStatus } from '@/enums/submission'
 import { cookieOptions } from '@/lib/cookies/client'
 import type {
   ColumnDef,
