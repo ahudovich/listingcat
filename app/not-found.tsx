@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Footer } from '@/components/layout/footer/footer'
+import { Footer } from '@/components/layout/footer'
 import { Header } from '@/components/layout/header'
 import { BaseButton } from '@/components/ui/button'
 
