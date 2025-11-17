@@ -1,5 +1,5 @@
 import { tv } from 'tailwind-variants'
-import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { SubmissionStatus } from '@/enums/submission'
 import { cn } from '@/utils/css'
 import type { ComponentProps } from 'react'
 import type { VariantProps } from 'tailwind-variants'

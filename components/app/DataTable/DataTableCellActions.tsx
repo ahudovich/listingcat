@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { PencilEdit02Icon } from '@hugeicons/core-free-icons'
 import { SubmissionModal } from '@/components/modals/SubmissionModal'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import { SubmissionKind } from '@/enums/SubmissionKind.enum'
+import { SubmissionKind } from '@/enums/submission'
 import type { DirectorySubmission } from '@/lib/db/schema/tables/directory-submissions'
 import type { LaunchPlatformSubmission } from '@/lib/db/schema/tables/launch-platform-submissions'
 

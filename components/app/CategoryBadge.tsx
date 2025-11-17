@@ -1,5 +1,5 @@
 import { tv } from 'tailwind-variants'
-import { ProductCategories } from '@/enums/ProductCategories.enum'
+import { ProductCategories } from '@/enums/product'
 import { cn } from '@/utils/css'
 import type { ComponentProps } from 'react'
 import type { VariantProps } from 'tailwind-variants'

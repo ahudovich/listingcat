@@ -1,9 +1,8 @@
 import { pgEnum } from 'drizzle-orm/pg-core'
-import { DirectoryType } from '../../../../enums/DirectoryType.enum'
-import { LinkAttributes } from '../../../../enums/LinkAttributes.enum'
-import { ProductCategories } from '../../../../enums/ProductCategories.enum'
-import { SubmissionStatus } from '../../../../enums/SubmissionStatus.enum'
-import { SubmissionType } from '../../../../enums/SubmissionType.enum'
+import { DirectoryType } from '../../../../enums/directory'
+import { LinkAttributes } from '../../../../enums/link'
+import { ProductCategories } from '../../../../enums/product'
+import { SubmissionStatus, SubmissionType } from '../../../../enums/submission'
 
 export const directoryTypeEnum = pgEnum('directory_type', [
   DirectoryType.General,

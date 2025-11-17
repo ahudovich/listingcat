@@ -1,6 +1,5 @@
 import z from 'zod'
-import { SubmissionKind } from '@/enums/SubmissionKind.enum'
-import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { SubmissionKind, SubmissionStatus } from '@/enums/submission'
 
 export const editSubmissionFormSchema = z.object({
   resourceId: z.uuidv7(),

@@ -11,12 +11,12 @@ import { BaseSearch } from '@/components/ui/BaseSearch'
 import { BaseSelect, BaseSelectItem } from '@/components/ui/BaseSelect'
 import { BaseSpinner } from '@/components/ui/BaseSpinner'
 import { toastManager } from '@/components/ui/BaseToast'
-import { ProductCategories } from '@/enums/ProductCategories.enum'
-import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { ProductCategories } from '@/enums/product'
+import { SubmissionStatus } from '@/enums/submission'
 import { bulkUpdateSubmissionStatusAction } from '@/lib/actions/submissions'
 import { cn } from '@/utils/css'
 import type { ColumnFiltersState, Table } from '@tanstack/react-table'
-import type { SubmissionKind } from '@/enums/SubmissionKind.enum'
+import type { SubmissionKind } from '@/enums/submission'
 
 interface DataTableFiltersProps<T> {
   className?: string

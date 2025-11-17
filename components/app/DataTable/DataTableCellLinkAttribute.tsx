@@ -5,7 +5,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import { BaseIcon } from '@/components/ui/BaseIcon'
 import { BaseTooltip } from '@/components/ui/BaseTooltip'
-import { LinkAttributes } from '@/enums/LinkAttributes.enum'
+import { LinkAttributes } from '@/enums/link'
 import { cn } from '@/utils/css'
 
 export function DataTableCellLinkAttribute({

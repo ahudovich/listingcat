@@ -14,7 +14,7 @@ import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
 import { cn } from '@/utils/css'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { PageSizeType } from '@/enums/data-table'
-import type { SubmissionKind } from '@/enums/SubmissionKind.enum'
+import type { SubmissionKind } from '@/enums/submission'
 
 interface DataTableWebsitesProps<T> {
   initialPageSize: PageSizeType

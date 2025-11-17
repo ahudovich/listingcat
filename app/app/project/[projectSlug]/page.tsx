@@ -3,7 +3,7 @@ import { CancelCircleIcon, CheckmarkCircle01Icon, SentIcon } from '@hugeicons/co
 import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
 import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
 import { BaseIcon } from '@/components/ui/BaseIcon'
-import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { SubmissionStatus } from '@/enums/submission'
 import {
   getDirectoriesWithSubmissions,
   getLaunchPlatformsWithSubmissions,

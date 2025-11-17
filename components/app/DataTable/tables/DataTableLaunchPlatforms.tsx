@@ -13,8 +13,7 @@ import { DataTableCellTraffic } from '@/components/app/DataTable/DataTableCellTr
 import { DataTableWebsites } from '@/components/app/DataTable/tables/DataTableWebsites'
 import { SubmissionStatusBadge } from '@/components/app/SubmissionStatusBadge'
 import { BaseCheckbox } from '@/components/ui/BaseCheckbox'
-import { SubmissionKind } from '@/enums/SubmissionKind.enum'
-import { SubmissionStatus } from '@/enums/SubmissionStatus.enum'
+import { SubmissionKind, SubmissionStatus } from '@/enums/submission'
 import type { PageSizeType } from '@/enums/data-table'
 import type { LaunchPlatformWithSubmissions } from '@/types/tables'
 
