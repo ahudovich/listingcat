@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import { DataTableLaunchPlatforms } from '@/components/app/DataTable/tables/DataTableLaunchPlatforms'
-import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
+import { DataTableLaunchPlatforms } from '@/components/app/data-table/tables/launch-platforms'
+import { AppContentHeader } from '@/components/app/layout/content/header'
 import {
   getLaunchPlatformsWithSubmissions,
   getProject,

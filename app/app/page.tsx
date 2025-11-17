@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
-import { ProjectList } from '@/components/app/dashboard/ProjectList'
-import { ProjectsNoData } from '@/components/app/dashboard/ProjectsNoData'
-import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
-import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
+import { AppContentBody } from '@/components/app/layout/content/body'
+import { AppContentHeader } from '@/components/app/layout/content/header'
+import { ProjectsNoData } from '@/components/app/projects/no-data'
+import { ProjectList } from '@/components/app/projects/project-list'
 import { getProjects, verifySession } from '@/lib/cached-functions'
 
 export const metadata: Metadata = {

@@ -1,6 +1,6 @@
-import { AppHeader } from '@/components/app/layout/AppHeader/AppHeader'
-import { AppSidebar } from '@/components/app/layout/AppSidebar/AppSidebar'
-import { BaseToast } from '@/components/ui/BaseToast'
+import { AppHeader } from '@/components/app/layout/header'
+import { AppSidebar } from '@/components/app/layout/sidebar'
+import { BaseToast } from '@/components/ui/toast'
 import { SidebarProvider } from '@/contexts/sidebar'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

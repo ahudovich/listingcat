@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
-import { AppContentBody } from '@/components/app/layout/AppContent/AppContentBody'
-import { AppContentHeader } from '@/components/app/layout/AppContent/AppContentHeader'
-import { SettingsProjectDelete } from '@/components/app/settings/SettingsProjectDelete'
-import { UpdateProjectDetailsForm } from '@/components/forms/UpdateProjectDetailsForm'
+import { AppContentBody } from '@/components/app/layout/content/body'
+import { AppContentHeader } from '@/components/app/layout/content/header'
+import { SettingsProjectDelete } from '@/components/app/settings/project-delete'
+import { UpdateProjectDetailsForm } from '@/components/forms/update-project-details'
 import { getProject, verifySession } from '@/lib/cached-functions'
 
 export const metadata: Metadata = {

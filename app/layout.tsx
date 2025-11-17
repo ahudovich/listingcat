@@ -1,7 +1,7 @@
 import '@/app/globals.css'
 import { Inter } from 'next/font/google'
 import { env } from '@/env'
-import { PostHogProvider } from '@/components/PostHogProvider'
+import { PostHogProvider } from '@/components/vendors/posthog'
 import type { Metadata, Viewport } from 'next'
 
 const inter = Inter({

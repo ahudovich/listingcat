@@ -1,0 +1,103 @@
+'use client'
+
+import { flexRender } from '@tanstack/react-table'
+import { DataTableHeaderCell } from '@/components/app/data-table/cells/header-cell'
+import { DataTableFilters } from '@/components/app/data-table/filters'
+import { DataTablePagination } from '@/components/app/data-table/pagination'
+import {
+  BaseScrollArea,
+  BaseScrollAreaCorner,
+  BaseScrollAreaScrollbar,
+  BaseScrollAreaViewport,
+} from '@/components/ui/scroll-area'
+import { useWebsiteDataTable } from '@/hooks/useWebsiteDataTable'
+import { cn } from '@/utils/css'
+import type { ColumnDef } from '@tanstack/react-table'
+import type { PageSizeType } from '@/enums/data-table'
+import type { SubmissionKind } from '@/enums/submission'
+
+interface DataTableWebsitesProps<T> {
+  initialPageSize: PageSizeType
+  columns: Array<ColumnDef<T, any>>
+  data: Array<T>
+  kind: SubmissionKind
+}
+
+export function DataTableWebsites<T>({
+  initialPageSize,
+  columns,
+  data,
+  kind,
+}: DataTableWebsitesProps<T>) {
+  const { table, globalFilter, setGlobalFilter, columnFilters, setColumnFilters } =
+    useWebsiteDataTable<T>({
+      initialPageSize,
+      initialSorting: [{ id: 'dr', desc: true }],
+      columns,
+      data,
+    })
+
+  return (
+    <div className="overflow-hidden grid grid-rows-[auto_1fr_auto]">
+      <DataTableFilters
+        className="px-4 py-3 border-b border-b-layout-separator"
+        kind={kind}
+        table={table}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        columnFilters={columnFilters}
+        setColumnFilters={setColumnFilters}
+      />
+
+      <BaseScrollArea>
+        <BaseScrollAreaViewport>
+          <table className="w-full">
+            <thead className="sticky top-0 z-[1] bg-white">
+              {table.getHeaderGroups().map(({ id, headers }) => (
+                <tr key={id}>
+                  {headers.map((header) => (
+                    <DataTableHeaderCell
+                      key={header.id}
+                      column={header.column}
+                      isSortable={header.column.getCanSort()}
+                      sortingDirection={header.column.getIsSorted()}
+                      size={header.column.columnDef.size}
+                      tooltip={header.column.columnDef.meta?.tooltip}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                    </DataTableHeaderCell>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id} className="group transition-colors hover:bg-zinc-100">
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className={cn(
+                        'align-middle px-4 py-3 border-y border-y-layout-separator font-medium text-xs group-first:border-t-0',
+                        cell.column.id === 'name' && 'pl-0'
+                      )}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </BaseScrollAreaViewport>
+
+        <BaseScrollAreaScrollbar className="!top-10.5 w-3.5" orientation="vertical" />
+        <BaseScrollAreaScrollbar className="h-3.5" orientation="horizontal" />
+        <BaseScrollAreaCorner />
+      </BaseScrollArea>
+
+      <DataTablePagination table={table} />
+    </div>
+  )
+}
